@@ -19,6 +19,7 @@ import { env } from "@/env/client";
 import { authClient } from "@/lib/auth/auth-client";
 import { getToken } from "@/lib/auth/auth-server";
 import appCss from "../globals.css?url";
+import { MediaWorkerProvider } from "@/contexts/media-worker-context";
 
 const getAuth = createServerFn({ method: "GET" }).handler(async () => {
   return await getToken();
@@ -71,10 +72,12 @@ function RootComponent() {
           authClient={authClient}
           initialToken={context.token}
         >
-          <RootDocument>
-            <Outlet />
-            <Toaster richColors position="bottom-center" />
-          </RootDocument>
+          <MediaWorkerProvider>
+            <RootDocument>
+              <Outlet />
+              <Toaster richColors position="bottom-center" />
+            </RootDocument>
+          </MediaWorkerProvider>
         </ConvexBetterAuthProvider>
       </NuqsAdapter>
     </PostHogProvider>
