@@ -7,7 +7,7 @@ export function offlineMediaQuery(id: string) {
     queryFn: async () => {
       const media = await getMediaById(id);
       if (!media) {
-        return undefined;
+        return null;
       }
 
       return {

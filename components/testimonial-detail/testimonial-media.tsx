@@ -7,7 +7,6 @@ import { api } from "@/convex/_generated/api";
 import { offlineMediaQuery } from "@/lib/offline/query";
 import { useUploadProgressStore } from "@/lib/offline/upload-progress-store";
 import { Empty, EmptyHeader, EmptyMedia, EmptyTitle } from "../ui/empty";
-import { Item, ItemContent, ItemMedia, ItemTitle } from "../ui/item";
 import { Spinner } from "../ui/spinner";
 
 export default function TestimonialMedia() {
@@ -85,11 +84,8 @@ function RemoteTestimonialMedia() {
 function SuspenseTestimonialMedia() {
   const { testimonial } = useTestimonialContext();
   const { data } = useSuspenseQuery(offlineMediaQuery(testimonial._id));
-  const uploadProgress = useUploadProgressStore(
-    (state) => state.uploadProgress[testimonial._id] || 0,
-  );
 
-  if (data?.url) {
+  if (data) {
     return <TestimonialMediaPlayer mediaUrl={data.url} />;
   }
 

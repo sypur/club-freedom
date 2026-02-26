@@ -8,6 +8,7 @@ import TestimonialProcessingError from "@/components/testimonial-detail/testimon
 import TestimonialSummary from "@/components/testimonial-detail/testimonial-summary";
 import TestimonialText from "@/components/testimonial-detail/testimonial-text";
 import { TestimonialTitle } from "@/components/testimonial-detail/testimonial-title";
+import TestimonialUploadProgress from "@/components/testimonial-detail/testimonial-upload-progress";
 import {
   Item,
   ItemContent,
@@ -18,7 +19,6 @@ import {
 import { TestimonialContext } from "@/contexts/testimonial-context";
 import { api } from "@/convex/_generated/api";
 import { Route } from "../tmp.$id";
-import TestimonialUploadProgress from "@/components/testimonial-detail/testimonial-upload-progress";
 
 export default function TempTestimonialDetail() {
   const { id } = Route.useParams();
