@@ -1,9 +1,9 @@
+import { useQuery } from "convex/react";
+import { CircleAlert } from "lucide-react";
 import { useTestimonialContext } from "@/contexts/testimonial-context";
 import { api } from "@/convex/_generated/api";
 import { Empty, EmptyHeader, EmptyMedia, EmptyTitle } from "../ui/empty";
-import { CircleAlert } from "lucide-react";
 import { Spinner } from "../ui/spinner";
-import { useQuery } from "convex/react";
 
 export default function TestimonialCardMedia() {
   const { testimonial } = useTestimonialContext();

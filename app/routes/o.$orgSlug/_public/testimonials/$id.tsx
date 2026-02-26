@@ -110,9 +110,7 @@ export default function TestimonialDetail() {
           <TestimonialProcessingError />
         )}
         <TestimonialTitle />
-        {testimonial.mediaUrl && (
-          <TestimonialMedia mediaUrl={testimonial.mediaUrl} />
-        )}
+        {testimonial.media_type !== "text" && <TestimonialMedia />}
         <TestimonialInfo />
         <TestimonialSummary />
         <TestimonialText />

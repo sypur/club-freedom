@@ -4,7 +4,7 @@ import { filter } from "convex-helpers/server/filter";
 import { api } from "./_generated/api";
 import { query } from "./_generated/server";
 import { mutation } from "./functions";
-import { processingStatusSchema } from "./schema";
+import { mediaTypeSchema, processingStatusSchema } from "./schema";
 import removeUndefinedFromRecord from "./utils";
 
 export const getTestimonials = query({
@@ -119,7 +119,7 @@ export const postTestimonial = mutation({
     name: v.string(),
     email: v.optional(v.string()),
     storageId: v.optional(v.string()),
-    media_type: v.string(),
+    media_type: mediaTypeSchema,
     text: v.string(),
     organizationId: v.string(),
   },
