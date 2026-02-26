@@ -1,17 +1,17 @@
 import { ConvexHttpClient } from "convex/browser";
-import { api } from "@/convex/_generated/api";
-import type { Id } from "@/convex/_generated/dataModel";
-import { env } from "@/env/client";
+import { api } from "../convex/_generated/api";
+import type { Id } from "../convex/_generated/dataModel";
+import { env } from "../env/client";
 import {
   deleteMediaById,
   getAllKeys,
   getMediaById,
   updateMediaItemById,
-} from "@/lib/offline/db";
+} from "../lib/offline/db";
 import type {
   MediaWorkerIncomingMessage,
   MediaWorkerOutgoingMessage,
-} from "@/utils/upload-worker-types";
+} from "../utils/upload-worker-types";
 
 const client = new ConvexHttpClient(env.VITE_CONVEX_URL);
 

@@ -4,6 +4,7 @@ import { useTestimonialContext } from "@/contexts/testimonial-context";
 import { offlineMediaQuery } from "@/lib/offline/query";
 import { useUploadProgressStore } from "@/lib/offline/upload-progress-store";
 import { Item, ItemContent, ItemMedia, ItemTitle } from "../ui/item";
+import { Spinner } from "../ui/spinner";
 
 export default function TestimonialUploadProgress() {
   const { testimonial } = useTestimonialContext();
@@ -34,7 +35,9 @@ export default function TestimonialUploadProgress() {
           <Spinner />
         </ItemMedia>
         <ItemContent>
-          <ItemTitle>Uploading media ({progressInPercentage} %)...</ItemTitle>
+          <ItemTitle>
+            Uploading media ({Math.round(uploadProgress * 100)} %)...
+          </ItemTitle>
         </ItemContent>
       </Item>
     );
