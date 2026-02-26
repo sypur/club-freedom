@@ -1,12 +1,12 @@
 import { create } from "zustand";
 
-interface UploadStore {
+interface UploadProgressStore {
   uploadProgress: Record<string, number>;
   setProgress: (id: string, progress: number) => void;
   removeProgress: (id: string) => void;
 }
 
-export const useUploadStore = create<UploadStore>((set) => ({
+export const useUploadProgressStore = create<UploadProgressStore>((set) => ({
   uploadProgress: {},
   setProgress: (id, progress) =>
     set((state) => ({

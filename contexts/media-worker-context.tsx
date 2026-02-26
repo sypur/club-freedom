@@ -5,7 +5,7 @@ import {
   useEffect,
   useRef,
 } from "react";
-import { useUploadStore } from "@/lib/offline/progress-store";
+import { useUploadProgressStore } from "@/lib/offline/upload-progress-store";
 import type {
   MediaWorkerIncomingMessage,
   MediaWorkerOutgoingMessage,
@@ -38,10 +38,12 @@ export function MediaWorkerProvider({ children }: { children: ReactNode }) {
         const message = e.data;
         switch (message.action) {
           case "progress":
-            useUploadStore.getState().setProgress(message.id, message.progress);
+            useUploadProgressStore
+              .getState()
+              .setProgress(message.id, message.progress);
             break;
           case "done":
-            useUploadStore.getState().removeProgress(message.id);
+            useUploadProgressStore.getState().removeProgress(message.id);
             break;
         }
       },
