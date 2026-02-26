@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useMediaWorker } from "@/contexts/media-worker-context";
-import { db, MediaData } from "@/lib/offline/db";
+import { db, type MediaData } from "@/lib/offline/db";
 import type { MediaWorkerIncomingMessage } from "@/utils/upload-worker-types";
 
 export const useBackgroundMediaUpload = () => {

@@ -1,5 +1,6 @@
 import { convexQuery } from "@convex-dev/react-query";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import { useLiveQuery } from "dexie-react-hooks";
 import { CircleAlert } from "lucide-react";
 import { Suspense } from "react";
 import { useTestimonialContext } from "@/contexts/testimonial-context";
@@ -7,7 +8,6 @@ import { api } from "@/convex/_generated/api";
 import { db } from "@/lib/offline/db";
 import { Empty, EmptyHeader, EmptyMedia, EmptyTitle } from "../ui/empty";
 import { Spinner } from "../ui/spinner";
-import { useLiveQuery } from "dexie-react-hooks";
 
 export default function TestimonialMedia() {
   const { testimonial } = useTestimonialContext();
