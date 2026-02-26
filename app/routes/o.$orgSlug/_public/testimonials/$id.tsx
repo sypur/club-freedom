@@ -1,5 +1,4 @@
 import { convexQuery } from "@convex-dev/react-query";
-import { useSuspenseQuery } from "@tanstack/react-query";
 import {
   createFileRoute,
   notFound,
@@ -11,17 +10,11 @@ import {
 import { ChevronLeft } from "lucide-react";
 import { Suspense } from "react";
 import NotFound from "@/components/not-found";
-import TestimonialInfo from "@/components/testimonial-detail/testimonial-info";
-import TestimonialMedia from "@/components/testimonial-detail/testimonial-media";
-import TestimonialProcessingError from "@/components/testimonial-detail/testimonial-processing-error";
-import TestimonialSummary from "@/components/testimonial-detail/testimonial-summary";
-import TestimonialText from "@/components/testimonial-detail/testimonial-text";
-import { TestimonialTitle } from "@/components/testimonial-detail/testimonial-title";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import { TestimonialContext } from "@/contexts/testimonial-context";
 import { api } from "@/convex/_generated/api";
 import { hasPermissionQuery } from "@/lib/query";
+import TestimonialDetail from "./-components/testimonial-detail";
 
 export const Route = createFileRoute("/o/$orgSlug/_public/testimonials/$id")({
   ssr: false,
@@ -87,34 +80,5 @@ function Component() {
         <TestimonialDetail />
       </Suspense>
     </div>
-  );
-}
-
-export default function TestimonialDetail() {
-  const { id } = Route.useParams();
-  const { organization } = useRouteContext({ from: "/o/$orgSlug" });
-  const { testimonial: preloadTestimonial } = Route.useLoaderData();
-  const { data: liveTestimonial } = useSuspenseQuery(
-    convexQuery(api.testimonials.getTestimonialByIdAndOrgId, {
-      id: id,
-      orgId: organization._id,
-    }),
-  );
-
-  const testimonial = liveTestimonial || preloadTestimonial;
-
-  return (
-    <TestimonialContext.Provider value={{ testimonial }}>
-      <div className="flex flex-col gap-8">
-        {testimonial.processingStatus === "error" && (
-          <TestimonialProcessingError />
-        )}
-        <TestimonialTitle />
-        {testimonial.media_type !== "text" && <TestimonialMedia />}
-        <TestimonialInfo />
-        <TestimonialSummary />
-        <TestimonialText />
-      </div>
-    </TestimonialContext.Provider>
   );
 }

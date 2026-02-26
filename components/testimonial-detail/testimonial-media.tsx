@@ -90,36 +90,7 @@ function SuspenseTestimonialMedia() {
   );
 
   if (data?.url) {
-    return (
-      <div className="space-y-2">
-        <TestimonialMediaPlayer mediaUrl={data.url} />
-        {data.status === "error" && (
-          <Item variant="muted">
-            <ItemMedia>
-              <AlertCircleIcon />
-            </ItemMedia>
-            <ItemContent>
-              <ItemTitle>
-                Error uploading {testimonial.media_type} to the server
-              </ItemTitle>
-            </ItemContent>
-          </Item>
-        )}
-        {data.status === "uploading" && (
-          <Item variant="muted">
-            <ItemMedia>
-              <Spinner />
-            </ItemMedia>
-            <ItemContent>
-              <ItemTitle>
-                Uploading {testimonial.media_type} (
-                {Math.round(uploadProgress * 100)} %)...
-              </ItemTitle>
-            </ItemContent>
-          </Item>
-        )}
-      </div>
-    );
+    return <TestimonialMediaPlayer mediaUrl={data.url} />;
   }
 
   return <RemoteTestimonialMedia />;
