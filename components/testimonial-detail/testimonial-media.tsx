@@ -1,53 +1,38 @@
-import { useQuery } from "convex/react";
-import { CircleAlert } from "lucide-react";
+import { convexQuery } from "@convex-dev/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { AlertCircleIcon, CircleAlert } from "lucide-react";
+import { Suspense } from "react";
 import { useTestimonialContext } from "@/contexts/testimonial-context";
 import { api } from "@/convex/_generated/api";
+import { offlineMediaQuery } from "@/lib/offline/query";
+import { useUploadProgressStore } from "@/lib/offline/upload-progress-store";
 import { Empty, EmptyHeader, EmptyMedia, EmptyTitle } from "../ui/empty";
+import { Item, ItemContent, ItemMedia, ItemTitle } from "../ui/item";
 import { Spinner } from "../ui/spinner";
 
 export default function TestimonialMedia() {
   const { testimonial } = useTestimonialContext();
-  const mediaUrl = useQuery(api.testimonials.getTestimonialMediaUrlById, {
-    id: testimonial._id,
-  });
 
-  if (mediaUrl === undefined) {
-    return (
-      <Empty>
-        <EmptyHeader>
-          <EmptyMedia>
-            <Spinner />
-          </EmptyMedia>
-          <EmptyTitle>Loading {testimonial.media_type}</EmptyTitle>
-        </EmptyHeader>
-      </Empty>
-    );
-  }
+  return (
+    <Suspense
+      fallback={
+        <Empty>
+          <EmptyHeader>
+            <EmptyMedia>
+              <Spinner />
+            </EmptyMedia>
+            <EmptyTitle>Loading {testimonial.media_type}</EmptyTitle>
+          </EmptyHeader>
+        </Empty>
+      }
+    >
+      <SuspenseTestimonialMedia />
+    </Suspense>
+  );
+}
 
-  if (mediaUrl === null) {
-    return (
-      <Empty>
-        <EmptyHeader>
-          <EmptyMedia>
-            <CircleAlert />
-          </EmptyMedia>
-          <EmptyTitle>No {testimonial.media_type} available</EmptyTitle>
-        </EmptyHeader>
-      </Empty>
-    );
-  }
-
-  if (testimonial.media_type === "audio") {
-    return (
-      <audio
-        controls
-        className="w-full"
-        preload="metadata"
-        controlsList="nodownload"
-        onContextMenu={(e) => e.preventDefault()}
-      />
-    );
-  }
+function TestimonialMediaPlayer({ mediaUrl }: { mediaUrl: string }) {
+  const { testimonial } = useTestimonialContext();
 
   if (testimonial.media_type === "video") {
     return (
@@ -62,5 +47,80 @@ export default function TestimonialMedia() {
     );
   }
 
-  return null;
+  return (
+    <audio
+      controls
+      className="w-full"
+      preload="metadata"
+      controlsList="nodownload"
+      onContextMenu={(e) => e.preventDefault()}
+    />
+  );
+}
+
+function RemoteTestimonialMedia() {
+  const { testimonial } = useTestimonialContext();
+  const { data: mediaUrl } = useSuspenseQuery(
+    convexQuery(api.testimonials.getTestimonialMediaUrlById, {
+      id: testimonial._id,
+    }),
+  );
+
+  if (mediaUrl === null) {
+    return (
+      <Empty>
+        <EmptyHeader>
+          <EmptyMedia>
+            <CircleAlert />
+          </EmptyMedia>
+          <EmptyTitle>No {testimonial.media_type} available</EmptyTitle>
+        </EmptyHeader>
+      </Empty>
+    );
+  }
+
+  return <TestimonialMediaPlayer mediaUrl={mediaUrl} />;
+}
+
+function SuspenseTestimonialMedia() {
+  const { testimonial } = useTestimonialContext();
+  const { data } = useSuspenseQuery(offlineMediaQuery(testimonial._id));
+  const uploadProgress = useUploadProgressStore(
+    (state) => state.uploadProgress[testimonial._id] || 0,
+  );
+
+  if (data?.url) {
+    return (
+      <div className="space-y-2">
+        <TestimonialMediaPlayer mediaUrl={data.url} />
+        {data.status === "error" && (
+          <Item variant="muted">
+            <ItemMedia>
+              <AlertCircleIcon />
+            </ItemMedia>
+            <ItemContent>
+              <ItemTitle>
+                Error uploading {testimonial.media_type} to the server
+              </ItemTitle>
+            </ItemContent>
+          </Item>
+        )}
+        {data.status === "uploading" && (
+          <Item variant="muted">
+            <ItemMedia>
+              <Spinner />
+            </ItemMedia>
+            <ItemContent>
+              <ItemTitle>
+                Uploading {testimonial.media_type} (
+                {Math.round(uploadProgress * 100)} %)...
+              </ItemTitle>
+            </ItemContent>
+          </Item>
+        )}
+      </div>
+    );
+  }
+
+  return <RemoteTestimonialMedia />;
 }
