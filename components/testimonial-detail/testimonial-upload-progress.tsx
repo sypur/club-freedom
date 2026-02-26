@@ -3,7 +3,13 @@ import { AlertCircleIcon } from "lucide-react";
 import { useTestimonialContext } from "@/contexts/testimonial-context";
 import { db } from "@/lib/offline/db";
 import { useUploadProgressStore } from "@/lib/offline/upload-progress-store";
-import { Item, ItemContent, ItemMedia, ItemTitle } from "../ui/item";
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemMedia,
+  ItemTitle,
+} from "../ui/item";
 import { Spinner } from "../ui/spinner";
 
 export default function TestimonialUploadProgress() {
@@ -36,8 +42,12 @@ export default function TestimonialUploadProgress() {
         </ItemMedia>
         <ItemContent>
           <ItemTitle>
-            Uploading media ({Math.round(uploadProgress * 100)} %)...
+            Uploading {testimonial.media_type}
+            {Math.round(uploadProgress * 100)}%...
           </ItemTitle>
+          <ItemDescription>
+            Please do not close the tab while upload is in progress.
+          </ItemDescription>
         </ItemContent>
       </Item>
     );
