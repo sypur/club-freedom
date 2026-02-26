@@ -1,4 +1,4 @@
-import { type DBSchema, openDB } from "idb";
+import { type DBSchema, openDB, type StoreValue } from "idb";
 
 const DATABASE_NAME = "club-freedom-media";
 const DATABASE_VERSION = 1;
@@ -10,10 +10,13 @@ export interface LocalMediaDB extends DBSchema {
     key: string;
     value: {
       blob: Blob;
+      organizationId: string;
       status: Status;
     };
   };
 }
+
+type Item = StoreValue<LocalMediaDB, "media">;
 
 export const getDB = () => {
   return openDB<LocalMediaDB>(DATABASE_NAME, DATABASE_VERSION, {
@@ -23,9 +26,9 @@ export const getDB = () => {
   });
 };
 
-export const addMediaToDB = async (blob: Blob, id: string) => {
+export const addItemToDB = async (id: string, item: Item) => {
   const db = await getDB();
-  db.put("media", { blob, status: "pending" }, id);
+  db.put("media", item, id);
 };
 
 export const getAllKeys = async () => {
@@ -43,10 +46,10 @@ export const deleteMediaById = async (id: string) => {
   await db.delete("media", id);
 };
 
-export const updateMediaUploadStatus = async (id: string, status: Status) => {
+export const updateMediaItemById = async (id: string, data: Partial<Item>) => {
   const db = await getDB();
   const item = await db.get("media", id);
   if (item) {
-    await db.put("media", { ...item, status }, id);
+    await db.put("media", { ...item, ...data }, id);
   }
 };

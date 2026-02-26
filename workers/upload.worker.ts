@@ -6,7 +6,7 @@ import {
   deleteMediaById,
   getAllKeys,
   getMediaById,
-  updateMediaUploadStatus,
+  updateMediaItemById,
 } from "@/lib/offline/db";
 import type {
   MediaWorkerIncomingMessage,
@@ -40,10 +40,15 @@ async function uploadMedia(testimonialId: string) {
   });
 
   try {
-    await updateMediaUploadStatus(testimonialId, "uploading");
+    await updateMediaItemById(testimonialId, { status: "uploading" });
 
     // Upload to R2
-    const { key, url } = await client.mutation(api.r2.generateUploadUrl, {});
+    const { key, url } = await client.mutation(
+      api.uploadTempFile.generateTempUploadUrl,
+      {
+        organizationId: result.organizationId,
+      },
+    );
 
     console.log("[Worker] Generate custom upload URL");
 
@@ -96,12 +101,12 @@ async function uploadMedia(testimonialId: string) {
 
     console.log("[Worker] Save media into the remote database");
 
-    await updateMediaUploadStatus(testimonialId, "done");
+    await updateMediaItemById(testimonialId, { status: "done" });
     await deleteMediaById(testimonialId);
     console.log("[Worker] Delete media from local database");
   } catch (error) {
     console.error("[Worker]", error);
-    await updateMediaUploadStatus(testimonialId, "error");
+    await updateMediaItemById(testimonialId, { status: "error" });
   }
 }
 
