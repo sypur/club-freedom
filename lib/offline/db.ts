@@ -16,7 +16,7 @@ export interface LocalMediaDB extends DBSchema {
   };
 }
 
-type Item = StoreValue<LocalMediaDB, "media">;
+export type MediaItem = StoreValue<LocalMediaDB, "media">;
 
 export const getDB = () => {
   return openDB<LocalMediaDB>(DATABASE_NAME, DATABASE_VERSION, {
@@ -26,7 +26,7 @@ export const getDB = () => {
   });
 };
 
-export const addItemToDB = async (id: string, item: Item) => {
+export const addMediaItemToDB = async (id: string, item: MediaItem) => {
   const db = await getDB();
   db.put("media", item, id);
 };
@@ -46,7 +46,10 @@ export const deleteMediaById = async (id: string) => {
   await db.delete("media", id);
 };
 
-export const updateMediaItemById = async (id: string, data: Partial<Item>) => {
+export const updateMediaItemById = async (
+  id: string,
+  data: Partial<MediaItem>,
+) => {
   const db = await getDB();
   const item = await db.get("media", id);
   if (item) {
