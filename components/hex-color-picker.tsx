@@ -14,9 +14,12 @@ import {
 export default function HexColorPicker({ value, ...props }: ColorPickerProps) {
   return (
     <div>
-      <ColorPicker value={value} format="hex" {...props}>
+      <ColorPicker defaultFormat="hex" format="hex" value={value} {...props}>
         <ColorPickerTrigger asChild>
-          <Button variant="outline" className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            className="flex items-center gap-2 font-mono"
+          >
             <ColorPickerSwatch className="size-4" />
             {value}
           </Button>

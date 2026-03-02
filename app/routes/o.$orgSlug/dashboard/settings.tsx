@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { authClient } from "@/lib/auth/auth-client";
+import OrganizationBrandColorsForm from "./-components/organization-brand-colors-form";
 import OrganizationEditForm from "./-components/organization-edit-form";
 import OrganizationIconCropper from "./-components/organization-icon-cropper";
 import OrganizationLogoForm from "./-components/organization-logo-form";
@@ -46,6 +47,14 @@ function RouteComponent() {
         </CardHeader>
         <CardContent>
           <OrganizationIconCropper />
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>Brand Colors</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <OrganizationBrandColorsForm />
         </CardContent>
       </Card>
     </div>
