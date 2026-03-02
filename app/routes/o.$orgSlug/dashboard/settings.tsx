@@ -1,13 +1,9 @@
-import { convexQuery } from "@convex-dev/react-query";
-import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import EditOrganizationForm from "@/components/organization/edit-organization-form";
-import OrganizationIconCropper from "@/components/organization/organization-icon-cropper";
-import OrganizationLogoForm from "@/components/organization/organization-logo-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { api } from "@/convex/_generated/api";
-import type { Doc } from "@/convex/betterAuth/_generated/dataModel";
 import { authClient } from "@/lib/auth/auth-client";
+import OrganizationEditForm from "./-components/organization-edit-form";
+import OrganizationIconCropper from "./-components/organization-icon-cropper";
+import OrganizationLogoForm from "./-components/organization-logo-form";
 
 export const Route = createFileRoute("/o/$orgSlug/dashboard/settings")({
   component: RouteComponent,
@@ -26,26 +22,14 @@ export const Route = createFileRoute("/o/$orgSlug/dashboard/settings")({
 });
 
 function RouteComponent() {
-  const { orgSlug } = Route.useParams();
-  const { organization: preloadOrganization } = Route.useRouteContext();
-  const { data: liveOrganization } = useSuspenseQuery(
-    convexQuery(api.organization.getOrganizationBySlug, {
-      slug: orgSlug,
-    }),
-  );
-
-  const organization = (liveOrganization ||
-    preloadOrganization) as Doc<"organization">;
-
   return (
     <div className="grid max-w-3xl w-full gap-4 mx-auto p-4">
-      <h2 className="pb-2 text-3xl font-semibold tracking-tight">Settings</h2>
       <Card>
         <CardHeader>
           <CardTitle>Your organization</CardTitle>
         </CardHeader>
         <CardContent>
-          <EditOrganizationForm organization={organization} />
+          <OrganizationEditForm />
         </CardContent>
       </Card>
       <Card>
@@ -53,7 +37,7 @@ function RouteComponent() {
           <CardTitle>Logo</CardTitle>
         </CardHeader>
         <CardContent>
-          <OrganizationLogoForm organization={organization} />
+          <OrganizationLogoForm />
         </CardContent>
       </Card>
       <Card>
@@ -61,7 +45,7 @@ function RouteComponent() {
           <CardTitle>Icon</CardTitle>
         </CardHeader>
         <CardContent>
-          <OrganizationIconCropper organization={organization} />
+          <OrganizationIconCropper />
         </CardContent>
       </Card>
     </div>
