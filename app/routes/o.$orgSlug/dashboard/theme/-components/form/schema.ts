@@ -1,13 +1,5 @@
 import z from "zod";
-
-function isColorValid(color: string) {
-  const node = new Option();
-  node.style.color = color;
-  return (
-    !!node.style.color &&
-    !/(unset|initial|inherit|currentcolor|transparent)/i.test(color)
-  );
-}
+import { isColorValid } from "@/lib/color";
 
 const colorString = z
   .string()
