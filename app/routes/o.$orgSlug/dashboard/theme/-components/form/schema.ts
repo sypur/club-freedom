@@ -10,6 +10,10 @@ export const themeSchema = z.object({
   "--primary-foreground": colorString,
   "--secondary": colorString,
   "--secondary-foreground": colorString,
+  "--accent": colorString,
+  "--accent-foreground": colorString,
+  "--background": colorString,
+  "--foreground": colorString,
   "--destructive": colorString,
 });
 
