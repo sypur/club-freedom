@@ -1,22 +1,36 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute } from "@tanstack/react-router";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import OrganizationBrandColorsForm from "./-components/organization-brand-colors-form";
+import { FormProvider, useForm } from "react-hook-form";
+import ThemeCustomizationDesktopView from "./-components/desktop";
+import { type Theme, themeSchema } from "./-components/form/schema";
+import ThemeCustomizationMobileView from "./-components/mobile";
 
 export const Route = createFileRoute("/o/$orgSlug/dashboard/theme/")({
   component: RouteComponent,
 });
 
+function getValueFromCSSVariable(name: string) {
+  return getComputedStyle(document.documentElement).getPropertyValue(name);
+}
+
 function RouteComponent() {
+  const form = useForm<Theme>({
+    defaultValues: {
+      "--primary": getValueFromCSSVariable("--primary"),
+      "--primary-foreground": getValueFromCSSVariable("--primary-foreground"),
+      "--secondary": getValueFromCSSVariable("--secondary"),
+      "--secondary-foreground": getValueFromCSSVariable(
+        "--secondary-foreground",
+      ),
+      "--destructive": getValueFromCSSVariable("--destructive"),
+    },
+    resolver: zodResolver(themeSchema),
+  });
+
   return (
-    <div className="grid max-w-3xl w-full gap-4 mx-auto p-4">
-      <Card>
-        <CardHeader>
-          <CardTitle>Brand Colors</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <OrganizationBrandColorsForm />
-        </CardContent>
-      </Card>
-    </div>
+    <FormProvider {...form}>
+      <ThemeCustomizationMobileView className="@2xl/dashboard:hidden" />
+      <ThemeCustomizationDesktopView className="h-[calc(100vh-4rem)] hidden @2xl:flex" />
+    </FormProvider>
   );
 }

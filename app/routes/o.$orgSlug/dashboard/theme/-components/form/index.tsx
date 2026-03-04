@@ -26,6 +26,7 @@ export default function ThemeCustomizationForm({
           <Field data-invalid={fieldState.invalid}>
             <FieldLabel htmlFor={field.name}>Primary</FieldLabel>
             <ColorInput name="--primary" />
+            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
           </Field>
         )}
       />
