@@ -14,7 +14,7 @@ import {
   type Organization,
   organizationSchema,
 } from "@/lib/schema/organization";
-import { Route } from "../settings";
+import { Route } from "..";
 
 export default function OrganizationEditForm() {
   const { orgSlug } = Route.useParams();

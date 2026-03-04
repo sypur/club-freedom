@@ -1,8 +1,8 @@
 import { Controller, useForm } from "react-hook-form";
 import z from "zod";
-import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import HexColorPicker from "@/components/hex-color-picker";
 import { Button } from "@/components/ui/button";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 
 const brandingColorSchema = z.object({
   primaryColor: z.string().regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/),
@@ -19,8 +19,12 @@ export default function OrganizationBrandColorsForm() {
     },
   });
 
+  const onSubmit = form.handleSubmit(async (brand) => {
+    console.log(brand);
+  });
+
   return (
-    <form className="grid gap-4">
+    <form className="grid gap-4" onSubmit={onSubmit}>
       <Controller
         control={form.control}
         name="primaryColor"
@@ -50,7 +54,7 @@ export default function OrganizationBrandColorsForm() {
         )}
       />
       <Button type="submit" className="place-self-start">
-        Update
+        Apply
       </Button>
     </form>
   );
