@@ -21,54 +21,54 @@ export default function ThemeCustomizationForm({
     >
       <Controller
         control={form.control}
-        name="primary"
+        name="--primary"
         render={({ field, fieldState }) => (
           <Field data-invalid={fieldState.invalid}>
             <FieldLabel htmlFor={field.name}>Primary</FieldLabel>
-            <ColorInput name="primary" />
+            <ColorInput name="--primary" />
           </Field>
         )}
       />
       <Controller
         control={form.control}
-        name="primary-foreground"
+        name="--primary-foreground"
         render={({ field, fieldState }) => (
           <Field data-invalid={fieldState.invalid}>
             <FieldLabel htmlFor={field.name}>Primary Foreground</FieldLabel>
-            <ColorInput name="primary-foreground" />
+            <ColorInput name="--primary-foreground" />
             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
           </Field>
         )}
       />
       <Controller
         control={form.control}
-        name="secondary"
+        name="--secondary"
         render={({ field, fieldState }) => (
           <Field data-invalid={fieldState.invalid}>
             <FieldLabel htmlFor={field.name}>Secondary</FieldLabel>
-            <ColorInput name="secondary" />
+            <ColorInput name="--secondary" />
             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
           </Field>
         )}
       />
       <Controller
         control={form.control}
-        name="secondary-foreground"
+        name="--secondary-foreground"
         render={({ field, fieldState }) => (
           <Field data-invalid={fieldState.invalid}>
             <FieldLabel htmlFor={field.name}>Secondary Foreground</FieldLabel>
-            <ColorInput name="secondary-foreground" />
+            <ColorInput name="--secondary-foreground" />
             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
           </Field>
         )}
       />
       <Controller
         control={form.control}
-        name="destructive"
+        name="--destructive"
         render={({ field, fieldState }) => (
           <Field data-invalid={fieldState.invalid}>
             <FieldLabel htmlFor={field.name}>Destructive</FieldLabel>
-            <ColorInput name="destructive" />
+            <ColorInput name="--destructive" />
             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
           </Field>
         )}

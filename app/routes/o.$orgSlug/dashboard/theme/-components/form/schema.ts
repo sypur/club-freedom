@@ -14,11 +14,11 @@ const colorString = z
   .refine(isColorValid, { message: "Invalid color" });
 
 export const themeSchema = z.object({
-  primary: colorString,
-  "primary-foreground": colorString,
-  secondary: colorString,
-  "secondary-foreground": colorString,
-  destructive: colorString,
+  "--primary": colorString,
+  "--primary-foreground": colorString,
+  "--secondary": colorString,
+  "--secondary-foreground": colorString,
+  "--destructive": colorString,
 });
 
 export type Theme = z.infer<typeof themeSchema>;
