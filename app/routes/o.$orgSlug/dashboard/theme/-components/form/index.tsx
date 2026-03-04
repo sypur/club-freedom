@@ -5,6 +5,12 @@ import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { cn } from "@/lib/utils";
 import ColorInput from "./color-input";
 import type { Theme } from "./schema";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export default function ThemeCustomizationForm({
   className,
@@ -19,56 +25,159 @@ export default function ThemeCustomizationForm({
       {...props}
       onSubmit={form.handleSubmit(console.log)}
     >
-      <Controller
-        control={form.control}
-        name="--primary"
-        render={({ field, fieldState }) => (
-          <Field data-invalid={fieldState.invalid}>
-            <FieldLabel htmlFor={field.name}>Primary</FieldLabel>
-            <ColorInput name="--primary" />
-            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-          </Field>
-        )}
-      />
-      <Controller
-        control={form.control}
-        name="--primary-foreground"
-        render={({ field, fieldState }) => (
-          <Field data-invalid={fieldState.invalid}>
-            <FieldLabel htmlFor={field.name}>Primary Foreground</FieldLabel>
-            <ColorInput name="--primary-foreground" />
-            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-          </Field>
-        )}
-      />
-      <Controller
-        control={form.control}
-        name="--secondary"
-        render={({ field, fieldState }) => (
-          <Field data-invalid={fieldState.invalid}>
-            <FieldLabel htmlFor={field.name}>Secondary</FieldLabel>
-            <ColorInput name="--secondary" />
-            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-          </Field>
-        )}
-      />
-      <Controller
-        control={form.control}
-        name="--secondary-foreground"
-        render={({ field, fieldState }) => (
-          <Field data-invalid={fieldState.invalid}>
-            <FieldLabel htmlFor={field.name}>Secondary Foreground</FieldLabel>
-            <ColorInput name="--secondary-foreground" />
-            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-          </Field>
-        )}
-      />
+      <Accordion
+        defaultValue="primary"
+        type="single"
+        collapsible
+        className="w-full rounded-lg border"
+      >
+        <AccordionItem value="primary">
+          <AccordionTrigger className="px-4">Primary Colors</AccordionTrigger>
+          <AccordionContent className="px-4 space-y-4">
+            <Controller
+              control={form.control}
+              name="--primary"
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor={field.name}>Primary</FieldLabel>
+                  <ColorInput name="--primary" />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+            <Controller
+              control={form.control}
+              name="--primary-foreground"
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor={field.name}>
+                    Primary Foreground
+                  </FieldLabel>
+                  <ColorInput name="--primary-foreground" />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+      <Accordion
+        defaultValue="secondary"
+        type="single"
+        collapsible
+        className="w-full rounded-lg border"
+      >
+        <AccordionItem value="secondary">
+          <AccordionTrigger className="px-4">Secondary Colors</AccordionTrigger>
+          <AccordionContent className="px-4 space-y-4">
+            <Controller
+              control={form.control}
+              name="--secondary"
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor={field.name}>Secondary</FieldLabel>
+                  <ColorInput name="--secondary" />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+            <Controller
+              control={form.control}
+              name="--secondary-foreground"
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor={field.name}>
+                    Secondary Foreground
+                  </FieldLabel>
+                  <ColorInput name="--secondary-foreground" />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+      <Accordion type="single" collapsible className="w-full rounded-lg border">
+        <AccordionItem value="accent">
+          <AccordionTrigger className="px-4">Accent Colors</AccordionTrigger>
+          <AccordionContent className="px-4 space-y-4">
+            <Controller
+              control={form.control}
+              name="--accent"
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor={field.name}>Accent</FieldLabel>
+                  <ColorInput name="--accent" />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+            <Controller
+              control={form.control}
+              name="--accent-foreground"
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor={field.name}>Foreground</FieldLabel>
+                  <ColorInput name="--accent-foreground" />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+      <Accordion type="single" collapsible className="w-full rounded-lg border">
+        <AccordionItem value="base">
+          <AccordionTrigger className="px-4">Base Colors</AccordionTrigger>
+          <AccordionContent className="px-4 space-y-4">
+            <Controller
+              control={form.control}
+              name="--background"
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor={field.name}>Background</FieldLabel>
+                  <ColorInput name="--background" />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+            <Controller
+              control={form.control}
+              name="--foreground"
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor={field.name}>Foreground</FieldLabel>
+                  <ColorInput name="--foreground" />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+
       <Controller
         control={form.control}
         name="--destructive"
         render={({ field, fieldState }) => (
           <Field data-invalid={fieldState.invalid}>
-            <FieldLabel htmlFor={field.name}>Destructive</FieldLabel>
+            <FieldLabel htmlFor={field.name}>Error</FieldLabel>
             <ColorInput name="--destructive" />
             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
           </Field>

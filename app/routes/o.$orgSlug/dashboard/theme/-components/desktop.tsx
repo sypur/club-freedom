@@ -12,7 +12,7 @@ export default function ThemeCustomizationDesktopView({
         <ThemeCustomizationForm className="p-4" />
       </ScrollArea>
       <ScrollArea className="flex-1 h-full">
-        <ThemePreview />
+        <ThemePreview className="min-h-[calc(100vh-4rem)]" />
       </ScrollArea>
     </div>
   );

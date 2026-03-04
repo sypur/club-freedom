@@ -17,7 +17,7 @@ export default function OrganizationLayout({
     <SidebarProvider>
       <OrganizationSidebar collapsible="icon" />
       <SidebarInset className="flex flex-col h-screen relative">
-        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-3 sticky top-0 bg-background">
+        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-3 sticky top-0 bg-background isolate z-10">
           <div className="flex items-center gap-2">
             <SidebarTrigger />
             <OrganizationInfo />

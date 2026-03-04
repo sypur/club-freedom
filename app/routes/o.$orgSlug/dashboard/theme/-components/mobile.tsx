@@ -9,17 +9,17 @@ export default function ThemeCustomizationMobileView({
   ...props
 }: ComponentProps<"div">) {
   return (
-    <div className={cn(className)} {...props}>
-      <Tabs defaultValue="control">
-        <TabsList className="w-full rounded-none">
+    <div className={cn(className, "flex relative")} {...props}>
+      <Tabs defaultValue="control" className="flex-1 flex flex-col">
+        <TabsList className="w-full rounded-none sticky top-16 z-10">
           <TabsTrigger value="control">Control</TabsTrigger>
           <TabsTrigger value="preview">Preview</TabsTrigger>
         </TabsList>
         <TabsContent value="control">
           <ThemeCustomizationForm className="p-4" />
         </TabsContent>
-        <TabsContent value="preview">
-          <ThemePreview />
+        <TabsContent value="preview" className="flex flex-1">
+          <ThemePreview className="flex-1" />
         </TabsContent>
       </Tabs>
     </div>

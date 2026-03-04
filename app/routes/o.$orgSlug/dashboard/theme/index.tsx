@@ -22,6 +22,10 @@ function RouteComponent() {
       "--secondary-foreground": getValueFromCSSVariable(
         "--secondary-foreground",
       ),
+      "--accent": getValueFromCSSVariable("--accent"),
+      "--accent-foreground": getValueFromCSSVariable("--accent-foreground"),
+      "--background": getValueFromCSSVariable("--background"),
+      "--foreground": getValueFromCSSVariable("--foreground"),
       "--destructive": getValueFromCSSVariable("--destructive"),
     },
     resolver: zodResolver(themeSchema),
@@ -29,8 +33,8 @@ function RouteComponent() {
 
   return (
     <FormProvider {...form}>
-      <ThemeCustomizationMobileView className="@2xl/dashboard:hidden" />
-      <ThemeCustomizationDesktopView className="h-[calc(100vh-4rem)] hidden @2xl:flex" />
+      <ThemeCustomizationMobileView className="min-h-[calc(100vh-4rem)] @4xl/dashboard:hidden" />
+      <ThemeCustomizationDesktopView className="h-[calc(100vh-4rem)] hidden @4xl:flex" />
     </FormProvider>
   );
 }
