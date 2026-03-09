@@ -2,6 +2,8 @@ import { convexQuery } from "@convex-dev/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import TestimonialForm from "@/components/testimonial-form";
 import { api } from "@/convex/_generated/api";
+import { applyTheme } from "@/lib/utils";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/o/$orgSlug/_public/")({
   component: TestimonialSubmissionPage,
