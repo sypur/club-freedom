@@ -1,5 +1,6 @@
 import { useConvexMutation } from "@convex-dev/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { TurnstileInstance } from "@marsidev/react-turnstile";
 import { Turnstile } from "@marsidev/react-turnstile";
 import {
   ClientOnly,
@@ -10,7 +11,7 @@ import {
 import { useServerFn } from "@tanstack/react-start";
 import { useMutation } from "convex/react";
 import { formatDistance } from "date-fns";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import Markdown from "react-markdown";
 import { toast } from "sonner";
@@ -44,6 +45,7 @@ import {
 import { type Testimonial, testimonialSchema } from "@/lib/schema/testimonials";
 import { cn } from "@/lib/utils";
 export default function TestimonialForm() {
+  const ref = React.useRef<TurnstileInstance | null>(null);
   const { organization } = useRouteContext({
     from: "/o/$orgSlug",
   });
@@ -390,10 +392,14 @@ export default function TestimonialForm() {
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
                 <Turnstile
+                  ref={ref}
                   siteKey={env.VITE_TURNSTILE_SITE_KEY}
                   onSuccess={(token) => field.onChange(token)}
-                  onExpire={() => form.resetField("turnstileToken")}
-                  options={{ size: "flexible" }}
+                  onExpire={() => {
+                    ref.current?.reset();
+                    form.resetField("turnstileToken");
+                  }}
+                  options={{ size: "flexible", refreshExpired: "manual" }}
                 />
                 {fieldState.invalid && (
                   <FieldError errors={[fieldState.error]} />
