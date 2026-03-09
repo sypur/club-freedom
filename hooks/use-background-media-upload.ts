@@ -3,7 +3,7 @@ import { useMediaWorker } from "@/contexts/media-worker-context";
 import { addMediaItemToDB, type MediaItem } from "@/lib/offline/db";
 import type { MediaWorkerIncomingMessage } from "@/utils/upload-worker-types";
 
-export const useMediaUpload = () => {
+export const useBackgroundMediaUpload = () => {
   const { postMessage } = useMediaWorker();
 
   const uploadMedia = useCallback(

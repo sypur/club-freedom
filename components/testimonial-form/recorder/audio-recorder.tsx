@@ -9,7 +9,7 @@ import RecorderTimer from "./recorder-timer";
 export default function AudioRecorder() {
   const mp4Supported = MediaRecorder.isTypeSupported("audio/mp4");
   const { field } = useController<Testimonial>({
-    name: "mediaFile",
+    name: "media",
   });
 
   return (
@@ -22,10 +22,7 @@ export default function AudioRecorder() {
         mimeType: mp4Supported ? "audio/mp4" : "audio/webm",
       }}
       onStop={(_, blob) => {
-        const audioFile = new File([blob], `audio-recording-${Date.now()}`, {
-          type: blob.type ?? "audio/webm",
-        });
-        field.onChange(audioFile);
+        field.onChange(blob);
       }}
       render={({
         status,
