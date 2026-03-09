@@ -3,7 +3,7 @@ import { type DBSchema, openDB } from "idb";
 const DATABASE_NAME = "club-freedom-media";
 const DATABASE_VERSION = 1;
 
-type Status = "pending" | "uploading" | "done";
+type Status = "pending" | "uploading" | "error" | "done";
 
 export interface LocalMediaDB extends DBSchema {
   media: {
@@ -26,6 +26,11 @@ export const getDB = () => {
 export const addMediaToDB = async (blob: Blob, id: string) => {
   const db = await getDB();
   db.put("media", { blob, status: "pending" }, id);
+};
+
+export const getAllKeys = async () => {
+  const db = await getDB();
+  return db.getAllKeys("media");
 };
 
 export const getMediaById = async (id: string) => {
