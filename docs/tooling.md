@@ -1,6 +1,6 @@
 # Tooling and Workflows
 
-Developer-facing commands and workflows for working on the Club Freedom Testimonial Platform.
+Developer-facing commands and workflows for working on the Sypur Testimonial Platform.
 
 ## UI Components
 

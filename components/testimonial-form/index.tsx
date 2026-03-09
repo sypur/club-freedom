@@ -15,6 +15,7 @@ import { Controller, FormProvider, useForm } from "react-hook-form";
 import Markdown from "react-markdown";
 import { toast } from "sonner";
 import { validateTurnstileTokenServerFn } from "@/app/functions/turnstile";
+import { defaultAgreement } from "@/app/routes/o.$orgSlug/dashboard/form-preferences/-components/form/schema";
 import {
   AudioRecorder,
   VideoRecorder,
@@ -24,6 +25,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Field,
+  FieldContent,
   FieldDescription,
   FieldError,
   FieldLabel,
@@ -40,7 +42,7 @@ import {
   VIDEO_RECORDING_TIME_LIMIT_IN_SECONDS,
 } from "@/lib/media";
 import { type Testimonial, testimonialSchema } from "@/lib/schema/testimonials";
-import { defaultAgreement } from "../form-preferences/formSchema";
+import { cn } from "@/lib/utils";
 export default function TestimonialForm() {
   const { organization } = useRouteContext({
     from: "/o/$orgSlug",
@@ -81,12 +83,17 @@ export default function TestimonialForm() {
   );
   const postTestimonial = useMutation(api.testimonials.postTestimonial);
   const validateTurnstileToken = useServerFn(validateTurnstileTokenServerFn);
-  const getInitialTab = () => {
+
+  const [tabValue, setTabValue] = useState(() => {
     if (videoEnabled) return "video";
     if (audioEnabled) return "audio";
     return "text";
-  };
-  const [tabValue, setTabValue] = useState(getInitialTab);
+  });
+
+  const formatCount = [videoEnabled, audioEnabled, textEnabled].filter(
+    Boolean,
+  ).length;
+
   const handleTabChange = (value: string) => {
     setTabValue(value);
     form.resetField("mediaFile");
@@ -207,7 +214,7 @@ export default function TestimonialForm() {
             )}
           />
           <Tabs value={tabValue} onValueChange={handleTabChange}>
-            <TabsList>
+            <TabsList className={cn(formatCount === 1 && "hidden")}>
               {videoEnabled && (
                 <TabsTrigger value="video" disabled={!canSwitchTab}>
                   Video
@@ -338,7 +345,7 @@ export default function TestimonialForm() {
                       const checked = selected.includes(agreement);
 
                       return (
-                        <div key={agreement} className="flex items-start gap-2">
+                        <Field key={agreement} orientation="horizontal">
                           <Checkbox
                             id={`agreement-${index}`}
                             checked={checked}
@@ -346,23 +353,25 @@ export default function TestimonialForm() {
                               toggle(agreement, Boolean(c))
                             }
                           />
-                          <FieldLabel htmlFor={`agreement-${index}`}>
-                            <Markdown
-                              components={{
-                                a: ({ node, ...props }) => (
-                                  <a
-                                    {...props}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-blue-600 underline"
-                                  />
-                                ),
-                              }}
-                            >
-                              {agreement}
-                            </Markdown>
-                          </FieldLabel>
-                        </div>
+                          <FieldContent>
+                            <FieldLabel htmlFor={`agreement-${index}`}>
+                              <Markdown
+                                components={{
+                                  a: ({ node, ...props }) => (
+                                    <a
+                                      {...props}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="text-primary underline"
+                                    />
+                                  ),
+                                }}
+                              >
+                                {agreement}
+                              </Markdown>
+                            </FieldLabel>
+                          </FieldContent>
+                        </Field>
                       );
                     })}
                   </div>

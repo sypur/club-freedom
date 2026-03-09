@@ -2,6 +2,7 @@ import { useNavigate, useRouteContext } from "@tanstack/react-router";
 import { useMutation } from "convex/react";
 import { Trash } from "lucide-react";
 import { toast } from "sonner";
+import { useTestimonialIdParam } from "@/app/routes/o.$orgSlug/dashboard/testimonials/-components/hook";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,15 +21,19 @@ import { api } from "@/convex/_generated/api";
 export default function TestimonialDelete() {
   const { organization } = useRouteContext({ from: "/o/$orgSlug" });
   const { testimonial } = useTestimonialContext();
+  const { setTestimonialId } = useTestimonialIdParam();
+
   const navigate = useNavigate();
   const deleteTestimonial = useMutation(api.testimonials.deleteTestimonial);
   async function handleDelete() {
     try {
       await deleteTestimonial({ id: testimonial._id });
       toast.success("Testimonial deleted successfully");
+      await setTestimonialId(null);
       await navigate({
-        to: "/o/$orgSlug/testimonials",
+        to: "/o/$orgSlug/dashboard/testimonials",
         params: { orgSlug: organization.slug },
+        search: true,
       });
     } catch (_err) {
       if (_err instanceof Error) {

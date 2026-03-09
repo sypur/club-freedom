@@ -20,7 +20,7 @@ export const sendResetPassword = async (
   },
 ) => {
   await resend.sendEmail(ctx, {
-    from: `Club Freedom <${process.env.AUTH_EMAIL}>`,
+    from: `Sypur <${process.env.AUTH_EMAIL}>`,
     to,
     subject: "Reset your password",
     html: await render(<ResetPasswordEmail url={url} />),
@@ -42,7 +42,7 @@ export const sendInvite = async (
   },
 ) => {
   await resend.sendEmail(ctx, {
-    from: `Club Freedom <${process.env.AUTH_EMAIL}>`,
+    from: `Sypur <${process.env.AUTH_EMAIL}>`,
     to,
     subject,
     html: await render(<InviteEmail brandName={organization} url={url} />),

@@ -1,6 +1,6 @@
 # Getting Started
 
-This guide walks through setting up the Club Freedom Testimonial Platform for local development.
+This guide walks through setting up the Sypur Testimonial Platform for local development.
 
 ## Prerequisites
 
@@ -26,7 +26,6 @@ This guide walks through setting up the Club Freedom Testimonial Platform for lo
    ```
 
 3. Configure environment variables. Most of the setup involves creating the required accounts and storing your personal keys:
-
    1. Setting up [Better Auth](./configuration.md#better-auth)
    2. Setting up [Resend](./configuration.md#resend)
    3. Setting up [R2 for Convex](./configuration.md#cloudflare-r2)

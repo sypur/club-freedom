@@ -1,6 +1,6 @@
-# Club Freedom Testimonial Platform
+# Sypur Testimonial Platform
 
-A modern testimonial collection platform built for Club Freedom, allowing users to gather text, audio, or video stories with AI-powered assistance.
+A modern testimonial collection platform built for Sypur, allowing users to gather text, audio, or video stories with AI-powered assistance.
 
 ## Tech Stack
 

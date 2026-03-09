@@ -77,7 +77,7 @@ export function BaseEmail({
   previewText,
   footerLinks = [],
   footerText,
-  brandName = "Club Freedom",
+  brandName = "Sypur",
   brandLogoUrl,
 }: BaseEmailProps) {
   return (

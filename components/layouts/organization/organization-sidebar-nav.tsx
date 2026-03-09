@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link, useRouteContext } from "@tanstack/react-router";
-import { MessageSquare, Users2 } from "lucide-react";
+import { FileText, MessageSquare, Users2 } from "lucide-react";
 import type { ComponentProps } from "react";
 import {
   SidebarGroup,
@@ -77,7 +77,7 @@ export default function OrganizationSidebarNav(
                 params={{ orgSlug: organization.slug }}
                 className="[&.active]:not-hover:bg-muted"
               >
-                <Users2 />
+                <FileText />
                 <span>Form Preferences</span>
               </Link>
             </SidebarMenuButton>
