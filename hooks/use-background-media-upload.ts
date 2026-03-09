@@ -1,19 +1,19 @@
 import { useCallback } from "react";
 import { useMediaWorker } from "@/contexts/media-worker-context";
-import { addMediaItemToDB, type MediaItem } from "@/lib/offline/db";
+import { db, MediaData } from "@/lib/offline/db";
 import type { MediaWorkerIncomingMessage } from "@/utils/upload-worker-types";
 
 export const useBackgroundMediaUpload = () => {
   const { postMessage } = useMediaWorker();
 
   const uploadMedia = useCallback(
-    async (id: string, item: MediaItem) => {
-      await addMediaItemToDB(id, item);
+    async (data: MediaData) => {
+      await db.media.put(data);
       console.log("Save media into the local database");
 
       postMessage({
         action: "upload",
-        id,
+        id: data.id,
       } satisfies MediaWorkerIncomingMessage);
     },
     [postMessage],

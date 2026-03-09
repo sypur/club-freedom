@@ -129,7 +129,8 @@ export default function TestimonialForm() {
 
       // Step 3: Upload to offline database
       if (values.media) {
-        uploadMedia(testimonialId, {
+        await uploadMedia({
+          id: testimonialId,
           blob: values.media,
           organizationId: organization._id as string,
           status: "pending",

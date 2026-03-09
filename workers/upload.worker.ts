@@ -2,12 +2,7 @@ import { ConvexHttpClient } from "convex/browser";
 import { api } from "../convex/_generated/api";
 import type { Id } from "../convex/_generated/dataModel";
 import { env } from "../env/client";
-import {
-  deleteMediaById,
-  getAllKeys,
-  getMediaById,
-  updateMediaItemById,
-} from "../lib/offline/db";
+import { db } from "../lib/offline/db";
 import type {
   MediaWorkerIncomingMessage,
   MediaWorkerOutgoingMessage,
@@ -16,21 +11,17 @@ import type {
 const client = new ConvexHttpClient(env.VITE_CONVEX_URL);
 
 async function retryUpload() {
-  const keys = await getAllKeys();
-  for (const key of keys) {
-    const data = await getMediaById(key);
-    if (!data) {
-      continue;
+  const medias = await db.media.toArray();
+  for (const media of medias) {
+    if (media.status === "done") {
+      await db.media.delete(media.id);
     }
-    if (data.status === "done") {
-      await deleteMediaById(key);
-    }
-    await uploadMedia(key);
+    await uploadMedia(media.id);
   }
 }
 
 async function uploadMedia(testimonialId: string) {
-  const result = await getMediaById(testimonialId);
+  const result = await db.media.get(testimonialId);
   if (!result) {
     return;
   }
@@ -40,7 +31,7 @@ async function uploadMedia(testimonialId: string) {
   });
 
   try {
-    await updateMediaItemById(testimonialId, { status: "uploading" });
+    await db.media.update(testimonialId, { status: "uploading" });
 
     // Upload to R2
     const { key, url } = await client.mutation(
@@ -101,12 +92,12 @@ async function uploadMedia(testimonialId: string) {
 
     console.log("[Worker] Save media into the remote database");
 
-    await updateMediaItemById(testimonialId, { status: "done" });
-    await deleteMediaById(testimonialId);
+    await db.media.update(testimonialId, { status: "done" });
+    await db.media.delete(testimonialId);
     console.log("[Worker] Delete media from local database");
   } catch (error) {
     console.error("[Worker]", error);
-    await updateMediaItemById(testimonialId, { status: "error" });
+    await db.media.update(testimonialId, { status: "error" });
   }
 }
 

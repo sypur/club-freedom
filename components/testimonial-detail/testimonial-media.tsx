@@ -1,13 +1,13 @@
 import { convexQuery } from "@convex-dev/react-query";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { AlertCircleIcon, CircleAlert } from "lucide-react";
+import { CircleAlert } from "lucide-react";
 import { Suspense } from "react";
 import { useTestimonialContext } from "@/contexts/testimonial-context";
 import { api } from "@/convex/_generated/api";
-import { offlineMediaQuery } from "@/lib/offline/query";
-import { useUploadProgressStore } from "@/lib/offline/upload-progress-store";
+import { db } from "@/lib/offline/db";
 import { Empty, EmptyHeader, EmptyMedia, EmptyTitle } from "../ui/empty";
 import { Spinner } from "../ui/spinner";
+import { useLiveQuery } from "dexie-react-hooks";
 
 export default function TestimonialMedia() {
   const { testimonial } = useTestimonialContext();
@@ -83,10 +83,10 @@ function RemoteTestimonialMedia() {
 
 function SuspenseTestimonialMedia() {
   const { testimonial } = useTestimonialContext();
-  const { data } = useSuspenseQuery(offlineMediaQuery(testimonial._id));
+  const data = useLiveQuery(() => db.media.get(testimonial._id));
 
   if (data) {
-    return <TestimonialMediaPlayer mediaUrl={data.url} />;
+    return <TestimonialMediaPlayer mediaUrl={URL.createObjectURL(data.blob)} />;
   }
 
   return <RemoteTestimonialMedia />;

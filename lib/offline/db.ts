@@ -1,58 +1,26 @@
-import { type DBSchema, openDB, type StoreValue } from "idb";
+import { Dexie, type EntityTable } from "dexie";
 
-const DATABASE_NAME = "club-freedom-media";
+const DATABASE_NAME = "club-freedom";
 const DATABASE_VERSION = 1;
 
 type Status = "pending" | "uploading" | "error" | "done";
 
-export interface LocalMediaDB extends DBSchema {
-  media: {
-    key: string;
-    value: {
-      blob: Blob;
-      organizationId: string;
-      status: Status;
-    };
-  };
+interface MediaData {
+  id: string;
+  blob: Blob;
+  status: Status;
+  organizationId: string;
 }
 
-export type MediaItem = StoreValue<LocalMediaDB, "media">;
-
-export const getDB = () => {
-  return openDB<LocalMediaDB>(DATABASE_NAME, DATABASE_VERSION, {
-    upgrade(db) {
-      db.createObjectStore("media");
-    },
-  });
+const db = new Dexie(DATABASE_NAME) as Dexie & {
+  media: EntityTable<
+    MediaData,
+    "id" // primary key "id" (for the typings only)
+  >;
 };
 
-export const addMediaItemToDB = async (id: string, item: MediaItem) => {
-  const db = await getDB();
-  db.put("media", item, id);
-};
+db.version(DATABASE_VERSION).stores({
+  media: "id, blob, status, organizationId",
+});
 
-export const getAllKeys = async () => {
-  const db = await getDB();
-  return db.getAllKeys("media");
-};
-
-export const getMediaById = async (id: string) => {
-  const db = await getDB();
-  return db.get("media", id);
-};
-
-export const deleteMediaById = async (id: string) => {
-  const db = await getDB();
-  await db.delete("media", id);
-};
-
-export const updateMediaItemById = async (
-  id: string,
-  data: Partial<MediaItem>,
-) => {
-  const db = await getDB();
-  const item = await db.get("media", id);
-  if (item) {
-    await db.put("media", { ...item, ...data }, id);
-  }
-};
+export { type MediaData, db };
