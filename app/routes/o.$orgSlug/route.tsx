@@ -16,6 +16,10 @@ export const Route = createFileRoute("/o/$orgSlug")({
       throw notFound();
     }
 
+    return { organization };
+  },
+  loader: async ({ context, params }) => {
+    const { organization } = context;
     const stylings = await context.queryClient.ensureQueryData(
       convexQuery(api.organization.getOrganizationStylings, {
         organizationId: String(organization._id),
@@ -25,8 +29,6 @@ export const Route = createFileRoute("/o/$orgSlug")({
     if (stylings && Object.keys(stylings).length > 0) {
       applyTheme(stylings);
     }
-
-    return { organization };
   },
   onLeave: async () => {
     applyTheme(defaultThemeVariables);
@@ -37,6 +39,7 @@ export const Route = createFileRoute("/o/$orgSlug")({
       return {};
     }
     const { organization } = routeMatch.context;
+
     return {
       meta: [{ title: organization.name }],
     };
