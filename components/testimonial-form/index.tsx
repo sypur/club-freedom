@@ -251,7 +251,7 @@ export default function TestimonialForm() {
               <TabsContent value="audio">
                 <Controller
                   control={form.control}
-                  name="mediaFile"
+                  name="media"
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
                       <FieldLabel htmlFor={field.name}>
@@ -285,7 +285,7 @@ export default function TestimonialForm() {
               <TabsContent value="video">
                 <Controller
                   control={form.control}
-                  name="mediaFile"
+                  name="media"
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
                       <FieldLabel htmlFor={field.name}>
