@@ -42,7 +42,7 @@ export default function TestimonialUploadProgress() {
         </ItemMedia>
         <ItemContent>
           <ItemTitle>
-            Uploading {testimonial.media_type}
+            Uploading {testimonial.media_type}{" "}
             {Math.round(uploadProgress * 100)}%...
           </ItemTitle>
           <ItemDescription>

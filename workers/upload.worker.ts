@@ -1,3 +1,4 @@
+import axios from "axios";
 import { ConvexHttpClient } from "convex/browser";
 import { api } from "../convex/_generated/api";
 import type { Id } from "../convex/_generated/dataModel";
@@ -43,12 +44,13 @@ async function uploadMedia(testimonialId: string) {
 
     console.log("[Worker] Generate custom upload URL");
 
-    const uploadFile = new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open("PUT", url, true);
-      xhr.upload.onprogress = (event) => {
-        if (event.lengthComputable) {
-          const progress = event.loaded / event.total;
+    await axios.put(url, file, {
+      headers: {
+        "Content-Type": file.type,
+      },
+      onUploadProgress: (progressEvent) => {
+        if (progressEvent.total) {
+          const progress = progressEvent.loaded / progressEvent.total;
           console.log(`[Worker] Upload progress: ${progress}`);
           self.postMessage({
             action: "progress",
@@ -56,25 +58,8 @@ async function uploadMedia(testimonialId: string) {
             progress,
           } satisfies MediaWorkerOutgoingMessage);
         }
-      };
-      xhr.setRequestHeader("Content-Type", file.type);
-      xhr.onload = () => {
-        if (xhr.readyState !== 4) return;
-
-        if (xhr.status >= 200 && xhr.status < 300) {
-          resolve(xhr.response);
-        } else {
-          reject({
-            ok: false,
-            status: xhr.status,
-            statusText: xhr.statusText,
-          });
-        }
-      };
-      xhr.send(file);
+      },
     });
-
-    await uploadFile;
 
     console.log("[Worker] Media uploaded to R2");
 
