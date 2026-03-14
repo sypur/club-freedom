@@ -5,10 +5,20 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+function isCapital(ch: string) {
+  return ch === ch.toUpperCase() && ch !== ch.toLowerCase();
+}
+
 export function applyTheme(vars: Record<string, string>) {
+  console.log("hello world");
   const root = document.documentElement;
   Object.entries(vars).forEach(([key, val]) => {
-    root.style.setProperty(key, val);
+    let newname = "--";
+    for (let i = 0; i < key.length; i++) {
+      if (isCapital(key[i])) newname += "-" + key[i].toLowerCase();
+      else newname += key[i];
+    }
+    root.style.setProperty(newname, val);
   });
 }
 
