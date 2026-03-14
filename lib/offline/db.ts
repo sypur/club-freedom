@@ -23,4 +23,4 @@ db.version(DATABASE_VERSION).stores({
   media: "id, blob, status, organizationId",
 });
 
-export { type MediaData, db };
+export { db, type MediaData };
