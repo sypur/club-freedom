@@ -69,4 +69,4 @@ export function useCountdown({
   return [count, { startCountdown, stopCountdown, resetCountdown }];
 }
 
-export type { CountdownOptions, CountdownControllers };
+export type { CountdownControllers, CountdownOptions };
