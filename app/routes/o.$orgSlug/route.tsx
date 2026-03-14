@@ -2,7 +2,7 @@ import { convexQuery } from "@convex-dev/react-query";
 import { createFileRoute, notFound, Outlet } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { api } from "@/convex/_generated/api";
-import { applyTheme, defaultThemeVariables } from "@/lib/utils";
+import { applyTheme, clearTheme } from "@/lib/utils";
 
 function OrgOutlet() {
   const { stylings } = Route.useRouteContext();
@@ -12,7 +12,7 @@ function OrgOutlet() {
       applyTheme(stylings);
     }
     return () => {
-      applyTheme(defaultThemeVariables);
+      clearTheme();
     };
   }, [stylings]);
 

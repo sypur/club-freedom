@@ -4,6 +4,7 @@ import { components } from "./_generated/api";
 import { mutation, query } from "./_generated/server";
 import { authComponent, createAuth } from "./auth";
 import { r2 } from "./r2";
+import { convertToCSSVar } from "./utils";
 
 export const getOrganizationBySlug = query({
   args: { slug: v.string() },
@@ -122,7 +123,7 @@ export const getOrganizationStylings = query({
     const id = theme?.themeId;
     if (id) {
       const style = await ctx.db.get(id);
-      return style?.variables;
+      return convertToCSSVar(style?.variables);
     }
 
     return {};
