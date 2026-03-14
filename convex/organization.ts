@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import type { Doc, Id } from "@/convex/betterAuth/_generated/dataModel";
+import type { Doc } from "@/convex/betterAuth/_generated/dataModel";
 import { components } from "./_generated/api";
 import { mutation, query } from "./_generated/server";
 import { authComponent, createAuth } from "./auth";
