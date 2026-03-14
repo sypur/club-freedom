@@ -48,6 +48,7 @@ function TestimonialMediaPlayer({ mediaUrl }: { mediaUrl: string }) {
 
   return (
     <audio
+      src={mediaUrl}
       controls
       className="w-full"
       preload="metadata"
