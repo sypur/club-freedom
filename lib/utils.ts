@@ -10,15 +10,15 @@ function isCapital(ch: string) {
 }
 
 export function applyTheme(vars: Record<string, string>) {
-  console.log("hello world");
   const root = document.documentElement;
   Object.entries(vars).forEach(([key, val]) => {
-    let newname = "--";
+    let newKeyName: string = "--";
+
     for (let i = 0; i < key.length; i++) {
-      if (isCapital(key[i])) newname += "-" + key[i].toLowerCase();
-      else newname += key[i];
+      if (isCapital(key[i])) newKeyName += "-" + key[i].toLowerCase();
+      else newKeyName += key[i];
     }
-    root.style.setProperty(newname, val);
+    root.style.setProperty(newKeyName, val);
   });
 }
 
