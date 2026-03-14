@@ -123,6 +123,8 @@ export const getOrganizationStylings = query({
     const id = theme?.themeId;
     if (id) {
       const style = await ctx.db.get(id);
+
+      if (!style) return {};
       return convertToCSSVar(style?.variables);
     }
 
