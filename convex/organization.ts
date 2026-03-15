@@ -120,12 +120,9 @@ export const getOrganizationStylings = query({
       )
       .first();
 
-    const id = theme?.themeId;
-    if (id) {
-      const style = await ctx.db.get(id);
-
-      if (!style) return {};
-      return convertToCSSVar(style?.variables);
+    const stylings = theme?.cssVariables;
+    if (stylings) {
+      return convertToCSSVar(stylings);
     }
 
     return {};
