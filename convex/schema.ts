@@ -7,11 +7,17 @@ export const processingStatusSchema = v.union(
   v.literal("error"),
 );
 
+export const mediaTypeSchema = v.union(
+  v.literal("text"),
+  v.literal("video"),
+  v.literal("audio"),
+);
+
 export default defineSchema({
   testimonials: defineTable({
     name: v.string(),
     email: v.optional(v.string()),
-    media_type: v.string(),
+    media_type: mediaTypeSchema,
     storageId: v.optional(v.string()),
     title: v.optional(v.string()),
     testimonialText: v.optional(v.string()),

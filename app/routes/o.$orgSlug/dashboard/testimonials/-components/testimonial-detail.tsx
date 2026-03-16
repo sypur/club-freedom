@@ -76,9 +76,7 @@ export default function TestimonialDetail({ testimonialId }: Props) {
           <TestimonialProcessingError />
         )}
         <TestimonialTitle />
-        {testimonial.mediaUrl && (
-          <TestimonialMedia mediaUrl={testimonial.mediaUrl} />
-        )}
+        {testimonial.media_type !== "text" && <TestimonialMedia />}
         <div className="flex flex-wrap gap-2">
           {canApprove && testimonial.processingStatus === "completed" && (
             <TestimonialApproval />

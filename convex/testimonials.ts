@@ -4,7 +4,7 @@ import { filter } from "convex-helpers/server/filter";
 import { api } from "./_generated/api";
 import { query } from "./_generated/server";
 import { mutation } from "./functions";
-import { processingStatusSchema } from "./schema";
+import { mediaTypeSchema, processingStatusSchema } from "./schema";
 import removeUndefinedFromRecord from "./utils";
 
 export const getTestimonials = query({
@@ -110,18 +110,7 @@ export const getTestimonials = query({
           )
         : withAuthorTestimonialQuery;
 
-    const { page, ...rest } =
-      await withNonIndexSearchTestimonialQuery.paginate(paginationOpts);
-
-    return {
-      ...rest,
-      page: page.map((t) => {
-        const mediaUrl = t.storageId
-          ? `${process.env.R2_PUBLIC_URL}/${t.storageId}`
-          : undefined;
-        return { ...t, mediaUrl };
-      }),
-    };
+    return await withNonIndexSearchTestimonialQuery.paginate(paginationOpts);
   },
 });
 
@@ -130,7 +119,7 @@ export const postTestimonial = mutation({
     name: v.string(),
     email: v.optional(v.string()),
     storageId: v.optional(v.string()),
-    media_type: v.string(),
+    media_type: mediaTypeSchema,
     text: v.string(),
     organizationId: v.string(),
   },
@@ -198,23 +187,8 @@ export const getTestimonialById = query({
   args: { id: v.string() },
   handler: async (ctx, { id }) => {
     const testimonialId = ctx.db.normalizeId("testimonials", id);
-
     if (!testimonialId) return null;
-
-    const testimonial = await ctx.db.get(testimonialId);
-    const r2PublicUrl = process.env.R2_PUBLIC_URL;
-
-    if (!testimonial || !r2PublicUrl) {
-      return null;
-    }
-
-    const mediaUrl = testimonial.storageId
-      ? `${r2PublicUrl}/${testimonial.storageId}`
-      : null;
-    return {
-      ...testimonial,
-      mediaUrl,
-    };
+    return await ctx.db.get(testimonialId);
   },
 });
 
@@ -225,21 +199,31 @@ export const getTestimonialByIdAndOrgId = query({
 
     if (!testimonialId) return null;
     const testimonial = await ctx.db.get(testimonialId);
-    const r2PublicUrl = process.env.R2_PUBLIC_URL;
 
-    if (!testimonial || !r2PublicUrl || testimonial.organizationId !== orgId) {
+    if (!testimonial || testimonial.organizationId !== orgId) {
       return null;
     }
 
-    const mediaUrl = testimonial.storageId
-      ? `${r2PublicUrl}/${testimonial.storageId}`
-      : null;
-    return {
-      ...testimonial,
-      mediaUrl,
-    };
+    return testimonial;
   },
 });
+
+export const getTestimonialMediaUrlById = query({
+  args: { id: v.string() },
+  handler: async (ctx, { id }) => {
+    const testimonialId = ctx.db.normalizeId("testimonials", id);
+    if (!testimonialId) return null;
+    const testimonial = await ctx.db.get(testimonialId);
+    const r2PublicUrl = process.env.R2_PUBLIC_URL;
+
+    if (!testimonial || !testimonial.storageId || !r2PublicUrl) {
+      return null;
+    }
+
+    return `${r2PublicUrl}/${testimonial.storageId}`;
+  },
+});
+
 export const updateTestimonial = mutation({
   args: {
     _id: v.id("testimonials"),
