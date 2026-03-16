@@ -29,7 +29,7 @@ export default function OrganizationInfo() {
           src={organization.logo}
           alt={organization.name}
           height={32}
-          className="size-full"
+          className="h-full"
         />
       </div>
     );
