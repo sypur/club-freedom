@@ -4,7 +4,9 @@ export const testimonialSchema = z
   .object({
     name: z.string().min(2, "Name must be at least 2 characters"),
     email: z.email("Please enter a valid email address").or(z.literal("")),
-    mediaFile: z.file({ error: "Please record your testimonial" }).optional(),
+    media: z
+      .instanceof(Blob, { error: "Please record your testimonial" })
+      .optional(),
     writtenText: z.string(),
     agreementsAccepted: z
       .array(z.string())
@@ -13,8 +15,8 @@ export const testimonialSchema = z
   })
   .superRefine((data, ctx) => {
     if (
-      (!data.writtenText || data.mediaFile) &&
-      (data.writtenText || !data.mediaFile)
+      (!data.writtenText || data.media) &&
+      (data.writtenText || !data.media)
     ) {
       ctx.addIssue({
         code: "custom",

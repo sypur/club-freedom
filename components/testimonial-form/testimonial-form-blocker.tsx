@@ -16,7 +16,7 @@ export default function TestimonialFormBlocker() {
   const form = useFormContext<Testimonial>();
   const hasUnsavedTestimonial = () => {
     const hasText = !!form.watch("writtenText");
-    const hasMedia = !!form.watch("mediaFile");
+    const hasMedia = !!form.watch("media");
     return hasText || hasMedia;
   };
 

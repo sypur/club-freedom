@@ -23,7 +23,7 @@ const MEDIA_CONSTRAINTS = {
 
 export default function DesktopVideoRecorder({ type, mimeType }: MediaConfig) {
   const { field } = useController<Testimonial>({
-    name: "mediaFile",
+    name: "media",
   });
 
   const {
@@ -44,10 +44,7 @@ export default function DesktopVideoRecorder({ type, mimeType }: MediaConfig) {
     },
     onStop: (_, blob) => {
       console.log("File size:", blob.size / (1024 * 1024), "MB");
-      const videoFile = new File([blob], `video-recording-${Date.now()}`, {
-        type,
-      });
-      field.onChange(videoFile);
+      field.onChange(blob);
     },
   });
 
