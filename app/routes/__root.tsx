@@ -1,6 +1,7 @@
 import { ConvexBetterAuthProvider } from "@convex-dev/better-auth/react";
 import type { ConvexQueryClient } from "@convex-dev/react-query";
 import { PostHogProvider } from "@posthog/react";
+import { TanStackDevtools } from "@tanstack/react-devtools";
 import type { QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools";
 import {
@@ -20,7 +21,6 @@ import { env } from "@/env/client";
 import { authClient } from "@/lib/auth/auth-client";
 import { getToken } from "@/lib/auth/auth-server";
 import appCss from "../globals.css?url";
-import { TanStackDevtools } from "@tanstack/react-devtools";
 
 const getAuth = createServerFn({ method: "GET" }).handler(async () => {
   return await getToken();
