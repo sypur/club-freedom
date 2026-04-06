@@ -1,16 +1,16 @@
 import type { ComponentProps } from "react";
 import { Controller, useFormContext } from "react-hook-form";
-import { Button } from "@/components/ui/button";
-import { Field, FieldError, FieldLabel } from "@/components/ui/field";
-import { cn } from "@/lib/utils";
-import ColorInput from "./color-input";
-import type { Theme } from "./schema";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { cn } from "@/lib/utils";
+import ColorInput from "./color-input";
+import type { Theme } from "./schema";
 
 export default function ThemeCustomizationForm({
   className,
