@@ -6,17 +6,17 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function applyTheme(vars: Record<string, string>) {
-  const bodyElement = document.body;
+  const root = document.documentElement;
   Object.entries(vars).forEach(([key, val]) => {
-    bodyElement.style.setProperty(key, val);
+    root.style.setProperty(key, val);
   });
 }
 
 export function clearTheme() {
-  const bodyElement = document.body;
-  Array.from(bodyElement.style).forEach((key) => {
+  const root = document.documentElement;
+  Array.from(root.style).forEach((key) => {
     if (key.startsWith("--")) {
-      bodyElement.style.removeProperty(key);
+      root.style.removeProperty(key);
     }
   });
 }
