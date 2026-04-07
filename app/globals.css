@@ -50,15 +50,15 @@
 
 :root {
   /* Base 9 colors */
-  --background: oklch(0.985 0.002 247.839);
-  --foreground: oklch(0.2229 0.0453 234.0202);
-  --primary: oklch(0.6691 0.0749 141.7276);
-  --primary-foreground: oklch(0.9848 0 0);
-  --secondary: oklch(0.6691 0.0749 141.7276);
-  --secondary-foreground: oklch(0.9848 0 0);
-  --accent: oklch(0.8428 0.009 247.9335);
-  --accent-foreground: oklch(0.2229 0.0453 234.0202);
-  --destructive: oklch(0.6368 0.2078 25.3259);
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
 
   --card: var(--background);
   --card-foreground: var(--foreground);
