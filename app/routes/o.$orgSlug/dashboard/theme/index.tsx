@@ -23,24 +23,24 @@ function RouteComponent() {
 
   const form = useForm<Theme>({
     defaultValues: {
-      "--primary": getValueFromCSSVariable(stylings, "--primary"),
-      "--primary-foreground": getValueFromCSSVariable(
+      primary: getValueFromCSSVariable(stylings, "--primary"),
+      primaryForeground: getValueFromCSSVariable(
         stylings,
         "--primary-foreground",
       ),
-      "--secondary": getValueFromCSSVariable(stylings, "--secondary"),
-      "--secondary-foreground": getValueFromCSSVariable(
+      secondary: getValueFromCSSVariable(stylings, "--secondary"),
+      secondaryForeground: getValueFromCSSVariable(
         stylings,
         "--secondary-foreground",
       ),
-      "--accent": getValueFromCSSVariable(stylings, "--accent"),
-      "--accent-foreground": getValueFromCSSVariable(
+      accent: getValueFromCSSVariable(stylings, "--accent"),
+      accentForeground: getValueFromCSSVariable(
         stylings,
         "--accent-foreground",
       ),
-      "--background": getValueFromCSSVariable(stylings, "--background"),
-      "--foreground": getValueFromCSSVariable(stylings, "--foreground"),
-      "--destructive": getValueFromCSSVariable(stylings, "--destructive"),
+      background: getValueFromCSSVariable(stylings, "--background"),
+      foreground: getValueFromCSSVariable(stylings, "--foreground"),
+      destructive: getValueFromCSSVariable(stylings, "--destructive"),
     },
     resolver: zodResolver(themeSchema),
   });

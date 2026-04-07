@@ -36,11 +36,11 @@ export default function ThemeCustomizationForm({
           <AccordionContent className="px-4 space-y-4">
             <Controller
               control={form.control}
-              name="--primary"
+              name="primary"
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor={field.name}>Primary</FieldLabel>
-                  <ColorInput name="--primary" />
+                  <ColorInput name="primary" />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
@@ -49,13 +49,13 @@ export default function ThemeCustomizationForm({
             />
             <Controller
               control={form.control}
-              name="--primary-foreground"
+              name="primaryForeground"
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor={field.name}>
                     Primary Foreground
                   </FieldLabel>
-                  <ColorInput name="--primary-foreground" />
+                  <ColorInput name="primaryForeground" />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
@@ -76,11 +76,11 @@ export default function ThemeCustomizationForm({
           <AccordionContent className="px-4 space-y-4">
             <Controller
               control={form.control}
-              name="--secondary"
+              name="secondary"
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor={field.name}>Secondary</FieldLabel>
-                  <ColorInput name="--secondary" />
+                  <ColorInput name="secondary" />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
@@ -89,13 +89,13 @@ export default function ThemeCustomizationForm({
             />
             <Controller
               control={form.control}
-              name="--secondary-foreground"
+              name="secondaryForeground"
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor={field.name}>
                     Secondary Foreground
                   </FieldLabel>
-                  <ColorInput name="--secondary-foreground" />
+                  <ColorInput name="secondaryForeground" />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
@@ -111,11 +111,11 @@ export default function ThemeCustomizationForm({
           <AccordionContent className="px-4 space-y-4">
             <Controller
               control={form.control}
-              name="--accent"
+              name="accent"
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor={field.name}>Accent</FieldLabel>
-                  <ColorInput name="--accent" />
+                  <ColorInput name="accent" />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
@@ -124,11 +124,11 @@ export default function ThemeCustomizationForm({
             />
             <Controller
               control={form.control}
-              name="--accent-foreground"
+              name="accentForeground"
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor={field.name}>Foreground</FieldLabel>
-                  <ColorInput name="--accent-foreground" />
+                  <ColorInput name="accentForeground" />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
@@ -144,11 +144,11 @@ export default function ThemeCustomizationForm({
           <AccordionContent className="px-4 space-y-4">
             <Controller
               control={form.control}
-              name="--background"
+              name="background"
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor={field.name}>Background</FieldLabel>
-                  <ColorInput name="--background" />
+                  <ColorInput name="background" />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
@@ -157,11 +157,11 @@ export default function ThemeCustomizationForm({
             />
             <Controller
               control={form.control}
-              name="--foreground"
+              name="foreground"
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor={field.name}>Foreground</FieldLabel>
-                  <ColorInput name="--foreground" />
+                  <ColorInput name="foreground" />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
@@ -174,11 +174,11 @@ export default function ThemeCustomizationForm({
 
       <Controller
         control={form.control}
-        name="--destructive"
+        name="destructive"
         render={({ field, fieldState }) => (
           <Field data-invalid={fieldState.invalid}>
             <FieldLabel htmlFor={field.name}>Error</FieldLabel>
-            <ColorInput name="--destructive" />
+            <ColorInput name="destructive" />
             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
           </Field>
         )}

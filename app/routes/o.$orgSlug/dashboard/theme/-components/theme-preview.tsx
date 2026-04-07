@@ -15,13 +15,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import type { Theme } from "./form/schema";
+import { convertToCSSVar } from "@/lib/theme";
 
 export default function ThemePreview({
   className,
   ...props
 }: ComponentProps<"div">) {
   const form = useFormContext<Theme>();
-  const style = form.watch() as CSSProperties;
+  const style = convertToCSSVar(form.watch()) as CSSProperties;
   const { organization } = useRouteContext({
     from: "/o/$orgSlug",
   });
