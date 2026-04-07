@@ -11,7 +11,6 @@ export function isColorValid(color: string) {
 
 function luminance({ r, g, b }: RGBA): number {
   const [rs, gs, bs] = [r, g, b].map((v) => {
-    v /= 255;
     return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
   });
   return rs * 0.2126 + gs * 0.7152 + bs * 0.0722;
@@ -35,11 +34,14 @@ function cssColorToRgba(color: string): RGBA {
   };
 }
 
-function contrastScore(color1: string, color2: string) {
+export function contrastScore(color1: string, color2: string) {
   if (!isColorValid(color1) || !isColorValid(color2)) return null;
 
-  const lum1 = luminance(cssColorToRgba(color1));
-  const lum2 = luminance(cssColorToRgba(color2));
+  const rgba1 = cssColorToRgba(color1);
+  const rgba2 = cssColorToRgba(color2);
+
+  const lum1 = luminance(rgba1);
+  const lum2 = luminance(rgba2);
 
   const lighter = Math.max(lum1, lum2);
   const darker = Math.min(lum1, lum2);

@@ -14,6 +14,7 @@ import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { api } from "@/convex/_generated/api";
 import { cn } from "@/lib/utils";
 import ColorInput from "./color-input";
+import ContrastChecker from "./contrast-checker";
 import type { Theme } from "./schema";
 
 export default function ThemeCustomizationForm({
@@ -58,14 +59,22 @@ export default function ThemeCustomizationForm({
         className="w-full rounded-lg border"
       >
         <AccordionItem value="primary">
-          <AccordionTrigger className="px-4">Primary Colors</AccordionTrigger>
+          <AccordionTrigger className="px-4">
+            <span className="inline-flex items-center gap-2">
+              Primary
+              <ContrastChecker
+                backgroundColor={form.watch("primary")}
+                foregroundColor={form.watch("primaryForeground")}
+              />
+            </span>
+          </AccordionTrigger>
           <AccordionContent className="px-4 space-y-4">
             <Controller
               control={form.control}
               name="primary"
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor={field.name}>Primary</FieldLabel>
+                  <FieldLabel htmlFor={field.name}>Background</FieldLabel>
                   <ColorInput name="primary" />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -78,9 +87,7 @@ export default function ThemeCustomizationForm({
               name="primaryForeground"
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor={field.name}>
-                    Primary Foreground
-                  </FieldLabel>
+                  <FieldLabel htmlFor={field.name}>Foreground</FieldLabel>
                   <ColorInput name="primaryForeground" />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -98,14 +105,22 @@ export default function ThemeCustomizationForm({
         className="w-full rounded-lg border"
       >
         <AccordionItem value="secondary">
-          <AccordionTrigger className="px-4">Secondary Colors</AccordionTrigger>
+          <AccordionTrigger className="px-4">
+            <span className="inline-flex items-center gap-2">
+              Secondary
+              <ContrastChecker
+                backgroundColor={form.watch("secondary")}
+                foregroundColor={form.watch("secondaryForeground")}
+              />
+            </span>
+          </AccordionTrigger>
           <AccordionContent className="px-4 space-y-4">
             <Controller
               control={form.control}
               name="secondary"
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor={field.name}>Secondary</FieldLabel>
+                  <FieldLabel htmlFor={field.name}>Background</FieldLabel>
                   <ColorInput name="secondary" />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -118,9 +133,7 @@ export default function ThemeCustomizationForm({
               name="secondaryForeground"
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor={field.name}>
-                    Secondary Foreground
-                  </FieldLabel>
+                  <FieldLabel htmlFor={field.name}>Foreground</FieldLabel>
                   <ColorInput name="secondaryForeground" />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -133,14 +146,22 @@ export default function ThemeCustomizationForm({
       </Accordion>
       <Accordion type="single" collapsible className="w-full rounded-lg border">
         <AccordionItem value="accent">
-          <AccordionTrigger className="px-4">Accent Colors</AccordionTrigger>
+          <AccordionTrigger className="px-4">
+            <span className="inline-flex items-center gap-2">
+              Accent
+              <ContrastChecker
+                backgroundColor={form.watch("accent")}
+                foregroundColor={form.watch("accentForeground")}
+              />
+            </span>
+          </AccordionTrigger>
           <AccordionContent className="px-4 space-y-4">
             <Controller
               control={form.control}
               name="accent"
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor={field.name}>Accent</FieldLabel>
+                  <FieldLabel htmlFor={field.name}>Background</FieldLabel>
                   <ColorInput name="accent" />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -166,7 +187,15 @@ export default function ThemeCustomizationForm({
       </Accordion>
       <Accordion type="single" collapsible className="w-full rounded-lg border">
         <AccordionItem value="base">
-          <AccordionTrigger className="px-4">Base Colors</AccordionTrigger>
+          <AccordionTrigger className="px-4">
+            <span className="inline-flex items-center gap-2">
+              Base
+              <ContrastChecker
+                backgroundColor={form.watch("background")}
+                foregroundColor={form.watch("foreground")}
+              />
+            </span>
+          </AccordionTrigger>
           <AccordionContent className="px-4 space-y-4">
             <Controller
               control={form.control}
