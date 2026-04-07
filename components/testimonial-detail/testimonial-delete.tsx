@@ -61,10 +61,7 @@ export default function TestimonialDelete() {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction
-            variant="destructive"
-            onClick={handleDelete}
-          >
+          <AlertDialogAction variant="destructive" onClick={handleDelete}>
             Delete
           </AlertDialogAction>
         </AlertDialogFooter>
