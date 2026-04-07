@@ -32,8 +32,8 @@ import { Route as OOrgSlugDashboardFormPreferencesRouteRouteImport } from './rou
 import { Route as OOrgSlugPublicTestimonialsRouteRouteImport } from './routes/o.$orgSlug/_public/testimonials/route'
 import { Route as OOrgSlugDashboardThemeIndexRouteImport } from './routes/o.$orgSlug/dashboard/theme/index'
 import { Route as OOrgSlugDashboardTestimonialsIndexRouteImport } from './routes/o.$orgSlug/dashboard/testimonials/index'
-import { Route as OOrgSlugDashboardFormPreferencesIndexRouteImport } from './routes/o.$orgSlug/dashboard/form-preferences/index'
 import { Route as OOrgSlugDashboardSettingsIndexRouteImport } from './routes/o.$orgSlug/dashboard/settings/index'
+import { Route as OOrgSlugDashboardFormPreferencesIndexRouteImport } from './routes/o.$orgSlug/dashboard/form-preferences/index'
 import { Route as OOrgSlugPublicTestimonialsIndexRouteImport } from './routes/o.$orgSlug/_public/testimonials/index'
 import { Route as OOrgSlugDashboardTestimonialsIdRouteImport } from './routes/o.$orgSlug/dashboard/testimonials/$id'
 import { Route as OOrgSlugDashboardFormPreferencesNewRouteImport } from './routes/o.$orgSlug/dashboard/form-preferences/new'
@@ -161,16 +161,17 @@ const OOrgSlugDashboardTestimonialsIndexRoute =
     path: '/',
     getParentRoute: () => OOrgSlugDashboardTestimonialsRouteRoute,
   } as any)
-const OOrgSlugDashboardFormPreferencesIndexRoute =
-  OOrgSlugDashboardFormPreferencesIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => OOrgSlugDashboardFormPreferencesRouteRoute,
 const OOrgSlugDashboardSettingsIndexRoute =
   OOrgSlugDashboardSettingsIndexRouteImport.update({
     id: '/settings/',
     path: '/settings/',
     getParentRoute: () => OOrgSlugDashboardRouteRoute,
+  } as any)
+const OOrgSlugDashboardFormPreferencesIndexRoute =
+  OOrgSlugDashboardFormPreferencesIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => OOrgSlugDashboardFormPreferencesRouteRoute,
   } as any)
 const OOrgSlugPublicTestimonialsIndexRoute =
   OOrgSlugPublicTestimonialsIndexRouteImport.update({
@@ -559,18 +560,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OOrgSlugDashboardTestimonialsIndexRouteImport
       parentRoute: typeof OOrgSlugDashboardTestimonialsRouteRoute
     }
-    '/o/$orgSlug/dashboard/form-preferences/': {
-      id: '/o/$orgSlug/dashboard/form-preferences/'
-      path: '/'
-      fullPath: '/o/$orgSlug/dashboard/form-preferences/'
-      preLoaderRoute: typeof OOrgSlugDashboardFormPreferencesIndexRouteImport
-      parentRoute: typeof OOrgSlugDashboardFormPreferencesRouteRoute
     '/o/$orgSlug/dashboard/settings/': {
       id: '/o/$orgSlug/dashboard/settings/'
       path: '/settings'
       fullPath: '/o/$orgSlug/dashboard/settings/'
       preLoaderRoute: typeof OOrgSlugDashboardSettingsIndexRouteImport
       parentRoute: typeof OOrgSlugDashboardRouteRoute
+    }
+    '/o/$orgSlug/dashboard/form-preferences/': {
+      id: '/o/$orgSlug/dashboard/form-preferences/'
+      path: '/'
+      fullPath: '/o/$orgSlug/dashboard/form-preferences/'
+      preLoaderRoute: typeof OOrgSlugDashboardFormPreferencesIndexRouteImport
+      parentRoute: typeof OOrgSlugDashboardFormPreferencesRouteRoute
     }
     '/o/$orgSlug/_public/testimonials/': {
       id: '/o/$orgSlug/_public/testimonials/'
