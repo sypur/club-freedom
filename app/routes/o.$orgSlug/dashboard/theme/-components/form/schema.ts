@@ -3,7 +3,8 @@ import { isColorValid } from "@/lib/color";
 
 const colorString = z
   .string()
-  .refine(isColorValid, { message: "Invalid color" });
+  .refine(isColorValid, { message: "Invalid color" })
+  .optional();
 
 export const themeSchema = z.object({
   primary: colorString,

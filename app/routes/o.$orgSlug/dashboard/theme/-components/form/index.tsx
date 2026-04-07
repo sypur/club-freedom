@@ -11,19 +11,45 @@ import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { cn } from "@/lib/utils";
 import ColorInput from "./color-input";
 import type { Theme } from "./schema";
+import { useRouteContext, useRouter } from "@tanstack/react-router";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { toast } from "sonner";
 
 export default function ThemeCustomizationForm({
   className,
-  onSubmit,
   ...props
 }: ComponentProps<"form">) {
   const form = useFormContext<Theme>();
+  const { organization } = useRouteContext({
+    from: "/o/$orgSlug",
+  });
+  const updateOrganizationStylings = useMutation(
+    api.organization.updateOrganizationStylings,
+  );
+  const router = useRouter();
+
+  const handleSubmit = form.handleSubmit(async (theme) => {
+    try {
+      await updateOrganizationStylings({
+        organizationId: organization._id,
+        theme,
+      });
+      await router.invalidate({
+        filter: (match) => match.id === "/o/$orgSlug",
+      });
+      form.reset(theme);
+      toast.success("Theme updated successfully");
+    } catch (_error) {
+      toast.error("Failed to update theme");
+    }
+  });
 
   return (
     <form
       className={cn("grid gap-4", className)}
+      onSubmit={handleSubmit}
       {...props}
-      onSubmit={form.handleSubmit(console.log)}
     >
       <Accordion
         defaultValue="primary"
@@ -184,8 +210,18 @@ export default function ThemeCustomizationForm({
         )}
       />
       <div className="flex gap-2 place-self-start">
-        <Button type="submit">Apply</Button>
-        <Button variant="outline" type="reset" onClick={() => form.reset()}>
+        <Button
+          type="submit"
+          disabled={!form.formState.isDirty || form.formState.isSubmitting}
+        >
+          Apply
+        </Button>
+        <Button
+          variant="outline"
+          type="reset"
+          onClick={() => form.reset()}
+          disabled={!form.formState.isDirty || form.formState.isSubmitting}
+        >
           Reset
         </Button>
       </div>

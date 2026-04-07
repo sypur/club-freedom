@@ -4,7 +4,7 @@ import { components } from "./_generated/api";
 import { mutation, query } from "./_generated/server";
 import { authComponent, createAuth } from "./auth";
 import { r2 } from "./r2";
-import { convertToCSSVar } from "@/lib/theme";
+import { convertToCSSVar, themeSchema } from "@/lib/theme";
 
 export const getOrganizationBySlug = query({
   args: { slug: v.string() },
@@ -121,10 +121,39 @@ export const getOrganizationStylings = query({
       .first();
 
     const stylings = theme?.cssVariables;
+
     if (stylings) {
       return convertToCSSVar(stylings);
     }
 
     return {};
+  },
+});
+
+export const updateOrganizationStylings = mutation({
+  args: {
+    organizationId: v.string(),
+    theme: themeSchema,
+  },
+  handler: async (ctx, { organizationId, theme }) => {
+    const style = await ctx.db
+      .query("stylingPreferences")
+      .withIndex("byOrganizationId", (q) =>
+        q.eq("organizationId", organizationId),
+      )
+      .first();
+
+    if (!style) {
+      return await ctx.db.insert("stylingPreferences", {
+        organizationId,
+        cssVariables: theme,
+        themeName: "Theme",
+      });
+    } else {
+      await ctx.db.patch(style._id, {
+        cssVariables: theme,
+      });
+      return style._id;
+    }
   },
 });
