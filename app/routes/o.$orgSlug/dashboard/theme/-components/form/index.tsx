@@ -183,9 +183,12 @@ export default function ThemeCustomizationForm({
           </Field>
         )}
       />
-      <Button type="submit" className="place-self-start">
-        Apply
-      </Button>
+      <div className="flex gap-2 place-self-start">
+        <Button type="submit">Apply</Button>
+        <Button variant="outline" type="reset" onClick={() => form.reset()}>
+          Reset
+        </Button>
+      </div>
     </form>
   );
 }

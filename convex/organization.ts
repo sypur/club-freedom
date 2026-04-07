@@ -4,7 +4,7 @@ import { components } from "./_generated/api";
 import { mutation, query } from "./_generated/server";
 import { authComponent, createAuth } from "./auth";
 import { r2 } from "./r2";
-import { convertToCSSVar } from "./utils";
+import { convertToCSSVar } from "@/lib/theme";
 
 export const getOrganizationBySlug = query({
   args: { slug: v.string() },
