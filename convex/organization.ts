@@ -1,10 +1,10 @@
 import { v } from "convex/values";
 import type { Doc } from "@/convex/betterAuth/_generated/dataModel";
+import { convertToCSSVar, themeSchema } from "@/lib/theme";
 import { components } from "./_generated/api";
 import { mutation, query } from "./_generated/server";
 import { authComponent, createAuth } from "./auth";
 import { r2 } from "./r2";
-import { convertToCSSVar, themeSchema } from "@/lib/theme";
 
 export const getOrganizationBySlug = query({
   args: { slug: v.string() },

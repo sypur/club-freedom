@@ -1,10 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { FormProvider, useForm } from "react-hook-form";
+import type { CSSTheme } from "@/lib/theme";
 import ThemeCustomizationDesktopView from "./-components/desktop";
-import { Theme, themeSchema } from "./-components/form/schema";
+import { type Theme, themeSchema } from "./-components/form/schema";
 import ThemeCustomizationMobileView from "./-components/mobile";
-import { CSSTheme } from "@/lib/theme";
 
 export const Route = createFileRoute("/o/$orgSlug/dashboard/theme/")({
   component: RouteComponent,

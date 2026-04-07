@@ -1,4 +1,4 @@
-import { v, Infer } from "convex/values";
+import { type Infer, v } from "convex/values";
 
 export const themeSchema = v.object({
   background: v.optional(v.string()),

@@ -13,9 +13,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
+import { convertToCSSVar } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 import type { Theme } from "./form/schema";
-import { convertToCSSVar } from "@/lib/theme";
 
 export default function ThemePreview({
   className,

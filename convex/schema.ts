@@ -1,6 +1,6 @@
-import { themeSchema } from "@/lib/theme";
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
+import { themeSchema } from "@/lib/theme";
 
 export const processingStatusSchema = v.union(
   v.literal("ongoing"),
