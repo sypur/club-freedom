@@ -16,6 +16,7 @@ export const getOrganizationBySlug = query({
     return organization as Doc<"organization"> | null;
   },
 });
+
 export const getAllOrganizations = query({
   handler: async (ctx) => {
     const { headers, auth } = await authComponent.getAuth(createAuth, ctx);

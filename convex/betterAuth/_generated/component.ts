@@ -1609,5 +1609,21 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
         },
         Name
       >;
+      listAllOrganizations: FunctionReference<
+        "query",
+        "internal",
+        {},
+        Array<{
+          _creationTime: number;
+          _id: string;
+          createdAt: number;
+          icon?: null | string;
+          logo?: null | string;
+          metadata?: null | string;
+          name: string;
+          slug: string;
+        }>,
+        Name
+      >;
     };
   };

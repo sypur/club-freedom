@@ -1,21 +1,15 @@
+import { convexQuery } from "@convex-dev/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { AlertCircle } from "lucide-react";
-import { authClient } from "@/lib/auth/auth-client";
+import { api } from "@/convex/_generated/api";
 import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Spinner } from "../ui/spinner";
 
 export default function OrganizationList() {
-  const { isLoading, data, error } = useQuery({
-    queryKey: ["organizations"],
-    queryFn: async () => {
-      const { data, error } = await authClient.organization.list();
-      if (error) {
-        throw new Error(error.message);
-      }
-      return data;
-    },
-  });
+  const { isLoading, data, error } = useQuery(
+    convexQuery(api.admin.listAllOrganizations),
+  );
 
   if (isLoading) {
     return (
@@ -46,7 +40,7 @@ export default function OrganizationList() {
   return (
     <div className="grid gap-4">
       {data.map((organization) => (
-        <Card key={organization.id} className="py-4">
+        <Card key={organization._id} className="py-4">
           <CardHeader>
             <CardTitle>
               <Link

@@ -155,7 +155,9 @@ export default function NewOrganizationDialog({ trigger, ...props }: Props) {
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
                 <FieldLabel htmlFor={field.name}>Email</FieldLabel>
-                <FieldDescription>This email is for the organization owner.</FieldDescription>
+                <FieldDescription>
+                  This email is for the organization owner.
+                </FieldDescription>
                 <Input
                   {...field}
                   onChange={handleNameChange}
