@@ -205,7 +205,7 @@ export default function TestimonialForm() {
                 </FieldLabel>
                 <Input
                   {...field}
-                  placeholder="name@example.com"
+                  placeholder="name@sypur.io"
                   id={field.name}
                   aria-invalid={fieldState.invalid}
                 />
