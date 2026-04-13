@@ -24,6 +24,7 @@ import type * as organization from "../organization.js";
 import type * as r2 from "../r2.js";
 import type * as testimonials from "../testimonials.js";
 import type * as uploadTempFile from "../uploadTempFile.js";
+import type * as users from "../users.js";
 import type * as utils from "../utils.js";
 
 import type {
@@ -49,6 +50,7 @@ declare const fullApi: ApiFromModules<{
   r2: typeof r2;
   testimonials: typeof testimonials;
   uploadTempFile: typeof uploadTempFile;
+  users: typeof users;
   utils: typeof utils;
 }>;
 
@@ -1824,6 +1826,26 @@ export declare const components: {
           organizationId: string;
           role?: null | string;
           status: string;
+        }
+      >;
+      findUserByEmail: FunctionReference<
+        "query",
+        "internal",
+        { email: string },
+        null | {
+          _creationTime: number;
+          _id: string;
+          banExpires?: null | number;
+          banReason?: null | string;
+          banned?: null | boolean;
+          createdAt: number;
+          email: string;
+          emailVerified: boolean;
+          image?: null | string;
+          name: string;
+          role?: null | string;
+          updatedAt: number;
+          userId?: null | string;
         }
       >;
       getUser: FunctionReference<

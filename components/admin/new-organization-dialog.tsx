@@ -1,5 +1,4 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   type ChangeEvent,
   type ComponentProps,
@@ -8,7 +7,6 @@ import {
 } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { authClient } from "@/lib/auth/auth-client";
 import {
   type Organization,
   organizationSchema,
@@ -24,6 +22,8 @@ import {
 } from "../ui/dialog";
 import { Field, FieldDescription, FieldError, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
+import { api } from "@/convex/_generated/api";
+import { useAction } from "convex/react";
 
 type Props = {
   trigger: ReactNode;
@@ -41,7 +41,7 @@ const convertNameToSlug = (name: string) => {
 
 export default function NewOrganizationDialog({ trigger, ...props }: Props) {
   const [open, setOpen] = useState(false);
-  const queryClient = useQueryClient();
+  const createOrganization = useAction(api.admin.createOrganization);
 
   const form = useForm<Organization>({
     defaultValues: {
@@ -50,33 +50,6 @@ export default function NewOrganizationDialog({ trigger, ...props }: Props) {
       email: "",
     },
     resolver: zodResolver(organizationSchema),
-  });
-
-  const { mutateAsync: createNewOrganziation } = useMutation({
-    mutationFn: async (formData: Organization) => {
-      const { error } = await authClient.organization.create({
-        name: formData.name.trim(),
-        slug: formData.slug.trim(),
-      });
-      if (error) {
-        throw Error(error.message);
-      }
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["organizations"],
-      });
-    },
-    onSuccess: () => {
-      toast.success("Organization created successfully");
-      form.reset();
-      setOpen(false);
-    },
-    onError: (error) => {
-      toast.error("Cannot create organization", {
-        description: error.message,
-      });
-    },
   });
 
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -95,6 +68,21 @@ export default function NewOrganizationDialog({ trigger, ...props }: Props) {
     }
   };
 
+  const onSubmit = async (data: Organization) => {
+    const organization = await createOrganization({
+      name: data.name.trim(),
+      slug: data.slug.trim(),
+      email: data.email.trim(),
+    });
+    if (organization) {
+      toast.success("Organization created successfully");
+      form.reset();
+      setOpen(false);
+      return;
+    }
+    toast.error("Failed to create organization");
+  };
+
   return (
     <Dialog {...props} open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
@@ -105,7 +93,7 @@ export default function NewOrganizationDialog({ trigger, ...props }: Props) {
         <form
           className="grid gap-4"
           id="create-organization"
-          onSubmit={form.handleSubmit((data) => createNewOrganziation(data))}
+          onSubmit={form.handleSubmit(onSubmit)}
         >
           <Controller
             control={form.control}
@@ -160,7 +148,6 @@ export default function NewOrganizationDialog({ trigger, ...props }: Props) {
                 </FieldDescription>
                 <Input
                   {...field}
-                  onChange={handleNameChange}
                   placeholder="name@sypur.io"
                   id={field.name}
                   aria-invalid={fieldState.invalid}

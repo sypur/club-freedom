@@ -18,13 +18,24 @@ export const getUser = query({
   },
 });
 
+export const findUserByEmail = query({
+  args: { email: v.string() },
+  returns: v.union(v.null(), doc(schema, "user")),
+  handler: async (ctx, { email }) => {
+    return await ctx.db
+      .query("user")
+      .withIndex("email_name", (q) => q.eq("email", email))
+      .first();
+  },
+});
+
 export const checkEmailExists = query({
   args: { email: v.string() },
   returns: v.boolean(),
-  handler: async (ctx, args) => {
+  handler: async (ctx, { email }) => {
     const user = await ctx.db
       .query("user")
-      .withIndex("email_name", (q) => q.eq("email", args.email))
+      .withIndex("email_name", (q) => q.eq("email", email))
       .first();
     return !!user;
   },

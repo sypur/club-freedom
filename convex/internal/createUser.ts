@@ -1,8 +1,8 @@
 import { v } from "convex/values";
 import { authComponent, createAuth } from "../auth";
-import { mutation } from "../functions";
+import { internalMutation } from "../_generated/server";
 
-export const createUser = mutation({
+export const createUser = internalMutation({
   args: {
     name: v.string(),
     email: v.string(),
