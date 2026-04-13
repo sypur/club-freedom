@@ -47,6 +47,7 @@ export default function NewOrganizationDialog({ trigger, ...props }: Props) {
     defaultValues: {
       name: "",
       slug: "",
+      email: "",
     },
     resolver: zodResolver(organizationSchema),
   });
@@ -147,6 +148,27 @@ export default function NewOrganizationDialog({ trigger, ...props }: Props) {
               </Field>
             )}
           />
+
+          <Controller
+            control={form.control}
+            name="email"
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={field.name}>Email</FieldLabel>
+                <FieldDescription>This email is for the organization owner.</FieldDescription>
+                <Input
+                  {...field}
+                  onChange={handleNameChange}
+                  placeholder="name@sypur.io"
+                  id={field.name}
+                  aria-invalid={fieldState.invalid}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
         </form>
         <DialogFooter>
           <Button
@@ -154,7 +176,7 @@ export default function NewOrganizationDialog({ trigger, ...props }: Props) {
             type="submit"
             form="create-organization"
           >
-            Add
+            Create
           </Button>
         </DialogFooter>
       </DialogContent>
