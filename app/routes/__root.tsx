@@ -21,6 +21,7 @@ import { env } from "@/env/client";
 import { authClient } from "@/lib/auth/auth-client";
 import { getToken } from "@/lib/auth/auth-server";
 import appCss from "../globals.css?url";
+import Footnote from "@/components/footnote";
 
 const getAuth = createServerFn({ method: "GET" }).handler(async () => {
   return await getToken();
@@ -77,6 +78,7 @@ function RootComponent() {
             <RootDocument>
               <Outlet />
               <Toaster richColors position="bottom-center" />
+              <Footnote />
             </RootDocument>
           </MediaWorkerProvider>
         </ConvexBetterAuthProvider>

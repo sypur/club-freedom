@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import Footnote from "@/components/footnote";
 import Navbar from "@/components/navbar";
 
 export const Route = createFileRoute("/")({
@@ -17,7 +16,6 @@ function Home() {
           </h1>
         </div>
       </main>
-      <Footnote />
     </>
   );
 }
