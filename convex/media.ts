@@ -25,7 +25,7 @@ export const generateMediaDownloadUrl = action({
         { id },
       );
 
-      if (!testimonial || !testimonial.storageId) {
+      if (!testimonial?.storageId) {
         throw new Error(`Testimonial not found or has no media for id ${id}`);
       }
 
