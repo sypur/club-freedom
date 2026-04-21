@@ -1,22 +1,25 @@
 import { convexQuery } from "@convex-dev/react-query";
 import { createFileRoute, notFound, Outlet } from "@tanstack/react-router";
-import { useEffect } from "react";
 import { api } from "@/convex/_generated/api";
-import { applyTheme, clearTheme } from "@/lib/utils";
+
+function buildThemeStyle(vars: Record<string, string>): string {
+  if (!vars || Object.keys(vars).length === 0) return "";
+  const declarations = Object.entries(vars)
+    .map(([key, val]) => `  ${key}: ${val};`)
+    .join("\n");
+  return `:root {\n${declarations}\n}`;
+}
 
 function OrgOutlet() {
   const { stylings } = Route.useRouteContext();
+  const themeStyle = stylings ? buildThemeStyle(stylings) : "";
 
-  useEffect(() => {
-    if (stylings && Object.keys(stylings).length > 0) {
-      applyTheme(stylings);
-    }
-    return () => {
-      clearTheme();
-    };
-  }, [stylings]);
-
-  return <Outlet />;
+  return (
+    <>
+      {themeStyle && <style precedence="default">{themeStyle}</style>}
+      <Outlet />
+    </>
+  );
 }
 
 export const Route = createFileRoute("/o/$orgSlug")({
