@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAction } from "convex/react";
 import {
   type ChangeEvent,
   type ComponentProps,
@@ -7,6 +8,7 @@ import {
 } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { api } from "@/convex/_generated/api";
 import {
   type Organization,
   organizationSchema,
@@ -22,8 +24,6 @@ import {
 } from "../ui/dialog";
 import { Field, FieldDescription, FieldError, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
-import { api } from "@/convex/_generated/api";
-import { useAction } from "convex/react";
 
 type Props = {
   trigger: ReactNode;

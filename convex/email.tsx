@@ -1,6 +1,7 @@
 import { Resend } from "@convex-dev/resend";
 import { render } from "@react-email/components";
 import InviteEmail from "@/emails/invite";
+import NewUserEmail from "@/emails/new-user";
 import ResetPasswordEmail from "@/emails/reset-password";
 import { components } from "./_generated/api";
 import type { ActionCtx } from "./_generated/server";
@@ -24,6 +25,24 @@ export const sendResetPassword = async (
     to,
     subject: "Reset your password",
     html: await render(<ResetPasswordEmail url={url} />),
+  });
+};
+
+export const sendNewUserNotification = async (
+  ctx: ActionCtx,
+  {
+    to,
+    url,
+  }: {
+    to: string;
+    url: string;
+  },
+) => {
+  await resend.sendEmail(ctx, {
+    from: `Sypur <${process.env.AUTH_EMAIL}>`,
+    to,
+    subject: "You're invited as an organization owner",
+    html: await render(<NewUserEmail url={url} />),
   });
 };
 
