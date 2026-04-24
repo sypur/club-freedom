@@ -65,7 +65,7 @@ const postHogOptions = {
 function RootComponent() {
   const context = useRouteContext({ from: Route.id });
   const { pathname } = useLocation();
-  const hideFooter = pathname.startsWith('/admin')
+  const hideFooter = pathname.startsWith("/admin");
   return (
     <PostHogProvider
       apiKey={env.VITE_PUBLIC_POSTHOG_KEY}
