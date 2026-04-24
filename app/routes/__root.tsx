@@ -9,6 +9,7 @@ import {
   HeadContent,
   Outlet,
   Scripts,
+  useLocation,
   useRouteContext,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
@@ -63,6 +64,8 @@ const postHogOptions = {
 
 function RootComponent() {
   const context = useRouteContext({ from: Route.id });
+  const { pathname } = useLocation();
+  const hideFooter = pathname.startsWith('/admin')
   return (
     <PostHogProvider
       apiKey={env.VITE_PUBLIC_POSTHOG_KEY}
@@ -78,7 +81,7 @@ function RootComponent() {
             <RootDocument>
               <Outlet />
               <Toaster richColors position="bottom-center" />
-              <Footnote />
+              {!hideFooter && <Footnote />}
             </RootDocument>
           </MediaWorkerProvider>
         </ConvexBetterAuthProvider>
