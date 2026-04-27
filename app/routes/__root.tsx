@@ -9,14 +9,12 @@ import {
   HeadContent,
   Outlet,
   Scripts,
-  useLocation,
   useRouteContext,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { createServerFn } from "@tanstack/react-start";
 import type { ConvexReactClient } from "convex/react";
 import { NuqsAdapter } from "nuqs/adapters/tanstack-router";
-import Footnote from "@/components/footnote";
 import { Toaster } from "@/components/ui/sonner";
 import { MediaWorkerProvider } from "@/contexts/media-worker-context";
 import { env } from "@/env/client";
@@ -64,8 +62,6 @@ const postHogOptions = {
 
 function RootComponent() {
   const context = useRouteContext({ from: Route.id });
-  const { pathname } = useLocation();
-  const hideFooter = pathname.startsWith("/admin");
   return (
     <PostHogProvider
       apiKey={env.VITE_PUBLIC_POSTHOG_KEY}
@@ -81,7 +77,6 @@ function RootComponent() {
             <RootDocument>
               <Outlet />
               <Toaster richColors position="bottom-center" />
-              {!hideFooter && <Footnote />}
             </RootDocument>
           </MediaWorkerProvider>
         </ConvexBetterAuthProvider>
