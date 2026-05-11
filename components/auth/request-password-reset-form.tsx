@@ -57,7 +57,7 @@ export function RequestPasswordResetForm() {
             <Input
               {...field}
               type="email"
-              placeholder="name@example.com"
+              placeholder="name@sypur.io"
               id={field.name}
               aria-invalid={fieldState.invalid}
             />

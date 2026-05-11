@@ -4,7 +4,9 @@ export default function Footnote() {
       <p className="text-muted-foreground text-sm leading-normal font-normal mt-3 mb-3">
         Having issues? Contact us at{" "}
         <span className="font-bold">
-          <a href="mailto:support@example.com">support@example.com</a>
+          <a href="mailto:support@sypur.io" className="underline">
+            support@sypur.io
+          </a>
         </span>
       </p>
     </footer>
