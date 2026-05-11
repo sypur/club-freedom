@@ -73,7 +73,7 @@ export default function OrganizationInviteForm() {
             <FieldLabel htmlFor={field.name}>Email</FieldLabel>
             <Input
               {...field}
-              placeholder="name@example.com"
+              placeholder="name@sypur.io"
               id={field.name}
               aria-invalid={fieldState.invalid}
             />

@@ -1,8 +1,9 @@
 import { ConvexBetterAuthProvider } from "@convex-dev/better-auth/react";
 import type { ConvexQueryClient } from "@convex-dev/react-query";
 import { PostHogProvider } from "@posthog/react";
+import { TanStackDevtools } from "@tanstack/react-devtools";
 import type { QueryClient } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools";
 import {
   createRootRouteWithContext,
   HeadContent,
@@ -10,11 +11,12 @@ import {
   Scripts,
   useRouteContext,
 } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { createServerFn } from "@tanstack/react-start";
 import type { ConvexReactClient } from "convex/react";
 import { NuqsAdapter } from "nuqs/adapters/tanstack-router";
 import { Toaster } from "@/components/ui/sonner";
+import { MediaWorkerProvider } from "@/contexts/media-worker-context";
 import { env } from "@/env/client";
 import { authClient } from "@/lib/auth/auth-client";
 import { getToken } from "@/lib/auth/auth-server";
@@ -71,10 +73,12 @@ function RootComponent() {
           authClient={authClient}
           initialToken={context.token}
         >
-          <RootDocument>
-            <Outlet />
-            <Toaster richColors position="bottom-center" />
-          </RootDocument>
+          <MediaWorkerProvider>
+            <RootDocument>
+              <Outlet />
+              <Toaster richColors position="bottom-center" />
+            </RootDocument>
+          </MediaWorkerProvider>
         </ConvexBetterAuthProvider>
       </NuqsAdapter>
     </PostHogProvider>
@@ -89,8 +93,18 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body className="antialiased">
         {children}
-        <TanStackRouterDevtools position="bottom-right" />
-        <ReactQueryDevtools buttonPosition="bottom-left" />
+        <TanStackDevtools
+          plugins={[
+            {
+              name: "TanStack Query",
+              render: <ReactQueryDevtoolsPanel />,
+            },
+            {
+              name: "TanStack Router",
+              render: <TanStackRouterDevtoolsPanel />,
+            },
+          ]}
+        />
         <Scripts />
       </body>
     </html>
