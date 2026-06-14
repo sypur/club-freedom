@@ -15,20 +15,20 @@ export default function EventNameEditor({
   const { id, name } = event;
   return (
     <Field data-invalid={hasError}>
-    <FieldLabel htmlFor={id}>Name</FieldLabel>
-    <FieldDescription>Give a name for your event</FieldDescription>
-    <Input
+      <FieldLabel htmlFor={id}>Name</FieldLabel>
+      <FieldDescription>Give a name for your event</FieldDescription>
+      <Input
         value={name}
         id={id}
         aria-invalid={hasError}
         placeholder="Event name"
         onChange={(e) =>
-        handleChange({
+          handleChange({
             ...event,
             name: e.target.value,
-        })
+          })
         }
-    />
+      />
     </Field>
   );
 }

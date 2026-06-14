@@ -18,7 +18,6 @@ export default function EventEditor({
   onDelete,
   hasError = false,
 }: Props) {
-  const { id, name /*, date*/ } = event;
 
   return (
     <div className="flex gap-4">
@@ -30,7 +29,6 @@ export default function EventEditor({
       <Field data-invalid={hasError}>
         <FieldLabel>Date</FieldLabel>
         <FieldDescription>Set the date for your event</FieldDescription>
-
       </Field>
 
       <Button
