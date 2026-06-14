@@ -23,6 +23,7 @@ export default function EventsField() {
             <div className="space-y-2">
               <EventEditor
                 event={field.value ?? defaultEvent}
+                handleChange={field.onChange}
                 onDelete={() => {
                   remove(index);
                 }}

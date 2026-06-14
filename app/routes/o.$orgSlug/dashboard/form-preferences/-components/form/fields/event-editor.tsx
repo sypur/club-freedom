@@ -1,19 +1,19 @@
 import { Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 import type { EventSchema } from "../schema";
+import EventNameEditor from "./event-name-editor";
 
 type Props = {
   event: EventSchema;
-  //   onNameChange: (name: string) => void;
+  handleChange: (event: EventSchema) => void;
   //   onDateChange: (date: Date) => void;
   onDelete?: () => void;
   hasError?: boolean;
 };
 export default function EventEditor({
   event,
-  // onNameChange,
+  handleChange,
   // onDateChange,
   onDelete,
   hasError = false,
@@ -22,19 +22,15 @@ export default function EventEditor({
 
   return (
     <div className="flex gap-4">
-      <Field data-invalid={hasError}>
-        <FieldLabel htmlFor={name}>Name</FieldLabel>
-        <FieldDescription>Give a name for your event</FieldDescription>
-        <Input
-          value={name}
-          id={id}
-          aria-invalid={hasError}
-          placeholder="Event name"
-        />
-      </Field>
+      <EventNameEditor
+        event={event}
+        handleChange={handleChange}
+        hasError={hasError}
+      />
       <Field data-invalid={hasError}>
         <FieldLabel>Date</FieldLabel>
         <FieldDescription>Set the date for your event</FieldDescription>
+
       </Field>
 
       <Button
