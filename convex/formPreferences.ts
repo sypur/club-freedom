@@ -99,6 +99,7 @@ export const postFormPreference = mutation({
     videoInstructions: v.optional(v.string()),
     videoEnabled: v.boolean(),
     agreements: v.optional(v.array(v.string())),
+    formEvents: v.optional(v.array(formEventSchema)),
   },
   handler: async (
     ctx,
@@ -113,6 +114,7 @@ export const postFormPreference = mutation({
       videoInstructions,
       videoEnabled,
       agreements,
+      formEvents,
     },
   ) => {
     const canUpdateOrg = await ctx.runQuery(api.auth.checkUserPermissions, {
@@ -144,6 +146,7 @@ export const postFormPreference = mutation({
       videoInstructions,
       videoEnabled,
       agreements,
+      formEvents,
       activated: false,
     });
     return id;
