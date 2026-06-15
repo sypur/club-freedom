@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
 import type { EventSchema } from "../schema";
 import EventNameEditor from "./event-name-editor";
+import EventDateEditor from "./event-date-editor";
 
 type Props = {
   event: EventSchema;
@@ -26,11 +27,11 @@ export default function EventEditor({
         handleChange={handleChange}
         hasError={hasError}
       />
-      <Field data-invalid={hasError}>
-        <FieldLabel>Date</FieldLabel>
-        <FieldDescription>Set the date for your event</FieldDescription>
-      </Field>
-
+      <EventDateEditor
+        event={event}
+        handleChange={handleChange}
+        hasError={hasError}
+      />
       <Button
         variant="destructive"
         size="sm"
