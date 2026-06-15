@@ -22,7 +22,7 @@ export default function EventsField() {
           render={({ field, fieldState }) => (
             <div className="space-y-2">
               <EventEditor
-                event={field.value ?? defaultEvent}
+                event={field.value ?? defaultEvent()}
                 handleChange={field.onChange}
                 onDelete={() => {
                   remove(index);
@@ -37,7 +37,7 @@ export default function EventsField() {
       <Button
         type="button"
         variant="outline"
-        onClick={() => append({ ...defaultEvent })}
+        onClick={() => append(defaultEvent())}
         className="border-dashed"
       >
         <PlusIcon /> Add event

@@ -37,8 +37,8 @@ export type EventSchema = z.infer<typeof formEventSchema>;
 export const defaultAgreement =
   "I agree that my personal information and testimonial may be processed and published on this service.";
 
-export const defaultEvent = {
+export const defaultEvent = () => ({
   id: crypto.randomUUID(),
   name: "Sample Event",
   date: new Date(),
-};
+});

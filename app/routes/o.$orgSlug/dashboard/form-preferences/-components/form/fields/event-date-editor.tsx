@@ -23,7 +23,6 @@ export default function EventDateEditor({
   const { date } = event;
 
   return (
-    <div className="flex gap-4">
       <Field data-invalid={hasError}>
         <FieldLabel>Date</FieldLabel>
         <FieldDescription>Set the date for your event</FieldDescription>
@@ -53,6 +52,5 @@ export default function EventDateEditor({
           </PopoverContent>
         </Popover>
       </Field>
-    </div>
   );
 }
