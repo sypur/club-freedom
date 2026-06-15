@@ -23,34 +23,34 @@ export default function EventDateEditor({
   const { date } = event;
 
   return (
-      <Field data-invalid={hasError}>
-        <FieldLabel>Date</FieldLabel>
-        <FieldDescription>Set the date for your event</FieldDescription>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              data-empty={!date}
-              className="w-53 justify-between text-left font-normal data-[empty=true]:text-muted-foreground"
-            >
-              {date ? format(date, "PPP") : <span>Pick a date</span>}
-              <ChevronDownIcon />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start">
-            <Calendar
-              mode="single"
-              selected={date}
-              onSelect={(selectedDate) =>
-                handleChange({
-                  ...event,
-                  date: selectedDate ?? date ?? new Date(),
-                })
-              }
-              defaultMonth={date ?? new Date()}
-            />
-          </PopoverContent>
-        </Popover>
-      </Field>
+    <Field data-invalid={hasError}>
+      <FieldLabel>Date</FieldLabel>
+      <FieldDescription>Set the date for your event</FieldDescription>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            data-empty={!date}
+            className="w-53 justify-between text-left font-normal data-[empty=true]:text-muted-foreground"
+          >
+            {date ? format(date, "PPP") : <span>Pick a date</span>}
+            <ChevronDownIcon />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0" align="start">
+          <Calendar
+            mode="single"
+            selected={date}
+            onSelect={(selectedDate) =>
+              handleChange({
+                ...event,
+                date: selectedDate ?? date ?? new Date(),
+              })
+            }
+            defaultMonth={date ?? new Date()}
+          />
+        </PopoverContent>
+      </Popover>
+    </Field>
   );
 }
