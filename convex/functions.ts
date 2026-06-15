@@ -29,18 +29,23 @@ triggers.register("testimonials", async (ctx, change) => {
   const text = change.newDoc?.testimonialText;
   const oldTitle = change.oldDoc?.title;
   const title = change.newDoc?.title;
+  const oldEventName = change.oldDoc?.eventName;
+  const eventName = change.newDoc?.eventName;
 
   if (
     (oldEmail === email &&
       oldName === name &&
       oldSummary === summary &&
       oldText === text &&
-      oldTitle === title) ||
+      oldTitle === title &&
+      oldEventName === eventName) ||
     change.operation === "delete"
   ) {
     return;
   }
-  const newSearchText = [email, name, summary, text, title].join(" ");
+  const newSearchText = [email, name, summary, text, title, eventName].join(
+    " ",
+  );
   await ctx.db.patch(change.id, { searchText: newSearchText });
 });
 
