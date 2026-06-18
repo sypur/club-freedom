@@ -214,7 +214,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteRouteWithChildren
   '/sign-out': typeof SignOutRoute
-  '/o/$orgSlug': typeof OOrgSlugPublicRouteRouteWithChildren
+  '/o/$orgSlug': typeof OOrgSlugRouteRouteWithChildren
   '/admin/organizations': typeof AdminOrganizationsRoute
   '/admin/': typeof AdminIndexRoute
   '/o/$orgSlug/dashboard': typeof OOrgSlugDashboardRouteRouteWithChildren
