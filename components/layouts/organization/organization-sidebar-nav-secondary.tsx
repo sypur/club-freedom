@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link, useRouteContext } from "@tanstack/react-router";
-import { ExternalLink, Settings, UserRoundCog } from "lucide-react";
+import { ExternalLink, Settings, SwatchBook, UserRoundCog } from "lucide-react";
 import type { ComponentProps } from "react";
 import {
   SidebarGroup,
@@ -33,18 +33,32 @@ export default function OrganizationSidebarNavSecondary(
     <SidebarGroup {...props}>
       <SidebarMenu>
         {canUpdateOrganization && (
-          <SidebarMenuItem>
-            <SidebarMenuButton tooltip="Settings" asChild>
-              <Link
-                to="/o/$orgSlug/dashboard/settings"
-                params={{ orgSlug: organization.slug }}
-                className="[&.active]:not-hover:bg-muted"
-              >
-                <Settings />
-                <span>Settings</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
+          <>
+            <SidebarMenuItem>
+              <SidebarMenuButton tooltip="Theme" asChild>
+                <Link
+                  to="/o/$orgSlug/dashboard/theme"
+                  params={{ orgSlug: organization.slug }}
+                  className="[&.active]:not-hover:bg-muted"
+                >
+                  <SwatchBook />
+                  <span>Theme</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton tooltip="Settings" asChild>
+                <Link
+                  to="/o/$orgSlug/dashboard/settings"
+                  params={{ orgSlug: organization.slug }}
+                  className="[&.active]:not-hover:bg-muted"
+                >
+                  <Settings />
+                  <span>Settings</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </>
         )}
         {user?.role === "admin" && (
           <SidebarMenuItem>
