@@ -1,4 +1,5 @@
-import { createAccessControl, type Subset } from "better-auth/plugins/access";
+import { createAccessControl } from "better-auth/plugins/access";
+
 import type { InferAdminRolesFromOption } from "better-auth/plugins/admin";
 import type { OrganizationOptions } from "better-auth/plugins/organization";
 import {
@@ -9,9 +10,9 @@ import {
 } from "better-auth/plugins/organization/access";
 
 const statement = {
-  testimonial: ["view", "approve", "download", "delete"],
+  testimonial: ["view", "approve", "download", "delete"] as const,
   ...defaultStatements,
-} as const;
+};
 
 export const ac = createAccessControl(statement);
 
@@ -51,6 +52,9 @@ export type Role = InferAdminRolesFromOption<typeof organizationRBAC>;
 
 export const ALL_ROLES = Object.keys(roles) as Array<Role>;
 
-export type OrganizationPermissionCheck = Partial<
-  Subset<keyof typeof statement, typeof statement>
->;
+type StatementsType = typeof ac.statements;
+
+// 2. Pass your statement typeof into it
+export type OrganizationPermissionCheck = {
+  [K in keyof StatementsType]?: StatementsType[K][number][] | undefined;
+};
