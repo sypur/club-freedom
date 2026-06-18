@@ -1,5 +1,5 @@
 import { Resend } from "@convex-dev/resend";
-import { render } from "@react-email/components";
+import { render } from "react-email";
 import InviteEmail from "@/emails/invite";
 import ResetPasswordEmail from "@/emails/reset-password";
 import { components } from "./_generated/api";
