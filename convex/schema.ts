@@ -34,6 +34,12 @@ export default defineSchema({
       searchField: "searchText",
       filterFields: ["processingStatus", "organizationId"],
     }),
+  pinnedTestimonials: defineTable({
+    testimonialId: v.string(),
+    organizationId: v.string(),
+  }).index("byTestimonialId", {
+    fields: ["testimonialId"]
+  }),
   formPreferences: defineTable({
     organizationId: v.string(),
     name: v.string(),

@@ -54,7 +54,7 @@ export default function Testimonials() {
             </CardHeader>
             <CardContent>
               {testimonial.media_type === "audio" ||
-              testimonial.media_type === "video" ? (
+                testimonial.media_type === "video" ? (
                 <div className="space-y-2">
                   <TestimonialCardMedia />
                   <TestimonialCardSummary />
