@@ -1,38 +1,37 @@
-import { Heading, Link } from "react-email";
-import { BaseEmail, styles } from "./base-email";
+import { Heading, Section, Text, Button } from "react-email";
+import { BaseEmail } from "./components/base-email";
+import type { Organization } from "better-auth/client";
 
 interface InviteEmailProps {
   url: string;
-  brandName: string;
-  brandTagline?: string;
-  brandLogoUrl?: string;
+  organization: Organization;
 }
 
-export default function InviteEmail({
-  url,
-  brandName,
-  brandTagline,
-  brandLogoUrl,
-}: InviteEmailProps) {
+export default function InviteEmail({ url, organization }: InviteEmailProps) {
   return (
-    <BaseEmail
-      previewText={`You're invited to ${brandName}`}
-      brandName={brandName}
-      brandTagline={brandTagline}
-      brandLogoUrl={brandLogoUrl}
-    >
-      <Heading style={styles.h1}>{`You're invited to ${brandName}`}</Heading>
-      <Link
-        href={url}
-        target="_blank"
-        style={{
-          ...styles.link,
-          display: "block",
-          marginBottom: "16px",
-        }}
-      >
-        Accept Invitation
-      </Link>
+    <BaseEmail previewText={`You're invited to ${organization.name}`}>
+      <Section className="px-4 pt-4 pb-8">
+        <Heading className="font-24 font-normal">
+          Join <strong>{organization.name}</strong> on <strong>Sypur</strong>
+        </Heading>
+        <Text>
+          You're invited to join <strong>{organization.name}</strong> on{" "}
+          <strong>Sypur</strong>. Click the link below to accept the invitation.
+        </Text>
+        <Button
+          href={url}
+          className="font-semibold bg-primary text-primary-foreground rounded px-4 py-2 font-12 inline-block"
+        >
+          Accept Invitation
+        </Button>
+      </Section>
     </BaseEmail>
   );
 }
+
+InviteEmail.PreviewProps = {
+  url: "https://example.com",
+  organization: {
+    name: "Example",
+  },
+} as InviteEmailProps;
