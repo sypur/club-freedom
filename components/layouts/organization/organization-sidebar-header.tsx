@@ -1,6 +1,6 @@
 import { convexQuery } from "@convex-dev/react-query";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { Link, useParams, useRouteContext } from "@tanstack/react-router";
+import { Link, useParams } from "@tanstack/react-router";
 import { Building } from "lucide-react";
 import {
   SidebarMenu,
@@ -14,17 +14,11 @@ export default function OrganizationSidebarHeader() {
     from: "/o/$orgSlug",
   });
 
-  const preloadOrganization = useRouteContext({
-    from: "/o/$orgSlug",
-  }).organization;
-
-  const { data: liveOrganization } = useSuspenseQuery(
+  const { data: organization } = useSuspenseQuery(
     convexQuery(api.organization.getOrganizationBySlug, {
       slug: orgSlug,
     }),
   );
-
-  const currentOrganization = liveOrganization || preloadOrganization;
 
   return (
     <SidebarMenu>
@@ -38,9 +32,7 @@ export default function OrganizationSidebarHeader() {
             <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
               <Building className="size-4" />
             </div>
-            <span className="truncate font-medium">
-              {currentOrganization.name}
-            </span>
+            <span className="truncate font-medium">{organization?.name}</span>
           </Link>
         </SidebarMenuButton>
       </SidebarMenuItem>

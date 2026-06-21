@@ -13,7 +13,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { useFormPreferenceContext } from "@/contexts/form-preference-context";
 import { api } from "@/convex/_generated/api";
 
@@ -62,10 +62,8 @@ export default function RemoveFormPreference(
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
+            variant="destructive"
             onClick={() => handleDelete()}
-            className={buttonVariants({
-              variant: "destructive",
-            })}
           >
             Remove
           </AlertDialogAction>

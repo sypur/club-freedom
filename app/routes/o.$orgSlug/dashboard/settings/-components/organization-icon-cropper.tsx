@@ -1,6 +1,6 @@
 import { convexQuery, useConvexMutation } from "@convex-dev/react-query";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "@tanstack/react-router";
+import { useRouteContext, useRouter } from "@tanstack/react-router";
 import {
   ArrowLeftIcon,
   ImageIcon,
@@ -26,17 +26,16 @@ import {
 } from "@/components/ui/dialog";
 import { Slider } from "@/components/ui/slider";
 import { api } from "@/convex/_generated/api";
-import type { Doc } from "@/convex/betterAuth/_generated/dataModel";
 import { useFileUpload } from "@/hooks/use-file-upload";
 import { useUploadFile } from "@/hooks/use-upload-file";
 import { authClient } from "@/lib/auth/auth-client";
 import { type Area, createFileFromImageBlob, getCroppedImg } from "@/lib/image";
 
-type Props = {
-  organization: Doc<"organization">;
-};
+export default function OrganizationIconCropper() {
+  const { organization } = useRouteContext({
+    from: "/o/$orgSlug",
+  });
 
-export default function OrganizationIconCropper({ organization }: Props) {
   const [{ files }, { openFileDialog, removeFile, getInputProps }] =
     useFileUpload({
       accept: "image/*",
