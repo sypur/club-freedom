@@ -4,7 +4,11 @@ import { filter } from "convex-helpers/server/filter";
 import { api } from "./_generated/api";
 import { query } from "./_generated/server";
 import { mutation } from "./functions";
-import { mediaTypeSchema, processingStatusSchema } from "./schema";
+import {
+  formEventSchema,
+  mediaTypeSchema,
+  processingStatusSchema,
+} from "./schema";
 import removeUndefinedFromRecord from "./utils";
 
 export const getTestimonials = query({
@@ -122,10 +126,11 @@ export const postTestimonial = mutation({
     media_type: mediaTypeSchema,
     text: v.string(),
     organizationId: v.string(),
+    formEvent: v.optional(formEventSchema),
   },
   handler: async (
     ctx,
-    { name, email, storageId, media_type, text, organizationId },
+    { name, email, storageId, media_type, text, organizationId, formEvent },
   ) => {
     const id = await ctx.db.insert("testimonials", {
       name,
@@ -135,6 +140,9 @@ export const postTestimonial = mutation({
       testimonialText: text,
       organizationId,
       processingStatus: "ongoing",
+      eventId: formEvent?.id,
+      eventName: formEvent?.name,
+      eventDate: formEvent?.date,
     });
     return id;
   },

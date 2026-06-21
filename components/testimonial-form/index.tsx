@@ -43,6 +43,7 @@ import {
 } from "@/lib/media";
 import { type Testimonial, testimonialSchema } from "@/lib/schema/testimonials";
 import { cn } from "@/lib/utils";
+import { EventPicker } from "./event-picker";
 export default function TestimonialForm() {
   const ref = React.useRef<TurnstileInstance | null>(null);
   const { organization } = useRouteContext({
@@ -62,6 +63,8 @@ export default function TestimonialForm() {
       ? formPreference.agreements
       : [defaultAgreement];
 
+  const formEvents = formPreference.formEvents;
+
   const textEnabled = !formPreference || formPreference.textEnabled;
   const audioEnabled = !formPreference || formPreference.audioEnabled;
   const videoEnabled = !formPreference || formPreference.videoEnabled;
@@ -72,6 +75,7 @@ export default function TestimonialForm() {
       email: "",
       writtenText: "",
       agreementsAccepted: [],
+      formEvents: undefined,
       turnstileToken: "",
     },
     resolver: zodResolver(testimonialSchema),
@@ -127,6 +131,10 @@ export default function TestimonialForm() {
         media_type,
         text: values.writtenText,
         organizationId: organization._id as string,
+        formEvent:
+          values.formEvents && Object.keys(values.formEvents).length > 0
+            ? values.formEvents
+            : undefined,
       });
 
       // Step 3: Upload to offline database
@@ -318,6 +326,9 @@ export default function TestimonialForm() {
               </TabsContent>
             )}
           </Tabs>
+          {formEvents && formEvents.length > 0 && (
+            <EventPicker formEvents={formEvents} />
+          )}
           <Controller
             control={form.control}
             name="agreementsAccepted"

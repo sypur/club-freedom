@@ -12,6 +12,12 @@ export const formEventSchema = z.object({
   date: z.date(),
 });
 
+export const testimonialFormEventSchema = z.object({
+  id: z.string(),
+  name: z.string().min(1, "Event name should not be empty"),
+  date: z.number(),
+});
+
 export const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   formats: z
@@ -34,6 +40,10 @@ export const formSchema = z.object({
 export type FormSchema = z.infer<typeof formSchema>;
 
 export type EventSchema = z.infer<typeof formEventSchema>;
+
+export type TestimonialFormEventSchema = z.infer<
+  typeof testimonialFormEventSchema
+>;
 export const defaultAgreement =
   "I agree that my personal information and testimonial may be processed and published on this service.";
 
