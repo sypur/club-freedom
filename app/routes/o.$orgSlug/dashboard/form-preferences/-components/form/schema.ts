@@ -6,6 +6,12 @@ const formatSchema = z.union([
   z.literal("text"),
 ]);
 
+export const formEventSchema = z.object({
+  id: z.string(),
+  name: z.string().min(1, "Event name should not be empty"),
+  date: z.date(),
+});
+
 export const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   formats: z
@@ -14,6 +20,7 @@ export const formSchema = z.object({
       error: "At least one format must be selected",
     })
     .max(3),
+  formEvents: z.optional(z.array(formEventSchema)),
   agreements: z
     .array(
       z.object({
@@ -26,5 +33,12 @@ export const formSchema = z.object({
 
 export type FormSchema = z.infer<typeof formSchema>;
 
+export type EventSchema = z.infer<typeof formEventSchema>;
 export const defaultAgreement =
   "I agree that my personal information and testimonial may be processed and published on this service.";
+
+export const defaultEvent = () => ({
+  id: crypto.randomUUID(),
+  name: "Sample Event",
+  date: new Date(),
+});

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { FieldDescription, FieldLegend, FieldSet } from "@/components/ui/field";
 import { api } from "@/convex/_generated/api";
 import AgreementsField from "./fields/agreements";
+import EventsField from "./fields/events";
 import FormatsField from "./fields/formats";
 import NameField from "./fields/name";
 import { defaultAgreement, type FormSchema, formSchema } from "./schema";
@@ -25,6 +26,7 @@ export default function FormPreferenceCreationForm() {
       name: "",
       formats: ["video", "audio", "text"],
       agreements: [{ value: defaultAgreement }],
+      formEvents: [],
     },
     resolver: zodResolver(formSchema),
   });
@@ -38,6 +40,11 @@ export default function FormPreferenceCreationForm() {
         audioEnabled: data.formats.includes("audio"),
         videoEnabled: data.formats.includes("video"),
         agreements: data.agreements.map((a) => a.value),
+        formEvents: data.formEvents?.map((event) => ({
+          id: event.id,
+          name: event.name,
+          date: event.date.getTime(),
+        })),
       });
       form.reset();
       toast.success("Form preference created successfully!", {
@@ -64,6 +71,11 @@ export default function FormPreferenceCreationForm() {
       >
         <NameField />
         <FormatsField />
+        <FieldSet>
+          <FieldLegend>Events</FieldLegend>
+          <FieldDescription>Add or remove events</FieldDescription>
+          <EventsField />
+        </FieldSet>
         <FieldSet>
           <FieldLegend>Agreements</FieldLegend>
           <FieldDescription>Add or remove agreements</FieldDescription>

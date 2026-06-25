@@ -14,6 +14,12 @@ export const mediaTypeSchema = v.union(
   v.literal("audio"),
 );
 
+export const formEventSchema = v.object({
+  id: v.string(),
+  name: v.string(),
+  date: v.number(),
+});
+
 export default defineSchema({
   testimonials: defineTable({
     name: v.string(),
@@ -21,6 +27,8 @@ export default defineSchema({
     media_type: mediaTypeSchema,
     storageId: v.optional(v.string()),
     title: v.optional(v.string()),
+    eventName: v.optional(v.string()),
+    eventDate: v.optional(v.number()),
     testimonialText: v.optional(v.string()),
     summary: v.optional(v.string()),
     searchText: v.optional(v.string()),
@@ -45,6 +53,7 @@ export default defineSchema({
     audioEnabled: v.boolean(),
     videoInstructions: v.optional(v.string()),
     videoEnabled: v.boolean(),
+    formEvents: v.optional(v.array(formEventSchema)),
     agreements: v.optional(v.array(v.string())),
     activated: v.boolean(),
   }).index("byOrganizationIdAndActivated", {

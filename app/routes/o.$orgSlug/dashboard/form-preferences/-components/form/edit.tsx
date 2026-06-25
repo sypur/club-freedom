@@ -14,6 +14,7 @@ import { api } from "@/convex/_generated/api";
 import ActivateFormPreference from "../actions/activate";
 import RemoveFormPreference from "../actions/remove";
 import AgreementsField from "./fields/agreements";
+import EventsField from "./fields/events";
 import FormatsField from "./fields/formats";
 import NameField from "./fields/name";
 import { defaultAgreement, type FormSchema, formSchema } from "./schema";
@@ -55,6 +56,12 @@ export default function FormPreferenceEditForm() {
       agreements: formPreference.agreements?.map((value) => ({ value })) || [
         { value: defaultAgreement },
       ],
+      formEvents:
+        formPreference.formEvents?.map((event) => ({
+          id: event.id,
+          name: event.name,
+          date: new Date(event.date),
+        })) || [],
     },
     resolver: zodResolver(formSchema),
   });
@@ -67,6 +74,11 @@ export default function FormPreferenceEditForm() {
         textEnabled: data.formats.includes("text"),
         audioEnabled: data.formats.includes("audio"),
         videoEnabled: data.formats.includes("video"),
+        formEvents: data.formEvents?.map((event) => ({
+          id: event.id,
+          name: event.name,
+          date: event.date.getTime(),
+        })),
         agreements: data.agreements.map((a) => a.value),
       });
       toast.success("Form preference updated successfully!");
@@ -91,6 +103,11 @@ export default function FormPreferenceEditForm() {
       >
         <NameField />
         <FormatsField />
+        <FieldSet>
+          <FieldLegend>Events</FieldLegend>
+          <FieldDescription>Add or remove events</FieldDescription>
+          <EventsField />
+        </FieldSet>
         <FieldSet>
           <FieldLegend>Agreements</FieldLegend>
           <FieldDescription>Add or remove agreements</FieldDescription>
