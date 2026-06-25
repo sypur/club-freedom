@@ -27,7 +27,6 @@ export default defineSchema({
     media_type: mediaTypeSchema,
     storageId: v.optional(v.string()),
     title: v.optional(v.string()),
-    eventId: v.optional(v.string()),
     eventName: v.optional(v.string()),
     eventDate: v.optional(v.number()),
     testimonialText: v.optional(v.string()),

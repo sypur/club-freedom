@@ -30,8 +30,8 @@ export default function EventEditor({
       />
       <Button
         variant="destructive"
-        size="sm"
-        className="size-8 ml-auto"
+        size="icon-sm"
+        className="ml-auto"
         onClick={onDelete}
       >
         <Trash />
