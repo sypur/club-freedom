@@ -83,6 +83,19 @@ export default function OrganizationSidebarNavSecondary(
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>
                   </SidebarMenuSub>
+                  <SidebarMenuSub>
+                    <SidebarMenuSubItem>
+                      <SidebarMenuSubButton asChild>
+                        <Link
+                          to="/o/$orgSlug/dashboard/settings/notification"
+                          params={{ orgSlug: organization.slug }}
+                          className="[&.active]:not-hover:bg-muted"
+                        >
+                          <span>Notification</span>
+                        </Link>
+                      </SidebarMenuSubButton>
+                    </SidebarMenuSubItem>
+                  </SidebarMenuSub>
                 </CollapsibleContent>
               </SidebarMenuItem>
             </Collapsible>
