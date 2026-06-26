@@ -22,6 +22,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Route } from "..";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { convexQuery } from "@convex-dev/react-query";
+import { api } from "@/convex/_generated/api";
 
 const daysOfTheWeek = [
   { label: "Monday", value: 0 },
@@ -43,11 +47,11 @@ const convertToAMPM = (time: number) => {
 const formSchema = z
   .object({
     enabled: z.boolean(),
-    daysOfTheWeek: z.array(z.number()),
+    days: z.array(z.number()),
     time: z.number(),
   })
   .refine(
-    ({ enabled, daysOfTheWeek }) => {
+    ({ enabled, days: daysOfTheWeek }) => {
       return !enabled || daysOfTheWeek.length > 0;
     },
     {
@@ -60,14 +64,21 @@ const formSchema = z
 type FormSchema = z.infer<typeof formSchema>;
 
 export default function NotificationForm() {
+  const { organization } = Route.useRouteContext();
+  const { data: emailPreference } = useSuspenseQuery(
+    convexQuery(api.emailPreferences.getEmailPreference, {
+      organizationId: organization._id,
+    }),
+  );
+
   const form = useForm<FormSchema>({
     mode: "onChange",
     reValidateMode: "onChange",
     resolver: zodResolver(formSchema),
     defaultValues: {
-      enabled: false,
-      daysOfTheWeek: [],
-      time: 9,
+      enabled: emailPreference?.enabled || false,
+      days: emailPreference?.days || [],
+      time: emailPreference?.time || 9,
     },
   });
 
@@ -103,7 +114,7 @@ export default function NotificationForm() {
       {isEnabled && (
         <Controller
           control={form.control}
-          name="daysOfTheWeek"
+          name="days"
           disabled={!isEnabled}
           render={({ field, fieldState }) => (
             <FieldSet data-invalid={fieldState.invalid}>

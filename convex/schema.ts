@@ -1,6 +1,7 @@
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 import { themeSchema } from "@/lib/theme";
+import { organization } from "better-auth/client";
 
 export const processingStatusSchema = v.union(
   v.literal("ongoing"),
@@ -65,5 +66,14 @@ export default defineSchema({
     cssVariables: themeSchema,
   }).index("byOrganizationId", {
     fields: ["organizationId"],
+  }),
+  emailPreferences: defineTable({
+    userId: v.string(),
+    organizationId: v.string(),
+    enabled: v.boolean(),
+    days: v.array(v.number()),
+    time: v.number(),
+  }).index("byUserIdAndOrganizationId", {
+    fields: ["organizationId", "userId"],
   }),
 });
