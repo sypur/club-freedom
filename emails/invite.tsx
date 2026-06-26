@@ -1,6 +1,6 @@
-import { Heading, Section, Text, Button } from "react-email";
-import { BaseEmail } from "./components/base-email";
 import type { Organization } from "better-auth/client";
+import { Button, Heading, Section, Text } from "react-email";
+import { BaseEmail } from "./components/base-email";
 
 interface InviteEmailProps {
   url: string;

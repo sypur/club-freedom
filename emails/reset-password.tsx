@@ -1,4 +1,4 @@
-import { Heading, Button, Text, Section } from "react-email";
+import { Button, Heading, Section, Text } from "react-email";
 import { BaseEmail } from "./components/base-email";
 
 interface ResetPasswordEmailProps {

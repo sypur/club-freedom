@@ -1,10 +1,10 @@
 import { Resend } from "@convex-dev/resend";
+import type { Organization } from "better-auth/client";
 import { render } from "react-email";
 import InviteEmail from "@/emails/invite";
 import ResetPasswordEmail from "@/emails/reset-password";
 import { components } from "./_generated/api";
 import type { ActionCtx } from "./_generated/server";
-import type { Organization } from "better-auth/client";
 
 export const resend = new Resend(components.resend, {
   testMode: false,

@@ -1,6 +1,6 @@
-import { Section, Text, Button, Link } from "react-email";
-import { BaseEmail } from "./components/base-email";
 import type { Organization, User } from "better-auth/client";
+import { Button, Link, Section, Text } from "react-email";
+import { BaseEmail } from "./components/base-email";
 
 interface NotificationEmailProps {
   siteUrl: string;
