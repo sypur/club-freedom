@@ -24,13 +24,13 @@ import {
 } from "@/components/ui/select";
 
 const daysOfTheWeek = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
+  { label: "Monday", value: 0 },
+  { label: "Tuesday", value: 1 },
+  { label: "Wednesday", value: 2 },
+  { label: "Thursday", value: 3 },
+  { label: "Friday", value: 4 },
+  { label: "Saturday", value: 5 },
+  { label: "Sunday", value: 6 },
 ] as const;
 
 const availableTimes = Array.from({ length: 15 }, (_, i) => 7 + i);
@@ -43,7 +43,7 @@ const convertToAMPM = (time: number) => {
 const formSchema = z
   .object({
     enabled: z.boolean(),
-    daysOfTheWeek: z.array(z.enum(daysOfTheWeek)),
+    daysOfTheWeek: z.array(z.number()),
     time: z.number(),
   })
   .refine(
@@ -113,20 +113,20 @@ export default function NotificationForm() {
               </FieldDescription>
               <FieldGroup data-slot="checkbox-group">
                 {daysOfTheWeek.map((day) => (
-                  <Field key={day} orientation="horizontal">
+                  <Field key={day.value} orientation="horizontal">
                     <Checkbox
                       name={field.name}
-                      id={`${field.name}-${day}`}
-                      checked={field.value.includes(day)}
+                      id={`${field.name}-${day.value}`}
+                      checked={field.value.includes(day.value)}
                       onCheckedChange={(checked) => {
                         const newValue = checked
-                          ? [...field.value, day]
-                          : field.value.filter((value) => value !== day);
+                          ? [...field.value, day.value]
+                          : field.value.filter((value) => value !== day.value);
                         field.onChange(newValue);
                       }}
                     />
                     <FieldLabel htmlFor={`${field.name}-${day}`}>
-                      {day}
+                      {day.label}
                     </FieldLabel>
                   </Field>
                 ))}
