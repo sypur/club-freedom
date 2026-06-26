@@ -15,6 +15,13 @@ import {
 } from "@/components/ui/field";
 import { Spinner } from "@/components/ui/spinner";
 import { Switch } from "@/components/ui/switch";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const daysOfTheWeek = [
   "Monday",
@@ -26,10 +33,18 @@ const daysOfTheWeek = [
   "Sunday",
 ] as const;
 
+const availableTimes = Array.from({ length: 15 }, (_, i) => 7 + i);
+
+const convertToAMPM = (time: number) => {
+  const hours = time % 12 || 12;
+  return `${hours}:00 ${time < 12 ? "AM" : "PM"}`;
+};
+
 const formSchema = z
   .object({
     enabled: z.boolean(),
     daysOfTheWeek: z.array(z.enum(daysOfTheWeek)),
+    time: z.number(),
   })
   .refine(
     ({ enabled, daysOfTheWeek }) => {
@@ -52,6 +67,7 @@ export default function NotificationForm() {
     defaultValues: {
       enabled: false,
       daysOfTheWeek: [],
+      time: 9,
     },
   });
 
@@ -117,6 +133,35 @@ export default function NotificationForm() {
               </FieldGroup>
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </FieldSet>
+          )}
+        />
+      )}
+      {isEnabled && (
+        <Controller
+          control={form.control}
+          name="time"
+          render={({ field }) => (
+            <Field orientation="horizontal">
+              <FieldContent>
+                <FieldLabel htmlFor={field.name}>Send email at</FieldLabel>
+              </FieldContent>
+              <Select
+                name={field.name}
+                value={field.value.toString()}
+                onValueChange={(value) => field.onChange(Number(value))}
+              >
+                <SelectTrigger className="min-w-30">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {availableTimes.map((time) => (
+                    <SelectItem key={time} value={time.toString()}>
+                      {convertToAMPM(time)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </Field>
           )}
         />
       )}
