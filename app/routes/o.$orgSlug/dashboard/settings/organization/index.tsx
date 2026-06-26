@@ -5,7 +5,7 @@ import OrganizationEditForm from "./-components/organization-edit-form";
 import OrganizationIconCropper from "./-components/organization-icon-cropper";
 import OrganizationLogoForm from "./-components/organization-logo-form";
 
-export const Route = createFileRoute("/o/$orgSlug/dashboard/settings/")({
+export const Route = createFileRoute("/o/$orgSlug/dashboard/settings/organization/")({
   component: RouteComponent,
   loader: async ({ context }) => {
     const { data } = await authClient.organization.hasPermission({
