@@ -63,7 +63,7 @@ export default function TestimonialForm() {
       ? formPreference.agreements
       : [defaultAgreement];
 
-  const formEvents = formPreference.formEvents;
+  const formEvents = formPreference?.formEvents;
 
   const textEnabled = !formPreference || formPreference.textEnabled;
   const audioEnabled = !formPreference || formPreference.audioEnabled;
@@ -125,16 +125,22 @@ export default function TestimonialForm() {
           ? "video"
           : "text";
 
+      let eventName: string | undefined;
+      let eventDate: number | undefined;
+
+      if (values.formEvents && Object.keys(values.formEvents).length > 0) {
+        eventName = values.formEvents.name;
+        eventDate = values.formEvents.date;
+      }
+
       const testimonialId = await postTestimonial({
         name: values.name,
         email: values.email ? values.email : undefined,
         media_type,
         text: values.writtenText,
         organizationId: organization._id as string,
-        formEvent:
-          values.formEvents && Object.keys(values.formEvents).length > 0
-            ? values.formEvents
-            : undefined,
+        eventName: eventName,
+        eventDate: eventDate,
       });
 
       // Step 3: Upload to offline database
