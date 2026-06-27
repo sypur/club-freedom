@@ -24,6 +24,7 @@ export const organizationSchema = z.object({
     .refine((data) => !data.startsWith("-") && !data.endsWith("-"), {
       error: "Slug should not begin or end with hypen (-)",
     }),
+  email: z.email(),
 });
 
 export type Organization = z.infer<typeof organizationSchema>;

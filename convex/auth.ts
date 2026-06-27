@@ -14,7 +14,11 @@ import type { DataModel } from "./_generated/dataModel";
 import { query } from "./_generated/server";
 import authConfig from "./auth.config";
 import authSchema from "./betterAuth/schema";
-import { sendInvite, sendResetPassword } from "./email";
+import {
+  sendInvite,
+  sendNewUserNotification,
+  sendResetPassword,
+} from "./email";
 
 // The component client has methods needed for integrating Convex with Better Auth,
 // as well as helper methods for general use.
@@ -28,7 +32,10 @@ export const authComponent = createClient<DataModel, typeof authSchema>(
   },
 );
 
-export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
+export const createAuthOptions = (
+  ctx: GenericCtx<DataModel>,
+  opts?: { isNewUser?: boolean },
+) => {
   // For static schema generation (when ctx is empty {}), use placeholder values
   // For runtime execution, use actual environment variables
   const siteUrl = process.env.SITE_URL || "http://localhost:3000";
@@ -45,6 +52,14 @@ export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
       enabled: true,
       requireEmailVerification: false,
       sendResetPassword: async ({ user, url }) => {
+        if (opts?.isNewUser) {
+          await sendNewUserNotification(requireActionCtx(ctx), {
+            to: user.email,
+            url,
+          });
+          return;
+        }
+
         await sendResetPassword(requireActionCtx(ctx), {
           to: user.email,
           url,
@@ -112,8 +127,11 @@ export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
   } satisfies BetterAuthOptions;
 };
 
-export const createAuth = (ctx: GenericCtx<DataModel>) => {
-  return betterAuth(createAuthOptions(ctx));
+export const createAuth = (
+  ctx: GenericCtx<DataModel>,
+  opts?: { isNewUser?: boolean },
+) => {
+  return betterAuth(createAuthOptions(ctx, opts));
 };
 
 // Example function for getting the current user

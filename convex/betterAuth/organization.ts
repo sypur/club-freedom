@@ -14,3 +14,11 @@ export const getOrganization = query({
     return organization;
   },
 });
+
+export const listAllOrganizations = query({
+  args: {},
+  returns: v.array(doc(schema, "organization")),
+  handler: async (ctx) => {
+    return ctx.db.query("organization").collect();
+  },
+});

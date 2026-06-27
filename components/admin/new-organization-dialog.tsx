@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAction } from "convex/react";
 import {
   type ChangeEvent,
   type ComponentProps,
@@ -8,7 +8,7 @@ import {
 } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { authClient } from "@/lib/auth/auth-client";
+import { api } from "@/convex/_generated/api";
 import {
   type Organization,
   organizationSchema,
@@ -41,41 +41,15 @@ const convertNameToSlug = (name: string) => {
 
 export default function NewOrganizationDialog({ trigger, ...props }: Props) {
   const [open, setOpen] = useState(false);
-  const queryClient = useQueryClient();
+  const createOrganization = useAction(api.admin.createOrganization);
 
   const form = useForm<Organization>({
     defaultValues: {
       name: "",
       slug: "",
+      email: "",
     },
     resolver: zodResolver(organizationSchema),
-  });
-
-  const { mutateAsync: createNewOrganziation } = useMutation({
-    mutationFn: async (formData: Organization) => {
-      const { error } = await authClient.organization.create({
-        name: formData.name.trim(),
-        slug: formData.slug.trim(),
-      });
-      if (error) {
-        throw Error(error.message);
-      }
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["organizations"],
-      });
-    },
-    onSuccess: () => {
-      toast.success("Organization created successfully");
-      form.reset();
-      setOpen(false);
-    },
-    onError: (error) => {
-      toast.error("Cannot create organization", {
-        description: error.message,
-      });
-    },
   });
 
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -94,6 +68,21 @@ export default function NewOrganizationDialog({ trigger, ...props }: Props) {
     }
   };
 
+  const onSubmit = async (data: Organization) => {
+    const organization = await createOrganization({
+      name: data.name.trim(),
+      slug: data.slug.trim(),
+      email: data.email.trim(),
+    });
+    if (organization) {
+      toast.success("Organization created successfully");
+      form.reset();
+      setOpen(false);
+      return;
+    }
+    toast.error("Failed to create organization");
+  };
+
   return (
     <Dialog {...props} open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
@@ -104,7 +93,7 @@ export default function NewOrganizationDialog({ trigger, ...props }: Props) {
         <form
           className="grid gap-4"
           id="create-organization"
-          onSubmit={form.handleSubmit((data) => createNewOrganziation(data))}
+          onSubmit={form.handleSubmit(onSubmit)}
         >
           <Controller
             control={form.control}
@@ -147,6 +136,28 @@ export default function NewOrganizationDialog({ trigger, ...props }: Props) {
               </Field>
             )}
           />
+
+          <Controller
+            control={form.control}
+            name="email"
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={field.name}>Email</FieldLabel>
+                <FieldDescription>
+                  This email is for the organization owner.
+                </FieldDescription>
+                <Input
+                  {...field}
+                  placeholder="name@sypur.io"
+                  id={field.name}
+                  aria-invalid={fieldState.invalid}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
         </form>
         <DialogFooter>
           <Button
@@ -154,7 +165,7 @@ export default function NewOrganizationDialog({ trigger, ...props }: Props) {
             type="submit"
             form="create-organization"
           >
-            Add
+            Create
           </Button>
         </DialogFooter>
       </DialogContent>

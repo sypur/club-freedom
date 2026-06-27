@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as admin from "../admin.js";
 import type * as ai from "../ai.js";
 import type * as auth from "../auth.js";
 import type * as email from "../email.js";
@@ -23,6 +24,7 @@ import type * as organization from "../organization.js";
 import type * as r2 from "../r2.js";
 import type * as testimonials from "../testimonials.js";
 import type * as uploadTempFile from "../uploadTempFile.js";
+import type * as users from "../users.js";
 import type * as utils from "../utils.js";
 
 import type {
@@ -32,6 +34,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  admin: typeof admin;
   ai: typeof ai;
   auth: typeof auth;
   email: typeof email;
@@ -47,6 +50,7 @@ declare const fullApi: ApiFromModules<{
   r2: typeof r2;
   testimonials: typeof testimonials;
   uploadTempFile: typeof uploadTempFile;
+  users: typeof users;
   utils: typeof utils;
 }>;
 
@@ -1824,6 +1828,26 @@ export declare const components: {
           status: string;
         }
       >;
+      findUserByEmail: FunctionReference<
+        "query",
+        "internal",
+        { email: string },
+        null | {
+          _creationTime: number;
+          _id: string;
+          banExpires?: null | number;
+          banReason?: null | string;
+          banned?: null | boolean;
+          createdAt: number;
+          email: string;
+          emailVerified: boolean;
+          image?: null | string;
+          name: string;
+          role?: null | string;
+          updatedAt: number;
+          userId?: null | string;
+        }
+      >;
       getUser: FunctionReference<
         "query",
         "internal",
@@ -1860,6 +1884,21 @@ export declare const components: {
           name: string;
           slug: string;
         }
+      >;
+      listAllOrganizations: FunctionReference<
+        "query",
+        "internal",
+        {},
+        Array<{
+          _creationTime: number;
+          _id: string;
+          createdAt: number;
+          icon?: null | string;
+          logo?: null | string;
+          metadata?: null | string;
+          name: string;
+          slug: string;
+        }>
       >;
     };
   };

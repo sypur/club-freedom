@@ -1570,6 +1570,27 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
         },
         Name
       >;
+      findUserByEmail: FunctionReference<
+        "query",
+        "internal",
+        { email: string },
+        null | {
+          _creationTime: number;
+          _id: string;
+          banExpires?: null | number;
+          banReason?: null | string;
+          banned?: null | boolean;
+          createdAt: number;
+          email: string;
+          emailVerified: boolean;
+          image?: null | string;
+          name: string;
+          role?: null | string;
+          updatedAt: number;
+          userId?: null | string;
+        },
+        Name
+      >;
       getUser: FunctionReference<
         "query",
         "internal",
@@ -1607,6 +1628,22 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
           name: string;
           slug: string;
         },
+        Name
+      >;
+      listAllOrganizations: FunctionReference<
+        "query",
+        "internal",
+        {},
+        Array<{
+          _creationTime: number;
+          _id: string;
+          createdAt: number;
+          icon?: null | string;
+          logo?: null | string;
+          metadata?: null | string;
+          name: string;
+          slug: string;
+        }>,
         Name
       >;
     };

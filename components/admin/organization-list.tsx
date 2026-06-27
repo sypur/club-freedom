@@ -1,52 +1,69 @@
+import { convexQuery } from "@convex-dev/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { AlertCircle } from "lucide-react";
-import { authClient } from "@/lib/auth/auth-client";
+import { AlertCircle, Building } from "lucide-react";
+import { api } from "@/convex/_generated/api";
 import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "../ui/empty";
 import { Spinner } from "../ui/spinner";
 
 export default function OrganizationList() {
-  const { isLoading, data, error } = useQuery({
-    queryKey: ["organizations"],
-    queryFn: async () => {
-      const { data, error } = await authClient.organization.list();
-      if (error) {
-        throw new Error(error.message);
-      }
-      return data;
-    },
-  });
+  const { isLoading, data, error } = useQuery(
+    convexQuery(api.admin.listAllOrganizations),
+  );
 
   if (isLoading) {
     return (
-      <div className="flex flex-col gap-3 items-center p-4">
-        <Spinner />
-        <span>Loading...</span>
-      </div>
+      <Empty>
+        <EmptyHeader>
+          <EmptyMedia>
+            <Spinner />
+          </EmptyMedia>
+          <EmptyTitle>Loading...</EmptyTitle>
+        </EmptyHeader>
+      </Empty>
     );
   }
 
   if (error || !data) {
     return (
-      <div className="flex flex-col items-center gap-3 text-destructive p-4">
-        <AlertCircle />
-        <span>{error?.message || "An error occurred"}</span>
-      </div>
+      <Empty>
+        <EmptyHeader>
+          <EmptyMedia variant="icon">
+            <AlertCircle />
+          </EmptyMedia>
+          <EmptyTitle>An error occurred</EmptyTitle>
+          {error?.message && (
+            <EmptyDescription>{error.message}</EmptyDescription>
+          )}
+        </EmptyHeader>
+      </Empty>
     );
   }
 
   if (data.length === 0) {
     return (
-      <div className="flex flex-col items-center gap-4 p-4 bg-muted rounded-md">
-        No organizations
-      </div>
+      <Empty className="border border-dashed">
+        <EmptyHeader>
+          <EmptyMedia variant="icon">
+            <Building />
+          </EmptyMedia>
+          <EmptyTitle>No organizations</EmptyTitle>
+        </EmptyHeader>
+      </Empty>
     );
   }
 
   return (
     <div className="grid gap-4">
       {data.map((organization) => (
-        <Card key={organization.id} className="py-4">
+        <Card key={organization._id} className="py-4">
           <CardHeader>
             <CardTitle>
               <Link
