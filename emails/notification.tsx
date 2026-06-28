@@ -22,6 +22,11 @@ export default function NotificationEmail({
   );
   urlForReview.searchParams.set("statuses", "pending");
 
+  const urlForSettings = new URL(
+    `/o/${organization.slug}/dashboard/settings/notification`,
+    siteUrl,
+  );
+
   return (
     <BaseEmail previewText={previewText}>
       <Section className="px-4 pt-4 pb-8">
@@ -41,10 +46,12 @@ export default function NotificationEmail({
         >
           View pending testimonials
         </Button>
-        <Text className="font-12 text-muted-foreground">
-          This is automated notification. You can change the its frequency your
-          account settings by going to{" "}
-          <Link href={siteUrl} className="text-primary">
+        <Text className="text-xs text-muted-foreground">
+          This is automated notification. You can change the email frequency in{" "}
+          <Link
+            href={urlForSettings.toString()}
+            className="text-primary underline"
+          >
             your account settings
           </Link>
           .
