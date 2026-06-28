@@ -1,5 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQuery } from "convex/react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import z from "zod";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -13,8 +15,6 @@ import {
   FieldLegend,
   FieldSet,
 } from "@/components/ui/field";
-import { Spinner } from "@/components/ui/spinner";
-import { Switch } from "@/components/ui/switch";
 import {
   Select,
   SelectContent,
@@ -22,10 +22,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Route } from "..";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { convexQuery } from "@convex-dev/react-query";
+import { Spinner } from "@/components/ui/spinner";
+import { Switch } from "@/components/ui/switch";
 import { api } from "@/convex/_generated/api";
+import { Route } from "..";
 
 const daysOfTheWeek = [
   { label: "Monday", value: 0 },
@@ -65,11 +65,9 @@ type FormSchema = z.infer<typeof formSchema>;
 
 export default function NotificationForm() {
   const { organization } = Route.useRouteContext();
-  const { data: emailPreference } = useSuspenseQuery(
-    convexQuery(api.emailPreferences.getEmailPreference, {
-      organizationId: organization._id,
-    }),
-  );
+  const emailPreference = useQuery(api.emailPreferences.getEmailPreference, {
+    organizationId: organization._id,
+  });
 
   const form = useForm<FormSchema>({
     mode: "onChange",
@@ -82,10 +80,34 @@ export default function NotificationForm() {
     },
   });
 
+  const saveEmailPreference = useMutation(
+    api.emailPreferences.upsertEmailPreference,
+  );
+
   const isEnabled = form.watch("enabled");
 
-  const onSubmit = (data: FormSchema) => {
-    console.log(data);
+  const onSubmit = async (formData: FormSchema) => {
+    const preference = formData.enabled
+      ? {
+          ...formData,
+          enabled: true as const,
+        }
+      : {
+          enabled: false as const,
+        };
+
+    try {
+      await saveEmailPreference({
+        preference,
+        organizationId: organization._id as string,
+      });
+      toast.success("Email preference saved successfully");
+      form.reset({
+        ...preference,
+      });
+    } catch (error) {
+      toast.error("Failed to save email preference");
+    }
   };
 
   return (
