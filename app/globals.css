@@ -76,11 +76,7 @@
   --input: color-mix(in oklch, var(--foreground) 15%, var(--background));
   --ring: var(--primary);
 
-  --sidebar-background: color-mix(
-    in oklch,
-    var(--background) 98%,
-    var(--foreground)
-  );
+  --sidebar: color-mix(in oklch, var(--background) 95%, var(--foreground));
   --sidebar-foreground: var(--foreground);
   --sidebar-primary: color-mix(
     in oklch,
