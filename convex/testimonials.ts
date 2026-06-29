@@ -5,7 +5,7 @@ import { api } from "./_generated/api";
 import { query } from "./_generated/server";
 import { mutation } from "./functions";
 import { mediaTypeSchema, processingStatusSchema } from "./schema";
-import removeUndefinedFromRecord from "./utils";
+import { removeUndefinedFromRecord } from "./utils";
 
 export const getTestimonials = query({
   args: {

@@ -124,8 +124,8 @@ export default function NotificationPreferenceForm() {
             <FieldContent>
               <FieldLabel htmlFor={field.name}>Enable notification</FieldLabel>
               <FieldDescription>
-                Notification about pending testimonials will be sent to your email
-                address.
+                Notification about pending testimonials will be sent to your
+                email address.
               </FieldDescription>
             </FieldContent>
             <Switch
@@ -180,7 +180,9 @@ export default function NotificationPreferenceForm() {
           render={({ field }) => (
             <Field orientation="horizontal">
               <FieldContent>
-                <FieldLabel htmlFor={field.name}>Send notification at</FieldLabel>
+                <FieldLabel htmlFor={field.name}>
+                  Send notification at
+                </FieldLabel>
                 <FieldDescription>
                   Choose the time of the day you want to receive notifications.
                 </FieldDescription>
