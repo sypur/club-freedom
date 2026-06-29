@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import NotificationForm from "./-components/notification-form";
+import NotificationPreferenceForm from "./-components/notification-preference-form";
 
 export const Route = createFileRoute(
   "/o/$orgSlug/dashboard/settings/notification/",
@@ -16,7 +16,7 @@ function RouteComponent() {
           <CardTitle>Notification</CardTitle>
         </CardHeader>
         <CardContent>
-          <NotificationForm />
+          <NotificationPreferenceForm />
         </CardContent>
       </Card>
     </div>

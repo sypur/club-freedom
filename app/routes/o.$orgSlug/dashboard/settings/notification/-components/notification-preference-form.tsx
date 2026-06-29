@@ -63,7 +63,7 @@ const formSchema = z
 
 type FormSchema = z.infer<typeof formSchema>;
 
-export default function NotificationForm() {
+export default function NotificationPreferenceForm() {
   const { organization } = Route.useRouteContext();
   const emailPreference = useQuery(api.emailPreferences.getEmailPreference, {
     organizationId: organization._id,
@@ -177,6 +177,9 @@ export default function NotificationForm() {
             <Field orientation="horizontal">
               <FieldContent>
                 <FieldLabel htmlFor={field.name}>Send email at</FieldLabel>
+                <FieldDescription>
+                  Choose the time of the day you want to receive notifications.
+                </FieldDescription>
               </FieldContent>
               <Select
                 name={field.name}
