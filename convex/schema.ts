@@ -73,7 +73,7 @@ export default defineSchema({
     enabled: v.boolean(),
     daysOfTheWeek: v.array(v.number()),
     hour: v.number(),
-    scheduleId: v.optional(v.id("_scheduled_functions")),
+    scheduledId: v.optional(v.id("_scheduled_functions")),
   }).index("byUserIdAndOrganizationId", {
     fields: ["organizationId", "userId"],
   }),

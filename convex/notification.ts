@@ -1,8 +1,9 @@
 import { v } from "convex/values";
-import { mutation, query, internalMutation } from "./_generated/server";
+import { internal } from "./_generated/api";
+import { internalMutation, query } from "./_generated/server";
 import { authComponent } from "./auth";
 import { getNextScheduleTime } from "./utils";
-import { internal } from "./_generated/api";
+import { mutation } from "./functions";
 
 export const getNotificationPreference = query({
   args: {
@@ -87,7 +88,7 @@ export const sendScheduledNotification = internalMutation({
     );
 
     await ctx.db.patch("notificationPreferences", preference._id, {
-      scheduleId: nextScheduledId,
+      scheduledId: nextScheduledId,
     });
   },
 });
