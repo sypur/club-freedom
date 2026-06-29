@@ -39,7 +39,12 @@ export function EventPicker({ formEvents }: Props) {
               <SelectGroup>
                 {formEvents.map((event) => (
                   <SelectItem key={event.id} value={event.id}>
-                    {event.name} - {new Date(event.date).toLocaleDateString()}
+                    {event.name} -{" "}
+                    {new Date(event.date).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
                   </SelectItem>
                 ))}
               </SelectGroup>
