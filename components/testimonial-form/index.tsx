@@ -75,7 +75,7 @@ export default function TestimonialForm() {
       email: "",
       writtenText: "",
       agreementsAccepted: [],
-      formEvents: undefined,
+      formEventId: undefined,
       turnstileToken: "",
     },
     resolver: zodResolver(testimonialSchema),
@@ -128,9 +128,14 @@ export default function TestimonialForm() {
       let eventName: string | undefined;
       let eventDate: number | undefined;
 
-      if (values.formEvents && Object.keys(values.formEvents).length > 0) {
-        eventName = values.formEvents.name;
-        eventDate = values.formEvents.date;
+      if (values.formEventId && formEvents && formEvents.length > 0) {
+        const selectedEvent = formEvents.find(
+          (e) => e.id === values.formEventId,
+        );
+        if (selectedEvent && Object.keys(selectedEvent).length > 0) {
+          eventName = selectedEvent.name;
+          eventDate = selectedEvent.date;
+        }
       }
 
       const testimonialId = await postTestimonial({

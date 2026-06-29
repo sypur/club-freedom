@@ -19,17 +19,16 @@ export function EventPicker({ formEvents }: Props) {
   return (
     <Controller
       control={form.control}
-      name="formEvents"
+      name="formEventId"
       render={({ field, fieldState }) => (
         <Field data-invalid={fieldState.invalid}>
           <FieldLabel htmlFor={field.name} className="flex items-baseline">
             Event <small>(optional)</small>
           </FieldLabel>
           <Select
-            value={field.value?.id || undefined}
+            value={field.value || undefined}
             onValueChange={(id) => {
-              const selectedEvent = formEvents.find((e) => e.id === id);
-              field.onChange(selectedEvent);
+              field.onChange(id);
             }}
           >
             <SelectTrigger className="w-full">

@@ -1,5 +1,4 @@
 import z from "zod";
-import { testimonialFormEventSchema } from "@/app/routes/o.$orgSlug/dashboard/form-preferences/-components/form/schema";
 
 export const testimonialSchema = z
   .object({
@@ -12,7 +11,7 @@ export const testimonialSchema = z
     agreementsAccepted: z
       .array(z.string())
       .min(1, "You must accept all agreements"),
-    formEvents: z.optional(testimonialFormEventSchema),
+    formEventId: z.optional(z.string()),
     turnstileToken: z.string().min(1, "Please complete the human verification"),
   })
   .superRefine((data, ctx) => {
