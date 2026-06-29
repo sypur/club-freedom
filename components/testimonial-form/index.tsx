@@ -125,18 +125,11 @@ export default function TestimonialForm() {
           ? "video"
           : "text";
 
-      let eventName: string | undefined;
-      let eventDate: number | undefined;
-
-      if (values.formEventId && formEvents && formEvents.length > 0) {
-        const selectedEvent = formEvents.find(
-          (e) => e.id === values.formEventId,
-        );
-        if (selectedEvent && Object.keys(selectedEvent).length > 0) {
-          eventName = selectedEvent.name;
-          eventDate = selectedEvent.date;
-        }
-      }
+      const selectedEvent = formEvents?.find(
+        (e) => e.id === values.formEventId,
+      );
+      const eventName = selectedEvent?.name;
+      const eventDate = selectedEvent?.date;
 
       const testimonialId = await postTestimonial({
         name: values.name,
