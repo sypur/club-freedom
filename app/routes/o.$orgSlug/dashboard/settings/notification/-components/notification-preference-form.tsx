@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "convex/react";
+import { useMutation } from "convex/react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
@@ -26,6 +26,8 @@ import { Spinner } from "@/components/ui/spinner";
 import { Switch } from "@/components/ui/switch";
 import { api } from "@/convex/_generated/api";
 import { Route } from "..";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { convexQuery } from "@convex-dev/react-query";
 
 const daysOfTheWeek = [
   { label: "Monday", value: 0 },
@@ -65,9 +67,11 @@ type FormSchema = z.infer<typeof formSchema>;
 
 export default function NotificationPreferenceForm() {
   const { organization } = Route.useRouteContext();
-  const emailPreference = useQuery(api.emailPreferences.getEmailPreference, {
-    organizationId: organization._id,
-  });
+  const { data: emailPreference } = useSuspenseQuery(
+    convexQuery(api.emailPreferences.getEmailPreference, {
+      organizationId: organization._id,
+    }),
+  );
 
   const form = useForm<FormSchema>({
     mode: "onChange",
