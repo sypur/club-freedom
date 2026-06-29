@@ -11,7 +11,6 @@
 import type * as ai from "../ai.js";
 import type * as auth from "../auth.js";
 import type * as email from "../email.js";
-import type * as emailPreferences from "../emailPreferences.js";
 import type * as formPreferences from "../formPreferences.js";
 import type * as functions from "../functions.js";
 import type * as http from "../http.js";
@@ -20,6 +19,7 @@ import type * as internal_organizations from "../internal/organizations.js";
 import type * as media from "../media.js";
 import type * as mediaProcessing from "../mediaProcessing.js";
 import type * as migrations from "../migrations.js";
+import type * as notification from "../notification.js";
 import type * as organization from "../organization.js";
 import type * as r2 from "../r2.js";
 import type * as testimonials from "../testimonials.js";
@@ -36,7 +36,6 @@ declare const fullApi: ApiFromModules<{
   ai: typeof ai;
   auth: typeof auth;
   email: typeof email;
-  emailPreferences: typeof emailPreferences;
   formPreferences: typeof formPreferences;
   functions: typeof functions;
   http: typeof http;
@@ -45,6 +44,7 @@ declare const fullApi: ApiFromModules<{
   media: typeof media;
   mediaProcessing: typeof mediaProcessing;
   migrations: typeof migrations;
+  notification: typeof notification;
   organization: typeof organization;
   r2: typeof r2;
   testimonials: typeof testimonials;

@@ -2,7 +2,7 @@ import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { authComponent } from "./auth";
 
-export const getEmailPreference = query({
+export const getNotificationPreference = query({
   args: {
     organizationId: v.string(),
   },
@@ -10,7 +10,7 @@ export const getEmailPreference = query({
     const user = await authComponent.getAuthUser(ctx);
 
     return await ctx.db
-      .query("emailPreferences")
+      .query("notificationPreferences")
       .withIndex("byUserIdAndOrganizationId", (q) =>
         q.eq("organizationId", organizationId).eq("userId", user._id),
       )
@@ -18,7 +18,7 @@ export const getEmailPreference = query({
   },
 });
 
-export const upsertEmailPreference = mutation({
+export const upsertNotificationPreference = mutation({
   args: {
     organizationId: v.string(),
     preference: v.union(
@@ -27,32 +27,32 @@ export const upsertEmailPreference = mutation({
       }),
       v.object({
         enabled: v.literal(true),
-        days: v.array(v.number()),
-        time: v.number(),
+        daysOfTheWeek: v.array(v.number()),
+        hour: v.number(),
       }),
     ),
   },
   handler: async (ctx, { organizationId, preference }) => {
     const user = await authComponent.getAuthUser(ctx);
     const existing = await ctx.db
-      .query("emailPreferences")
+      .query("notificationPreferences")
       .withIndex("byUserIdAndOrganizationId", (q) =>
         q.eq("organizationId", organizationId).eq("userId", user._id),
       )
       .first();
 
     if (existing) {
-      await ctx.db.patch("emailPreferences", existing._id, preference);
+      await ctx.db.patch("notificationPreferences", existing._id, preference);
       return existing._id;
     } else {
-      const days = preference.enabled ? preference.days : [];
-      const time = preference.enabled ? preference.time : 0;
-      const newPreference = await ctx.db.insert("emailPreferences", {
+      const daysOfTheWeek = preference.enabled ? preference.daysOfTheWeek : [];
+      const hour = preference.enabled ? preference.hour : 0;
+      const newPreference = await ctx.db.insert("notificationPreferences", {
         userId: user._id,
-        organizationId,
+        organizationId: organizationId,
         enabled: preference.enabled,
-        days: days.toSorted((a, b) => a - b),
-        time,
+        daysOfTheWeek: daysOfTheWeek.toSorted((a, b) => a - b),
+        hour,
       });
       return newPreference;
     }
