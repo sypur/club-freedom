@@ -1,6 +1,8 @@
 import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
+import { mutation, query, internalMutation } from "./_generated/server";
 import { authComponent } from "./auth";
+import { getNextScheduleTime } from "./utils";
+import { internal } from "./_generated/api";
 
 export const getNotificationPreference = query({
   args: {
@@ -56,5 +58,36 @@ export const upsertNotificationPreference = mutation({
       });
       return newPreference;
     }
+  },
+});
+
+export const sendScheduledNotification = internalMutation({
+  args: { preferenceId: v.id("notificationPreferences") },
+  handler: async (ctx, args) => {
+    const preference = await ctx.db.get(args.preferenceId);
+
+    if (
+      !preference ||
+      !preference.enabled ||
+      preference.daysOfTheWeek.length === 0
+    )
+      return;
+
+    // TODO: Add notification action here
+
+    const nextRun = getNextScheduleTime(
+      preference.daysOfTheWeek,
+      preference.hour,
+    );
+
+    const nextScheduledId = await ctx.scheduler.runAt(
+      nextRun.getTime(),
+      internal.notification.sendScheduledNotification,
+      { preferenceId: preference._id },
+    );
+
+    await ctx.db.patch("notificationPreferences", preference._id, {
+      scheduleId: nextScheduledId,
+    });
   },
 });
