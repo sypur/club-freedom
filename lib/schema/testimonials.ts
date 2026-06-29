@@ -11,6 +11,7 @@ export const testimonialSchema = z
     agreementsAccepted: z
       .array(z.string())
       .min(1, "You must accept all agreements"),
+    formEventId: z.optional(z.string()),
     turnstileToken: z.string().min(1, "Please complete the human verification"),
   })
   .superRefine((data, ctx) => {
