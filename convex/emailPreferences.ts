@@ -51,7 +51,7 @@ export const upsertEmailPreference = mutation({
         userId: user._id,
         organizationId,
         enabled: preference.enabled,
-        days,
+        days: days.toSorted((a, b) => a - b),
         time,
       });
       return newPreference;
