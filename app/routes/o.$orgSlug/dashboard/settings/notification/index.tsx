@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import NotificationPreferenceForm from "./-components/notification-preference-form";
 import { Suspense } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Empty, EmptyHeader, EmptyMedia } from "@/components/ui/empty";
 import { Spinner } from "@/components/ui/spinner";
+import NotificationPreferenceForm from "./-components/notification-preference-form";
 
 export const Route = createFileRoute(
   "/o/$orgSlug/dashboard/settings/notification/",
