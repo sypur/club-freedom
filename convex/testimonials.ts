@@ -2,7 +2,7 @@ import { paginationOptsValidator } from "convex/server";
 import { v } from "convex/values";
 import { filter } from "convex-helpers/server/filter";
 import { api } from "./_generated/api";
-import { query } from "./_generated/server";
+import { internalQuery, query } from "./_generated/server";
 import { mutation } from "./functions";
 import { mediaTypeSchema, processingStatusSchema } from "./schema";
 import { removeUndefinedFromRecord } from "./utils";
@@ -306,5 +306,24 @@ export const retryProcessing = mutation({
         text: testimonial.testimonialText || "",
       });
     }
+  },
+});
+
+export const countPendingTestimonials = internalQuery({
+  args: {
+    organizationId: v.string(),
+  },
+  handler: async (ctx, { organizationId }) => {
+    const testimonials = await ctx.db
+      .query("testimonials")
+      .withIndex("by_processingStatus_and_organizationId", (q) =>
+        q
+          .eq("processingStatus", undefined)
+          .eq("organizationId", organizationId),
+      )
+      .filter((q) => q.eq(q.field("approved"), undefined))
+      .collect();
+
+    return testimonials.length;
   },
 });

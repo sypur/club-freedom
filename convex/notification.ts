@@ -1,9 +1,16 @@
 import { v } from "convex/values";
 import { internal } from "./_generated/api";
-import { internalMutation, query } from "./_generated/server";
+import {
+  internalAction,
+  internalMutation,
+  internalQuery,
+  query,
+} from "./_generated/server";
 import { authComponent } from "./auth";
-import { getNextScheduleTime } from "./utils";
+import { api } from "./betterAuth/_generated/api";
+import type { Id } from "./betterAuth/_generated/dataModel";
 import { mutation } from "./functions";
+import { getNextScheduleTime } from "./utils";
 
 export const getNotificationPreference = query({
   args: {
@@ -74,7 +81,14 @@ export const sendScheduledNotification = internalMutation({
     )
       return;
 
-    // TODO: Add notification action here
+    await ctx.scheduler.runAfter(
+      0,
+      internal.notification.sendNotificationEmail,
+      {
+        organizationId: preference.organizationId,
+        userId: preference.userId,
+      },
+    );
 
     const nextRun = getNextScheduleTime(
       preference.daysOfTheWeek,
@@ -90,5 +104,38 @@ export const sendScheduledNotification = internalMutation({
     await ctx.db.patch("notificationPreferences", preference._id, {
       scheduledId: nextScheduledId,
     });
+  },
+});
+
+export const sendNotificationEmail = internalAction({
+  args: {
+    userId: v.string(),
+    organizationId: v.string(),
+  },
+  handler: async (ctx, { userId, organizationId }) => {
+    const date = new Date();
+    console.log("Sending at", date.toISOString());
+
+    const user = await ctx.runQuery(api.auth.getUser, {
+      userId: userId as Id<"user">,
+    });
+
+    if (!user) return;
+
+    const organization = await ctx.runQuery(
+      api.organization.getOrganizationById,
+      {
+        organizationId,
+      },
+    );
+
+    if (!organization) return;
+
+    const testimonialCount = await ctx.runQuery(
+      internal.testimonials.countPendingTestimonials,
+      { organizationId },
+    );
+
+    console.log("Testimonial count", testimonialCount);
   },
 });
