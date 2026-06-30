@@ -1,4 +1,4 @@
-import { Heading, Link } from "@react-email/components";
+import { Heading, Link } from "react-email";
 import { BaseEmail, styles } from "./base-email";
 
 interface InviteEmailProps {
