@@ -47,7 +47,7 @@ export default defineSchema({
     testimonialId: v.string(),
     organizationId: v.string(),
   }).index("byTestimonialId", {
-    fields: ["testimonialId"]
+    fields: ["testimonialId"],
   }),
   formPreferences: defineTable({
     organizationId: v.string(),

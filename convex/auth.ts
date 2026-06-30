@@ -67,6 +67,10 @@ export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
                 type: "string",
                 required: false,
               },
+              pinnedSub: {
+                type: "number",
+                required: false,
+              },
             },
           },
         },

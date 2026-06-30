@@ -102,6 +102,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                   logo?: null | string;
                   metadata?: null | string;
                   name: string;
+                  pinnedSub?: null | number;
                   slug: string;
                 };
                 model: "organization";
@@ -330,6 +331,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "createdAt"
                     | "metadata"
                     | "icon"
+                    | "pinnedSub"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
                   operator?:
@@ -630,6 +632,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "createdAt"
                     | "metadata"
                     | "icon"
+                    | "pinnedSub"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
                   operator?:
@@ -1067,6 +1070,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                   logo?: null | string;
                   metadata?: null | string;
                   name?: string;
+                  pinnedSub?: null | number;
                   slug?: string;
                 };
                 where?: Array<{
@@ -1078,6 +1082,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "createdAt"
                     | "metadata"
                     | "icon"
+                    | "pinnedSub"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
                   operator?:
@@ -1441,6 +1446,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                   logo?: null | string;
                   metadata?: null | string;
                   name?: string;
+                  pinnedSub?: null | number;
                   slug?: string;
                 };
                 where?: Array<{
@@ -1452,6 +1458,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "createdAt"
                     | "metadata"
                     | "icon"
+                    | "pinnedSub"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
                   operator?:
@@ -1597,6 +1604,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
             logo?: null | string;
             metadata?: null | string;
             name: string;
+            pinnedSub?: null | number;
             slug: string;
           };
           organizationId: string;
@@ -1640,6 +1648,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
           logo?: null | string;
           metadata?: null | string;
           name: string;
+          pinnedSub?: null | number;
           slug: string;
         },
         Name
