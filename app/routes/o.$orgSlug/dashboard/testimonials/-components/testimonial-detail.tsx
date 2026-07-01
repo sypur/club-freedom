@@ -2,6 +2,7 @@ import { convexQuery } from "@convex-dev/react-query";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useRouteContext } from "@tanstack/react-router";
 import TestimonialApproval from "@/components/testimonial-detail/testimonial-approval";
+import TestimonialPin from "@/components/testimonial-detail/testimonial-pin";
 import TestimonialDelete from "@/components/testimonial-detail/testimonial-delete";
 import TestimonialDownload from "@/components/testimonial-detail/testimonial-download";
 import TestimonialInfo from "@/components/testimonial-detail/testimonial-info";
@@ -79,7 +80,10 @@ export default function TestimonialDetail({ testimonialId }: Props) {
         {testimonial.media_type !== "text" && <TestimonialMedia />}
         <div className="flex flex-wrap gap-2">
           {canApprove && testimonial.processingStatus === "completed" && (
-            <TestimonialApproval />
+            <div>
+              <TestimonialApproval />
+              <TestimonialPin />
+            </div>
           )}
           {canDownload && <TestimonialDownload />}
           {canDelete && <TestimonialDelete />}

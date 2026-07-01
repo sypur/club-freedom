@@ -6,6 +6,7 @@ import { query } from "./_generated/server";
 import { mutation } from "./functions";
 import { mediaTypeSchema, processingStatusSchema } from "./schema";
 import removeUndefinedFromRecord from "./utils";
+import { parseArgs } from "node:util";
 
 export const getTestimonials = query({
   args: {
@@ -41,17 +42,17 @@ export const getTestimonials = query({
     const completeTestimonialQuery =
       trimmedQuery !== "" && !order
         ? testimonialQuery.withSearchIndex("search_posts", (q) =>
-            q
+          q
 
-              .search("searchText", trimmedQuery)
-              .eq("processingStatus", "completed")
-              .eq("organizationId", orgId),
-          )
+            .search("searchText", trimmedQuery)
+            .eq("processingStatus", "completed")
+            .eq("organizationId", orgId),
+        )
         : testimonialQuery
-            .withIndex("by_processingStatus_and_organizationId", (q) =>
-              q.eq("processingStatus", "completed").eq("organizationId", orgId),
-            )
-            .order(order || "desc");
+          .withIndex("by_processingStatus_and_organizationId", (q) =>
+            q.eq("processingStatus", "completed").eq("organizationId", orgId),
+          )
+          .order(order || "desc");
 
     const canView = await ctx.runQuery(api.auth.checkUserPermissions, {
       permissions: {
@@ -64,13 +65,13 @@ export const getTestimonials = query({
         ? q.eq(q.field("approved"), true)
         : filters.statuses && filters.statuses.length > 0
           ? q.or(
-              filters.statuses.includes("pending") &&
-                q.eq(q.field("approved"), undefined),
-              filters.statuses.includes("published") &&
-                q.eq(q.field("approved"), true),
-              filters.statuses.includes("not-published") &&
-                q.eq(q.field("approved"), false),
-            )
+            filters.statuses.includes("pending") &&
+            q.eq(q.field("approved"), undefined),
+            filters.statuses.includes("published") &&
+            q.eq(q.field("approved"), true),
+            filters.statuses.includes("not-published") &&
+            q.eq(q.field("approved"), false),
+          )
           : true,
     );
 
@@ -95,19 +96,19 @@ export const getTestimonials = query({
 
     const withAuthorTestimonialQuery = trimmedAuthor
       ? filter(filteredTestimonialQuery, (t) =>
-          t.name.toLowerCase().includes(trimmedAuthor),
-        )
+        t.name.toLowerCase().includes(trimmedAuthor),
+      )
       : filteredTestimonialQuery;
 
     const withNonIndexSearchTestimonialQuery =
       trimmedQuery !== "" && order
         ? filter(
-            withAuthorTestimonialQuery,
-            (t) =>
-              t.searchText
-                ?.toLocaleLowerCase()
-                .includes(trimmedQuery.toLowerCase()) || false,
-          )
+          withAuthorTestimonialQuery,
+          (t) =>
+            t.searchText
+              ?.toLocaleLowerCase()
+              .includes(trimmedQuery.toLowerCase()) || false,
+        )
         : withAuthorTestimonialQuery;
 
     return await withNonIndexSearchTestimonialQuery.paginate(paginationOpts);
@@ -266,17 +267,41 @@ export const updateTranscription = mutation({
     await ctx.db.patch(id, { testimonialText: text });
   },
 });
+
+//needs to add counting up to 3 and subtracting Organization pinned testimonies variable
 export const pinTestimonial = mutation({
   args: {
-    id: v.id("testimonial"),
+    id: v.id("testimonials"),
+  },
+  handler: async (ctx, args) => {
+    const testimonial = await ctx.db.get("testimonials", args.id);
+
+    if (testimonial?.organizationId) {
+      const orgId = testimonial.organizationId;
+      const testId = args.id.toString();
+      await ctx.db.insert("pinnedTestimonials", { organizationId: orgId, testimonialId: testId });
+    }
+  },
+});
+export const unpinTestimonial = mutation({
+  args: {
+    id: v.id("testimonials"),
   },
   handler: async (ctx, { id }) => {
     const testimonial = await ctx.db.get("testimonials", id);
-    const organizationId = testimonial.organizationId;
+    const organizationId = testimonial?.organizationId;
 
-    await ctx.db.insert("pinnedTestimonial", { id, organizationId });
+    const item = await ctx.db
+      .query("pinnedTestimonials")
+      .withIndex("byTestimonialId", (q) => q.eq("testimonialId", id))
+      .unique();
+
+    if (item?._id) {
+      await ctx.db.delete(item._id);
+    }
   },
 });
+
 
 export const updateSummaryAndTitle = mutation({
   args: {
