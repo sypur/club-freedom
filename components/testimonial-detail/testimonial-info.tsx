@@ -10,6 +10,16 @@ export default function TestimonialInfo() {
       <p className="text-muted-foreground">
         {format(testimonial._creationTime, "PPp")}
       </p>
+      {testimonial.eventName && testimonial.eventDate && (
+        <h3 className="font-bold">
+          Event: {testimonial.eventName} -{" "}
+          {new Date(testimonial.eventDate).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+        </h3>
+      )}
     </div>
   );
 }
