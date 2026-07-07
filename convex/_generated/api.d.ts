@@ -11,6 +11,7 @@
 import type * as ai from "../ai.js";
 import type * as auth from "../auth.js";
 import type * as email from "../email.js";
+import type * as emailPreferences from "../emailPreferences.js";
 import type * as formPreferences from "../formPreferences.js";
 import type * as functions from "../functions.js";
 import type * as http from "../http.js";
@@ -35,6 +36,7 @@ declare const fullApi: ApiFromModules<{
   ai: typeof ai;
   auth: typeof auth;
   email: typeof email;
+  emailPreferences: typeof emailPreferences;
   formPreferences: typeof formPreferences;
   functions: typeof functions;
   http: typeof http;
