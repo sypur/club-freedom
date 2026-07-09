@@ -1,14 +1,12 @@
 import { v } from "convex/values";
+import { render } from "react-email";
+import NotificationEmail from "@/emails/notification";
 import { internal } from "./_generated/api";
-import {
-  internalAction,
-  internalMutation,
-  internalQuery,
-  query,
-} from "./_generated/server";
+import { internalAction, internalMutation, query } from "./_generated/server";
 import { authComponent } from "./auth";
-import { api } from "./betterAuth/_generated/api";
+import { api as authApi } from "./betterAuth/_generated/api";
 import type { Id } from "./betterAuth/_generated/dataModel";
+import { resend } from "./email";
 import { mutation } from "./functions";
 import { getNextScheduleTime } from "./utils";
 
@@ -116,14 +114,14 @@ export const sendNotificationEmail = internalAction({
     const date = new Date();
     console.log("Sending at", date.toISOString());
 
-    const user = await ctx.runQuery(api.auth.getUser, {
+    const user = await ctx.runQuery(authApi.auth.getUser, {
       userId: userId as Id<"user">,
     });
 
     if (!user) return;
 
     const organization = await ctx.runQuery(
-      api.organization.getOrganizationById,
+      authApi.organization.getOrganizationById,
       {
         organizationId,
       },
@@ -131,11 +129,28 @@ export const sendNotificationEmail = internalAction({
 
     if (!organization) return;
 
-    const testimonialCount = await ctx.runQuery(
+    const count = await ctx.runQuery(
       internal.testimonials.countPendingTestimonials,
       { organizationId },
     );
 
-    console.log("Testimonial count", testimonialCount);
+    if (count <= 0) {
+      console.log("No testimonial count. Skipping email");
+      return;
+    }
+
+    await resend.sendEmail(ctx, {
+      from: `Sypur <${process.env.AUTH_EMAIL}>`,
+      to: user.email,
+      subject: `[${organization.name} on Sypur] You have ${count} testimonial${count !== 1 ? "s" : ""} pending for review`,
+      html: await render(
+        NotificationEmail({
+          user,
+          organization,
+          testimonialsCount: count,
+          siteUrl: `${process.env.SITE_URL}`,
+        }),
+      ),
+    });
   },
 });
