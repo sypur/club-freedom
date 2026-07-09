@@ -14,7 +14,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
-import { Button, buttonVariants } from "../ui/button";
+import { Button } from "../ui/button";
 import {
   Select,
   SelectContent,
@@ -164,9 +164,7 @@ function RemoveMember({ member }: Props) {
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
             onClick={() => removeMember()}
-            className={buttonVariants({
-              variant: "destructive",
-            })}
+            variant="destructive"
           >
             Remove
           </AlertDialogAction>

@@ -2,10 +2,10 @@ import { paginationOptsValidator } from "convex/server";
 import { v } from "convex/values";
 import { filter } from "convex-helpers/server/filter";
 import { api } from "./_generated/api";
-import { query } from "./_generated/server";
+import { internalQuery, query } from "./_generated/server";
 import { mutation } from "./functions";
 import { mediaTypeSchema, processingStatusSchema } from "./schema";
-import removeUndefinedFromRecord from "./utils";
+import { removeUndefinedFromRecord } from "./utils";
 
 export const getTestimonials = query({
   args: {
@@ -122,10 +122,21 @@ export const postTestimonial = mutation({
     media_type: mediaTypeSchema,
     text: v.string(),
     organizationId: v.string(),
+    eventName: v.optional(v.string()),
+    eventDate: v.optional(v.number()),
   },
   handler: async (
     ctx,
-    { name, email, storageId, media_type, text, organizationId },
+    {
+      name,
+      email,
+      storageId,
+      media_type,
+      text,
+      organizationId,
+      eventName,
+      eventDate,
+    },
   ) => {
     const id = await ctx.db.insert("testimonials", {
       name,
@@ -135,6 +146,8 @@ export const postTestimonial = mutation({
       testimonialText: text,
       organizationId,
       processingStatus: "ongoing",
+      eventName,
+      eventDate,
     });
     return id;
   },
@@ -293,5 +306,24 @@ export const retryProcessing = mutation({
         text: testimonial.testimonialText || "",
       });
     }
+  },
+});
+
+export const countPendingTestimonials = internalQuery({
+  args: {
+    organizationId: v.string(),
+  },
+  handler: async (ctx, { organizationId }) => {
+    const testimonials = await ctx.db
+      .query("testimonials")
+      .withIndex("by_processingStatus_and_organizationId", (q) =>
+        q
+          .eq("processingStatus", "completed")
+          .eq("organizationId", organizationId),
+      )
+      .filter((q) => q.eq(q.field("approved"), undefined))
+      .collect();
+
+    return testimonials.length;
   },
 });

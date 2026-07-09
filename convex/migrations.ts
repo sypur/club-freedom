@@ -32,7 +32,8 @@ export const backFillSearchText = migrations.define({
     const summary = doc.summary || "";
     const text = doc.testimonialText || "";
     const title = doc.title || "";
-    const searchText = [email, name, summary, text, title].join(" ");
+    const eventName = doc.eventName || "";
+    const searchText = [email, name, summary, text, title, eventName].join(" ");
     return { searchText };
   },
 });

@@ -1,20 +1,18 @@
 import { convexQuery, useConvexMutation } from "@convex-dev/react-query";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "@tanstack/react-router";
+import { useRouteContext, useRouter } from "@tanstack/react-router";
 import { ImageIcon } from "lucide-react";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 import { api } from "@/convex/_generated/api";
-import type { Doc } from "@/convex/betterAuth/_generated/dataModel";
 import { useFileUpload } from "@/hooks/use-file-upload";
 import { useUploadFile } from "@/hooks/use-upload-file";
 import { authClient } from "@/lib/auth/auth-client";
-import { Button } from "../ui/button";
 
-type Props = {
-  organization: Doc<"organization">;
-};
-
-export default function OrganizationLogoForm({ organization }: Props) {
+export default function OrganizationLogoForm() {
+  const { organization } = useRouteContext({
+    from: "/o/$orgSlug",
+  });
   const uploadFile = useUploadFile();
 
   const generateUploadUrl = useConvexMutation(

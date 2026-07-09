@@ -6,14 +6,15 @@ import {
 } from "convex-helpers/server/customFunctions";
 import { Triggers } from "convex-helpers/server/triggers";
 import { TEMP_TESTIMONIAL_FOLDER } from "@/lib/constants";
-import { api } from "./_generated/api";
+import { api, internal } from "./_generated/api";
 /* eslint-enable no-restricted-imports */
-import type { DataModel } from "./_generated/dataModel";
+import type { DataModel, Id } from "./_generated/dataModel";
 import {
   internalMutation as rawInternalMutation,
   mutation as rawMutation,
 } from "./_generated/server";
 import { r2 } from "./r2";
+import { getNextScheduleTime } from "./utils";
 
 // start using Triggers, with table types from schema.ts
 const triggers = new Triggers<DataModel>();
@@ -29,18 +30,23 @@ triggers.register("testimonials", async (ctx, change) => {
   const text = change.newDoc?.testimonialText;
   const oldTitle = change.oldDoc?.title;
   const title = change.newDoc?.title;
+  const oldEventName = change.oldDoc?.eventName;
+  const eventName = change.newDoc?.eventName;
 
   if (
     (oldEmail === email &&
       oldName === name &&
       oldSummary === summary &&
       oldText === text &&
-      oldTitle === title) ||
+      oldTitle === title &&
+      oldEventName === eventName) ||
     change.operation === "delete"
   ) {
     return;
   }
-  const newSearchText = [email, name, summary, text, title].join(" ");
+  const newSearchText = [email, name, summary, text, title, eventName].join(
+    " ",
+  );
   await ctx.db.patch(change.id, { searchText: newSearchText });
 });
 
@@ -107,6 +113,47 @@ triggers.register("testimonials", async (ctx, change) => {
     testimonialId: id,
     text: newText,
   });
+});
+
+// Trigger when the notification preference changes
+triggers.register("notificationPreferences", async (ctx, change) => {
+  const oldDoc = change.oldDoc;
+  const newDoc = change.newDoc;
+
+  if (change.operation === "delete" && oldDoc?.scheduledId) {
+    await ctx.scheduler.cancel(oldDoc.scheduledId);
+    return;
+  }
+
+  const timingChanged =
+    !oldDoc || // Insert operation
+    oldDoc.enabled !== newDoc?.enabled ||
+    JSON.stringify(oldDoc.daysOfTheWeek) !==
+      JSON.stringify(newDoc?.daysOfTheWeek || []) ||
+    oldDoc.hour !== newDoc?.hour;
+
+  if (!timingChanged || !newDoc) return;
+
+  if (oldDoc?.scheduledId) {
+    await ctx.scheduler.cancel(oldDoc.scheduledId);
+  }
+
+  let nextScheduledId: Id<"_scheduled_functions"> | undefined;
+
+  if (newDoc.enabled && newDoc.daysOfTheWeek.length > 0) {
+    const nextRunTimestamp = getNextScheduleTime(
+      newDoc.daysOfTheWeek,
+      newDoc.hour,
+    );
+
+    nextScheduledId = await ctx.scheduler.runAt(
+      nextRunTimestamp,
+      internal.notification.sendScheduledNotification,
+      { preferenceId: newDoc._id },
+    );
+  }
+
+  await ctx.db.patch(newDoc._id, { scheduledId: nextScheduledId });
 });
 
 // create wrappers that replace the built-in `mutation` and `internalMutation`

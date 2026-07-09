@@ -1,9 +1,10 @@
 import { v } from "convex/values";
+import { formEventSchema } from "@/convex/schema";
 import { api } from "./_generated/api";
 import type { Id } from "./_generated/dataModel";
 import { type MutationCtx, type QueryCtx, query } from "./_generated/server";
 import { mutation } from "./functions";
-import removeUndefinedFromRecord from "./utils";
+import { removeUndefinedFromRecord } from "./utils";
 
 export async function getFormPreferenceByOrgIdAndName(
   ctx: QueryCtx,
@@ -98,6 +99,7 @@ export const postFormPreference = mutation({
     videoInstructions: v.optional(v.string()),
     videoEnabled: v.boolean(),
     agreements: v.optional(v.array(v.string())),
+    formEvents: v.optional(v.array(formEventSchema)),
   },
   handler: async (
     ctx,
@@ -112,6 +114,7 @@ export const postFormPreference = mutation({
       videoInstructions,
       videoEnabled,
       agreements,
+      formEvents,
     },
   ) => {
     const canUpdateOrg = await ctx.runQuery(api.auth.checkUserPermissions, {
@@ -143,6 +146,7 @@ export const postFormPreference = mutation({
       videoInstructions,
       videoEnabled,
       agreements,
+      formEvents,
       activated: false,
     });
     return id;
@@ -203,6 +207,7 @@ export const updateFormPreference = mutation({
     audioEnabled: v.optional(v.boolean()),
     videoInstructions: v.optional(v.string()),
     videoEnabled: v.optional(v.boolean()),
+    formEvents: v.optional(v.array(formEventSchema)),
     agreements: v.optional(v.array(v.string())),
   },
   handler: async (ctx, args) => {

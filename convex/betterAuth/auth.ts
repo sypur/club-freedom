@@ -11,10 +11,12 @@ export const auth = createAuth({} as any);
 // Example of an in-component function
 // Feel free to edit, omit, etc.
 export const getUser = query({
-  args: { userId: v.id("user") },
+  args: { userId: v.string() },
   returns: v.union(v.null(), doc(schema, "user")),
   handler: async (ctx, args) => {
-    return ctx.db.get(args.userId);
+    const userId = ctx.db.normalizeId("user", args.userId);
+    if (!userId) return null;
+    return await ctx.db.get(userId);
   },
 });
 
