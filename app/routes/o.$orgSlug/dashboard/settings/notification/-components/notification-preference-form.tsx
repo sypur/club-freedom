@@ -49,11 +49,11 @@ const convertToAMPM = (time: number) => {
 const formSchema = z
   .object({
     enabled: z.boolean(),
-    days: z.array(z.number()),
-    time: z.number(),
+    daysOfTheWeek: z.array(z.number()),
+    hour: z.number(),
   })
   .refine(
-    ({ enabled, days: daysOfTheWeek }) => {
+    ({ enabled, daysOfTheWeek }) => {
       return !enabled || daysOfTheWeek.length > 0;
     },
     {
@@ -67,8 +67,8 @@ type FormSchema = z.infer<typeof formSchema>;
 
 export default function NotificationPreferenceForm() {
   const { organization } = Route.useRouteContext();
-  const { data: emailPreference } = useSuspenseQuery(
-    convexQuery(api.emailPreferences.getEmailPreference, {
+  const { data: preference } = useSuspenseQuery(
+    convexQuery(api.notification.getNotificationPreference, {
       organizationId: organization._id,
     }),
   );
@@ -78,14 +78,14 @@ export default function NotificationPreferenceForm() {
     reValidateMode: "onChange",
     resolver: zodResolver(formSchema),
     defaultValues: {
-      enabled: emailPreference?.enabled || false,
-      days: emailPreference?.days || [],
-      time: emailPreference?.time || 9,
+      enabled: preference?.enabled || false,
+      daysOfTheWeek: preference?.daysOfTheWeek || [],
+      hour: preference?.hour || 9,
     },
   });
 
-  const saveEmailPreference = useMutation(
-    api.emailPreferences.upsertEmailPreference,
+  const savePreference = useMutation(
+    api.notification.upsertNotificationPreference,
   );
 
   const isEnabled = form.watch("enabled");
@@ -101,9 +101,9 @@ export default function NotificationPreferenceForm() {
         };
 
     try {
-      await saveEmailPreference({
+      await savePreference({
         preference,
-        organizationId: organization._id as string,
+        organizationId: organization._id,
       });
       toast.success("Email preference saved successfully");
       form.reset({
@@ -122,10 +122,10 @@ export default function NotificationPreferenceForm() {
         render={({ field }) => (
           <Field orientation="horizontal">
             <FieldContent>
-              <FieldLabel htmlFor={field.name}>Email notification</FieldLabel>
+              <FieldLabel htmlFor={field.name}>Enable notification</FieldLabel>
               <FieldDescription>
-                Emails about pending testimonials will be sent to your email
-                address.
+                Notification about pending testimonials will be sent to your
+                email address.
               </FieldDescription>
             </FieldContent>
             <Switch
@@ -140,11 +140,11 @@ export default function NotificationPreferenceForm() {
       {isEnabled && (
         <Controller
           control={form.control}
-          name="days"
+          name="daysOfTheWeek"
           disabled={!isEnabled}
           render={({ field, fieldState }) => (
             <FieldSet data-invalid={fieldState.invalid}>
-              <FieldLegend variant="label">Notification Frequency</FieldLegend>
+              <FieldLegend variant="label">Frequency</FieldLegend>
               <FieldDescription>
                 Choose at least one day of the week to receive notifications.
               </FieldDescription>
@@ -176,11 +176,13 @@ export default function NotificationPreferenceForm() {
       {isEnabled && (
         <Controller
           control={form.control}
-          name="time"
+          name="hour"
           render={({ field }) => (
             <Field orientation="horizontal">
               <FieldContent>
-                <FieldLabel htmlFor={field.name}>Send email at</FieldLabel>
+                <FieldLabel htmlFor={field.name}>
+                  Send notification at
+                </FieldLabel>
                 <FieldDescription>
                   Choose the time of the day you want to receive notifications.
                 </FieldDescription>
@@ -208,11 +210,7 @@ export default function NotificationPreferenceForm() {
       <Button
         className="place-self-start"
         type="submit"
-        disabled={
-          form.formState.isSubmitting ||
-          !form.formState.isDirty ||
-          !form.formState.isValid
-        }
+        disabled={form.formState.isSubmitting || !form.formState.isValid}
       >
         {form.formState.isSubmitting ? (
           <>

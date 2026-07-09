@@ -4,7 +4,7 @@ import { api } from "./_generated/api";
 import type { Id } from "./_generated/dataModel";
 import { type MutationCtx, type QueryCtx, query } from "./_generated/server";
 import { mutation } from "./functions";
-import removeUndefinedFromRecord from "./utils";
+import { removeUndefinedFromRecord } from "./utils";
 
 export async function getFormPreferenceByOrgIdAndName(
   ctx: QueryCtx,

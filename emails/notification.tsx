@@ -4,8 +4,8 @@ import { BaseEmail } from "./components/base-email";
 
 interface NotificationEmailProps {
   siteUrl: string;
-  user: User;
-  organization: Organization;
+  user: Pick<User, "name">;
+  organization: Pick<Organization, "name" | "slug">;
   testimonialsCount: number;
 }
 
