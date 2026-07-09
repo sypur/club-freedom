@@ -1,0 +1,9 @@
+allowBuilds:
+  '@depot/cli': false
+  '@parcel/watcher': false
+  '@posthog/cli': false
+  core-js: false
+  esbuild: false
+  protobufjs: false
+  sharp: false
+  workerd: false

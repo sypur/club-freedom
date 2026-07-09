@@ -268,6 +268,11 @@ export const updateTranscription = mutation({
   },
 });
 
+//Viets notes:
+//Convex cannot order by stack but you can order by indexing
+//No potential impact if you don't use a pinnedTestimonials table but just add two more columns in schema testimonials table
+//if done in one table index("by_pinned_pinnedCreation").filter("orgId")
+
 //needs to add counting up to 3 and subtracting Organization pinned testimonies variable
 export const pinTestimonial = mutation({
   args: {

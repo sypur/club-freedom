@@ -100,7 +100,7 @@
     "vite": "^8.1.0",
     "wrangler": "^4.105.0"
   },
-  "packageManager": "pnpm@10.22.0",
+  "packageManager": "pnpm@11.10.0",
   "scripts": {
     "auth:generate": "pnpx @better-auth/cli generate --config convex/betterAuth/auth.ts --output convex/betterAuth/generatedSchema.ts",
     "build:preview": "vite build --mode preview && tsc --noEmit",
