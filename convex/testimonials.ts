@@ -318,7 +318,7 @@ export const countPendingTestimonials = internalQuery({
       .query("testimonials")
       .withIndex("by_processingStatus_and_organizationId", (q) =>
         q
-          .eq("processingStatus", undefined)
+          .eq("processingStatus", "completed")
           .eq("organizationId", organizationId),
       )
       .filter((q) => q.eq(q.field("approved"), undefined))
