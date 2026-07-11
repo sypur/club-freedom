@@ -19,6 +19,7 @@ import type * as internal_organizations from "../internal/organizations.js";
 import type * as media from "../media.js";
 import type * as mediaProcessing from "../mediaProcessing.js";
 import type * as migrations from "../migrations.js";
+import type * as notification from "../notification.js";
 import type * as organization from "../organization.js";
 import type * as r2 from "../r2.js";
 import type * as testimonials from "../testimonials.js";
@@ -43,6 +44,7 @@ declare const fullApi: ApiFromModules<{
   media: typeof media;
   mediaProcessing: typeof mediaProcessing;
   migrations: typeof migrations;
+  notification: typeof notification;
   organization: typeof organization;
   r2: typeof r2;
   testimonials: typeof testimonials;

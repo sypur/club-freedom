@@ -1,4 +1,5 @@
 import { Resend } from "@convex-dev/resend";
+import type { Organization } from "better-auth/client";
 import { render } from "react-email";
 import InviteEmail from "@/emails/invite";
 import ResetPasswordEmail from "@/emails/reset-password";
@@ -38,13 +39,13 @@ export const sendInvite = async (
     to: string;
     url: string;
     subject: string;
-    organization: string;
+    organization: Organization;
   },
 ) => {
   await resend.sendEmail(ctx, {
     from: `Sypur <${process.env.AUTH_EMAIL}>`,
     to,
     subject,
-    html: await render(<InviteEmail brandName={organization} url={url} />),
+    html: await render(<InviteEmail organization={organization} url={url} />),
   });
 };

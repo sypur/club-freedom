@@ -79,7 +79,7 @@ export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
             to: email,
             subject: `You're invited to ${organization.name}`,
             url: `${siteUrl}/accept-invite/${id}`,
-            organization: organization.name,
+            organization: organization,
           });
         },
         organizationHooks: {

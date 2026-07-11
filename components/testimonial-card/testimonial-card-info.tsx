@@ -10,7 +10,7 @@ import {
 
 export default function TestimonialCardInfo() {
   const { testimonial } = useTestimonialContext();
-  const { name, _creationTime } = testimonial;
+  const { name, _creationTime, eventName } = testimonial;
 
   return (
     <CardDescription>
@@ -28,6 +28,12 @@ export default function TestimonialCardInfo() {
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
+      {eventName?.trim() && (
+        <>
+          {" · "}
+          <strong>{eventName}</strong>
+        </>
+      )}
     </CardDescription>
   );
 }

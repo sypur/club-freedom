@@ -14,3 +14,16 @@ export const getOrganization = query({
     return organization;
   },
 });
+
+export const getOrganizationById = query({
+  args: { organizationId: v.string() },
+  returns: v.union(v.null(), doc(schema, "organization")),
+  handler: async (ctx, args) => {
+    const organizationId = await ctx.db.normalizeId(
+      "organization",
+      args.organizationId,
+    );
+    if (!organizationId) return null;
+    return await ctx.db.get("organization", organizationId);
+  },
+});

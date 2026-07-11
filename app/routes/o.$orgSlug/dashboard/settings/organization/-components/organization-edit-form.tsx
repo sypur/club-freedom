@@ -1,7 +1,7 @@
 import { convexQuery } from "@convex-dev/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { useRouter } from "@tanstack/react-router";
+import { useParams, useRouter } from "@tanstack/react-router";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -14,10 +14,11 @@ import {
   type Organization,
   organizationSchema,
 } from "@/lib/schema/organization";
-import { Route } from "..";
 
 export default function OrganizationEditForm() {
-  const { orgSlug } = Route.useParams();
+  const { orgSlug } = useParams({
+    from: "/o/$orgSlug",
+  });
   const { data: organization } = useSuspenseQuery(
     convexQuery(api.organization.getOrganizationBySlug, {
       slug: orgSlug,
