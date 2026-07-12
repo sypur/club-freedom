@@ -40,6 +40,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                   image?: null | string;
                   name: string;
                   role?: null | string;
+                  timezone?: null | string;
                   updatedAt: number;
                   userId?: null | string;
                 };
@@ -154,6 +155,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "banned"
                     | "banReason"
                     | "banExpires"
+                    | "timezone"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
                   operator?:
@@ -454,6 +456,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "banned"
                     | "banReason"
                     | "banExpires"
+                    | "timezone"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
                   operator?:
@@ -839,6 +842,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                   image?: null | string;
                   name?: string;
                   role?: null | string;
+                  timezone?: null | string;
                   updatedAt?: number;
                   userId?: null | string;
                 };
@@ -856,6 +860,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "banned"
                     | "banReason"
                     | "banExpires"
+                    | "timezone"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
                   operator?:
@@ -1213,6 +1218,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                   image?: null | string;
                   name?: string;
                   role?: null | string;
+                  timezone?: null | string;
                   updatedAt?: number;
                   userId?: null | string;
                 };
@@ -1230,6 +1236,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "banned"
                     | "banReason"
                     | "banExpires"
+                    | "timezone"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
                   operator?:
@@ -1621,6 +1628,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
           image?: null | string;
           name: string;
           role?: null | string;
+          timezone?: null | string;
           updatedAt: number;
           userId?: null | string;
         },

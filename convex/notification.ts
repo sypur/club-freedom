@@ -88,9 +88,16 @@ export const sendScheduledNotification = internalMutation({
       },
     );
 
+    const user = await ctx.runQuery(authApi.auth.getUser, {
+      userId: preference.userId,
+    });
+
+    if (!user) return;
+
     const nextRun = getNextScheduleTime(
       preference.daysOfTheWeek,
       preference.hour,
+      user.timezone || undefined,
     );
 
     const nextScheduledId = await ctx.scheduler.runAt(
