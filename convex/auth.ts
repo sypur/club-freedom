@@ -60,6 +60,8 @@ export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
       admin(adminRBAC),
       organization({
         ...organizationRBAC,
+        // HACK: Required when disable ID generation by Better Auth
+        requireEmailVerificationOnInvitation: false,
         schema: {
           organization: {
             additionalFields: {
