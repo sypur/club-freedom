@@ -40,7 +40,9 @@ type Env = {
   readonly R2_PUBLIC_URL: string;
   readonly R2_SECRET_ACCESS_KEY: string;
   readonly R2_TOKEN: string;
+  readonly RESEND_API_KEY: string;
   readonly SITE_URL: string;
+  readonly TRIGGER_SECRET_KEY: string;
 };
 
 /**

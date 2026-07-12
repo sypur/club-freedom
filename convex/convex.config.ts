@@ -8,11 +8,15 @@ import posthog from "@posthog/convex/convex.config.js"
 
 const app = defineApp({
   env: {
+    // General
     SITE_URL: v.string(),
 
     // Better Auth
     BETTER_AUTH_SECRET: v.string(),
+
+    // Resend
     AUTH_EMAIL: v.string(),
+    RESEND_API_KEY: v.string(),
 
     // AI
     GROQ_API_KEY: v.string(),
@@ -32,6 +36,9 @@ const app = defineApp({
     R2_SECRET_ACCESS_KEY: v.string(),
     R2_ENDPOINT: v.string(),
     R2_BUCKET: v.string(),
+
+    // Trigger.dev
+    TRIGGER_SECRET_KEY: v.string()
   }
 });
 
