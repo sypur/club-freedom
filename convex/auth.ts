@@ -109,6 +109,14 @@ export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
       }),
     ],
     trustedOrigins: [siteUrl],
+
+    /**
+     * HACK: Let Convex handle ID generation instead of Better Auth
+     * This fix comes from this issue: https://github.com/get-convex/better-auth/issues/407
+     */
+    advanced: {
+      database: { generateId: false },
+    },
   } satisfies BetterAuthOptions;
 };
 
