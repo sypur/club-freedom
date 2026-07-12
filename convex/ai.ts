@@ -42,7 +42,7 @@ export const summarizeText = action({
         error: {
           testimonialId: testimonialId,
           text: text,
-        }
+        },
       });
       return;
     }

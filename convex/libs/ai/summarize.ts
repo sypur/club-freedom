@@ -1,7 +1,7 @@
-import { env } from "@/convex/_generated/server";
 import OpenAI from "openai";
 import { zodResponseFormat } from "openai/helpers/zod";
 import z from "zod";
+import { env } from "@/convex/_generated/server";
 
 const SummaryResponseSchema = z.object({
   title: z.string(),

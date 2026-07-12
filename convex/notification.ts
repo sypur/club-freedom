@@ -2,7 +2,12 @@ import { v } from "convex/values";
 import { render } from "react-email";
 import NotificationEmail from "@/emails/notification";
 import { internal } from "./_generated/api";
-import { env, internalAction, internalMutation, query } from "./_generated/server";
+import {
+  env,
+  internalAction,
+  internalMutation,
+  query,
+} from "./_generated/server";
 import { authComponent } from "./auth";
 import { api as authApi } from "./betterAuth/_generated/api";
 import type { Id } from "./betterAuth/_generated/dataModel";

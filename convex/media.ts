@@ -7,8 +7,8 @@ import { extension as getExtension } from "mime-types";
 import { createR2Client } from "@/lib/r2";
 import { api } from "./_generated/api";
 import { action } from "./_generated/server";
-import { r2 } from "./r2";
 import { posthog } from "./libs/posthog";
+import { r2 } from "./r2";
 
 export const generateMediaDownloadUrl = action({
   args: { id: v.id("testimonials") },
@@ -53,7 +53,7 @@ export const generateMediaDownloadUrl = action({
         distinctId: `generateMediaDownloadUrl-${id}`,
         error: {
           id: id,
-        }
+        },
       });
       return undefined;
     }

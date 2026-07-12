@@ -1,10 +1,10 @@
 import migration from "@convex-dev/migrations/convex.config";
 import r2 from "@convex-dev/r2/convex.config";
 import resend from "@convex-dev/resend/convex.config";
+import posthog from "@posthog/convex/convex.config.js";
 import { defineApp } from "convex/server";
-import betterAuth from "@/convex/betterAuth/convex.config";
 import { v } from "convex/values";
-import posthog from "@posthog/convex/convex.config.js"
+import betterAuth from "@/convex/betterAuth/convex.config";
 
 const app = defineApp({
   env: {
@@ -38,8 +38,8 @@ const app = defineApp({
     R2_BUCKET: v.string(),
 
     // Trigger.dev
-    TRIGGER_SECRET_KEY: v.string()
-  }
+    TRIGGER_SECRET_KEY: v.string(),
+  },
 });
 
 app.use(r2);
@@ -51,8 +51,9 @@ app.use(posthog, {
     POSTHOG_PROJECT_TOKEN: app.env.POSTHOG_PROJECT_TOKEN,
     POSTHOG_HOST: app.env.POSTHOG_HOST,
     POSTHOG_PERSONAL_API_KEY: app.env.POSTHOG_PERSONAL_API_KEY,
-    POSTHOG_FLAGS_POLLING_INTERVAL_SECONDS: app.env.POSTHOG_FLAGS_POLLING_INTERVAL_SECONDS,
-  }
-})
+    POSTHOG_FLAGS_POLLING_INTERVAL_SECONDS:
+      app.env.POSTHOG_FLAGS_POLLING_INTERVAL_SECONDS,
+  },
+});
 
 export default app;

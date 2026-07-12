@@ -11,7 +11,7 @@ import {
 } from "@/lib/auth/permissions/organization";
 import { components } from "./_generated/api";
 import type { DataModel } from "./_generated/dataModel";
-import { query, env } from "./_generated/server";
+import { env, query } from "./_generated/server";
 import authConfig from "./auth.config";
 import authSchema from "./betterAuth/schema";
 import { sendInvite, sendResetPassword } from "./email";
