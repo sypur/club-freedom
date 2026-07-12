@@ -9,17 +9,29 @@ import posthog from "@posthog/convex/convex.config.js"
 const app = defineApp({
   env: {
     SITE_URL: v.string(),
+
+    // Better Auth
     BETTER_AUTH_SECRET: v.string(),
     AUTH_EMAIL: v.string(),
-    R2_PUBLIC_URL: v.string(),
+
+    // AI
     GROQ_API_KEY: v.string(),
     AI_GATEWAY_ENDPOINT: v.string(),
     AI_GATEWAY_API_TOKEN: v.string(),
 
+    // PostHog
     POSTHOG_PROJECT_TOKEN: v.string(),
     POSTHOG_HOST: v.optional(v.string()),
     POSTHOG_PERSONAL_API_KEY: v.optional(v.string()),
     POSTHOG_FLAGS_POLLING_INTERVAL_SECONDS: v.optional(v.string()),
+
+    // R2
+    R2_PUBLIC_URL: v.string(),
+    R2_TOKEN: v.string(),
+    R2_ACCESS_KEY_ID: v.string(),
+    R2_SECRET_ACCESS_KEY: v.string(),
+    R2_ENDPOINT: v.string(),
+    R2_BUCKET: v.string(),
   }
 });
 
