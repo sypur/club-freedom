@@ -141,14 +141,14 @@ triggers.register("notificationPreferences", async (ctx, change) => {
   let nextScheduledId: Id<"_scheduled_functions"> | undefined;
 
   const user = await ctx.runQuery(api.auth.getUserById, {
-    userId: newDoc.userId
-  })
+    userId: newDoc.userId,
+  });
 
   if (newDoc.enabled && newDoc.daysOfTheWeek.length > 0 && user) {
     const nextRunTimestamp = getNextScheduleTime(
       newDoc.daysOfTheWeek,
       newDoc.hour,
-      user.timezone || undefined
+      user.timezone || undefined,
     );
 
     nextScheduledId = await ctx.scheduler.runAt(

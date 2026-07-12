@@ -9,26 +9,33 @@ export function removeUndefinedFromRecord<T extends Record<string, unknown>>(
   ) as Partial<T>;
 }
 
-export function getNextScheduleTime(allowedDaysOfTheWeek: number[], hour: number, timezone?: string | null): Date {
+export function getNextScheduleTime(
+  allowedDaysOfTheWeek: number[],
+  hour: number,
+  timezone?: string | null,
+): Date {
   const targetTz = timezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const nowInTz = new TZDate(new Date(), targetTz);
 
-  let target = new TZDate(
-      nowInTz.getFullYear(),
-      nowInTz.getMonth(),
-      nowInTz.getDate(),
-      hour,
-      0,
-      0,
-      0,
-      targetTz
-    );
+  const target = new TZDate(
+    nowInTz.getFullYear(),
+    nowInTz.getMonth(),
+    nowInTz.getDate(),
+    hour,
+    0,
+    0,
+    0,
+    targetTz,
+  );
 
   for (let i = 0; i < 8; i++) {
     const targetDay = target.getDay();
 
-    if (allowedDaysOfTheWeek.includes(targetDay) && target.getTime() > nowInTz.getTime()) {
+    if (
+      allowedDaysOfTheWeek.includes(targetDay) &&
+      target.getTime() > nowInTz.getTime()
+    ) {
       return target;
     }
 

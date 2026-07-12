@@ -2,6 +2,7 @@ import { convexQuery } from "@convex-dev/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useMutation } from "convex/react";
+import { Activity } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
@@ -28,7 +29,6 @@ import { Spinner } from "@/components/ui/spinner";
 import { Switch } from "@/components/ui/switch";
 import { api } from "@/convex/_generated/api";
 import { Route } from "..";
-import { Activity } from "react";
 
 const daysOfTheWeek = [
   { label: "Sunday", value: 0 },

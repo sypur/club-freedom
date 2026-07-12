@@ -56,9 +56,9 @@ export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
         timezone: {
           type: "string",
           required: false,
-          input: true
-        }
-      }
+          input: true,
+        },
+      },
     },
     plugins: [
       // The Convex plugin is required for Convex compatibility
