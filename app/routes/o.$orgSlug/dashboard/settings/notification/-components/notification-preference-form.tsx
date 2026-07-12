@@ -28,6 +28,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { Switch } from "@/components/ui/switch";
 import { api } from "@/convex/_generated/api";
 import { Route } from "..";
+import { Activity } from "react";
 
 const daysOfTheWeek = [
   { label: "Sunday", value: 0 },
@@ -133,11 +134,12 @@ export default function NotificationPreferenceForm() {
               name={field.name}
               checked={field.value}
               onCheckedChange={field.onChange}
+              disabled={form.formState.isSubmitting}
             />
           </Field>
         )}
       />
-      {isEnabled && (
+      <Activity mode={isEnabled ? "visible" : "hidden"}>
         <Controller
           control={form.control}
           name="daysOfTheWeek"
@@ -154,6 +156,7 @@ export default function NotificationPreferenceForm() {
                     <Checkbox
                       name={field.name}
                       id={`${field.name}-${day.value}`}
+                      disabled={form.formState.isSubmitting}
                       checked={field.value.includes(day.value)}
                       onCheckedChange={(checked) => {
                         const newValue = checked
@@ -172,8 +175,8 @@ export default function NotificationPreferenceForm() {
             </FieldSet>
           )}
         />
-      )}
-      {isEnabled && (
+      </Activity>
+      <Activity mode={isEnabled ? "visible" : "hidden"}>
         <Controller
           control={form.control}
           name="hour"
@@ -191,6 +194,7 @@ export default function NotificationPreferenceForm() {
                 name={field.name}
                 value={field.value.toString()}
                 onValueChange={(value) => field.onChange(Number(value))}
+                disabled={form.formState.isSubmitting}
               >
                 <SelectTrigger className="min-w-30">
                   <SelectValue />
@@ -206,7 +210,7 @@ export default function NotificationPreferenceForm() {
             </Field>
           )}
         />
-      )}
+      </Activity>
       <Button
         className="place-self-start"
         type="submit"
