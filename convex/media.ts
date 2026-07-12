@@ -48,10 +48,11 @@ export const generateMediaDownloadUrl = action({
       );
 
       return url;
-    } catch (e) {
+    } catch (error) {
       posthog.captureException(ctx, {
-        distinctId: `generateMediaDownloadUrl-${id}`,
-        error: {
+        distinctId: `generateMediaDownloadUrl`,
+        error,
+        additionalProperties: {
           id: id,
         },
       });

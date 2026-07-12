@@ -38,8 +38,9 @@ export const summarizeText = action({
         processingStatus: "error",
       });
       await posthog.captureException(ctx, {
-        distinctId: `summarizeText-${testimonialId}`,
-        error: {
+        distinctId: `summarizeText`,
+        error,
+        additionalProperties: {
           testimonialId: testimonialId,
           text: text,
         },
