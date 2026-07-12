@@ -1,7 +1,7 @@
 "use node";
 
 import { v } from "convex/values";
-import { summarize } from "@/lib/ai/summarize";
+import { summarize } from "@/convex/libs/ai/summarize";
 import { postHogClient } from "@/utils/posthog-convex";
 import { api } from "./_generated/api";
 import { action } from "./_generated/server";

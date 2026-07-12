@@ -16,6 +16,7 @@ import type * as functions from "../functions.js";
 import type * as http from "../http.js";
 import type * as internal_createUser from "../internal/createUser.js";
 import type * as internal_organizations from "../internal/organizations.js";
+import type * as libs_ai_summarize from "../libs/ai/summarize.js";
 import type * as media from "../media.js";
 import type * as mediaProcessing from "../mediaProcessing.js";
 import type * as migrations from "../migrations.js";
@@ -41,6 +42,7 @@ declare const fullApi: ApiFromModules<{
   http: typeof http;
   "internal/createUser": typeof internal_createUser;
   "internal/organizations": typeof internal_organizations;
+  "libs/ai/summarize": typeof libs_ai_summarize;
   media: typeof media;
   mediaProcessing: typeof mediaProcessing;
   migrations: typeof migrations;
