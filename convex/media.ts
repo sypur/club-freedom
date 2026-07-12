@@ -5,10 +5,10 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { v } from "convex/values";
 import { extension as getExtension } from "mime-types";
 import { createR2Client } from "@/lib/r2";
-import { postHogClient } from "@/utils/posthog-convex";
 import { api } from "./_generated/api";
 import { action } from "./_generated/server";
 import { r2 } from "./r2";
+import { posthog } from "./libs/posthog";
 
 export const generateMediaDownloadUrl = action({
   args: { id: v.id("testimonials") },
@@ -49,8 +49,11 @@ export const generateMediaDownloadUrl = action({
 
       return url;
     } catch (e) {
-      postHogClient.captureException(e, `generateMediaDownloadUrl-${id}`, {
-        id: id,
+      posthog.captureException(ctx, {
+        distinctId: `generateMediaDownloadUrl-${id}`,
+        error: {
+          id: id,
+        }
       });
       return undefined;
     }

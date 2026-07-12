@@ -2,9 +2,9 @@
 
 import { v } from "convex/values";
 import { summarize } from "@/convex/libs/ai/summarize";
-import { postHogClient } from "@/utils/posthog-convex";
 import { api } from "./_generated/api";
 import { action } from "./_generated/server";
+import { posthog } from "./libs/posthog";
 
 // Action to handle Gemini text summarization (runs in Node.js environment)
 export const summarizeText = action({
@@ -37,9 +37,12 @@ export const summarizeText = action({
         id: testimonialId,
         processingStatus: "error",
       });
-      postHogClient.captureException(error, `summarizeText-${testimonialId}`, {
-        testimonialId: testimonialId,
-        text: text,
+      await posthog.captureException(ctx, {
+        distinctId: `summarizeText-${testimonialId}`,
+        error: {
+          testimonialId: testimonialId,
+          text: text,
+        }
       });
       return;
     }

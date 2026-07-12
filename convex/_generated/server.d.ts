@@ -30,6 +30,10 @@ type Env = {
   readonly AUTH_EMAIL: string;
   readonly BETTER_AUTH_SECRET: string;
   readonly GROQ_API_KEY: string;
+  readonly POSTHOG_FLAGS_POLLING_INTERVAL_SECONDS: string | undefined;
+  readonly POSTHOG_HOST: string | undefined;
+  readonly POSTHOG_PERSONAL_API_KEY: string | undefined;
+  readonly POSTHOG_PROJECT_TOKEN: string;
   readonly R2_PUBLIC_URL: string;
   readonly SITE_URL: string;
 };
