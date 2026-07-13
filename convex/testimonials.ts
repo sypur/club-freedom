@@ -2,7 +2,7 @@ import { paginationOptsValidator } from "convex/server";
 import { v } from "convex/values";
 import { filter } from "convex-helpers/server/filter";
 import { api } from "./_generated/api";
-import { internalQuery, query } from "./_generated/server";
+import { env, internalQuery, query } from "./_generated/server";
 import { mutation } from "./functions";
 import { mediaTypeSchema, processingStatusSchema } from "./schema";
 import { removeUndefinedFromRecord } from "./utils";
@@ -227,7 +227,7 @@ export const getTestimonialMediaUrlById = query({
     const testimonialId = ctx.db.normalizeId("testimonials", id);
     if (!testimonialId) return null;
     const testimonial = await ctx.db.get(testimonialId);
-    const r2PublicUrl = process.env.R2_PUBLIC_URL;
+    const r2PublicUrl = env.R2_PUBLIC_URL;
 
     if (!testimonial?.storageId || !r2PublicUrl) {
       return null;

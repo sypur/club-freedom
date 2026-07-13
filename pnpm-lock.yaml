@@ -71,6 +71,9 @@ importers:
       '@origin-space/image-cropper':
         specifier: ^0.1.9
         version: 0.1.9(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@posthog/convex':
+        specifier: ^2.0.32
+        version: 2.0.32(convex@1.42.0(react@19.2.7))(rxjs@7.8.2)
       '@posthog/react':
         specifier: ^1.10.3
         version: 1.10.3(@types/react@19.2.17)(posthog-js@1.393.5)(react@19.2.7)
@@ -168,8 +171,8 @@ importers:
         specifier: ^1.393.5
         version: 1.393.5
       posthog-node:
-        specifier: ^5.38.5
-        version: 5.38.5(rxjs@7.8.2)
+        specifier: ^5.41.0
+        version: 5.41.0(rxjs@7.8.2)
       radix-ui:
         specifier: ^1.6.0
         version: 1.6.0(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -2217,8 +2220,16 @@ packages:
     engines: {node: '>=14.14', npm: '>=6'}
     hasBin: true
 
+  '@posthog/convex@2.0.32':
+    resolution: {integrity: sha512-diYqpk0XRDA9g3Yu2f+3VS6nsj+OR0EQglh+urC3KkbrNiL+yoDZs1sWiFRx9aEJlwjN0nbHLVJqxkaW838syg==}
+    peerDependencies:
+      convex: ^1.39.0
+
   '@posthog/core@1.37.3':
     resolution: {integrity: sha512-Dvw4CTlRVH4K5ag/B8YIHgG4E27w43MCUsXpn1iKQHIggIMN3Shq9whG4Omm3OvXPF+VikBTmpyMKUjckPxw+g==}
+
+  '@posthog/core@1.40.2':
+    resolution: {integrity: sha512-H12j7O9iHGvpK9t2ko8W4pvfbV1pBDxrsWC1LA6yp2RhzwvC4T3sWhu+AekDQJSRSrJEWlB0t/Ueq9QhPSq7FQ==}
 
   '@posthog/react@1.10.3':
     resolution: {integrity: sha512-Qu//fGQmVlX0B9kTA3LLg67e7AYLEmeuA0Bf1qSyUM0uUILcRQGjQezhNQPLYSTakOqvXEnl6fM2iQBF6Toxrw==}
@@ -2232,6 +2243,9 @@ packages:
 
   '@posthog/types@1.391.1':
     resolution: {integrity: sha512-ASwd7Nf4pViqdYRYaNRyPYRVKWa1CcHUAUWR0XeQJLGdNnsWACBwe0sSieb/cHnKsRXjRwO/23KIY83lm/Ccpw==}
+
+  '@posthog/types@1.393.0':
+    resolution: {integrity: sha512-vzWeEJZ7ERQhFRoQYaP5jzN1JvIu46UJyHXsuv+dTGW2r3sMgREOhNxXLZjmFHwZ8/FOHQoyqqQmXTCXZSfMSg==}
 
   '@preact/signals-core@1.14.3':
     resolution: {integrity: sha512-m0K3vnbSLC5rHs2ZVfeAMvBtT1zIyq4mxx5OlNncSgMj5Iz6W5Rn3kPrDxAC+iIKmiVe0lSl6U37t5ZkEWoVAw==}
@@ -5473,8 +5487,8 @@ packages:
   posthog-js@1.393.5:
     resolution: {integrity: sha512-gYIULHldc2MDmeXE75ykRJYlZ7Q75jAYAzxr0vjD3wnfW1CZoQxV6YydaPRcDyWllJfO4UJPSQJfk9s1UIMa9A==}
 
-  posthog-node@5.38.5:
-    resolution: {integrity: sha512-ZqMK2MFXQWkfdc0PDzPMRBrZXHCZLvl9jbvaaIyXTgbfn802/hMJ8M24BJiChPrMpZejsTzfAq8ZsQYF8zcOoA==}
+  posthog-node@5.41.0:
+    resolution: {integrity: sha512-jOkX6THOr5WD+FGUEaTxekas8c7NOC3TqJ2Byfe2KMimQdL/F/osz17uSbkNzR4V9WFZoe8YaGP3Xp0EUpPKGg==}
     engines: {node: ^20.20.0 || >=22.22.0}
     peerDependencies:
       rxjs: ^7.0.0
@@ -8141,9 +8155,21 @@ snapshots:
     dependencies:
       detect-libc: 2.1.2
 
+  '@posthog/convex@2.0.32(convex@1.42.0(react@19.2.7))(rxjs@7.8.2)':
+    dependencies:
+      '@posthog/core': 1.40.2
+      convex: 1.42.0(react@19.2.7)
+      posthog-node: 5.41.0(rxjs@7.8.2)
+    transitivePeerDependencies:
+      - rxjs
+
   '@posthog/core@1.37.3':
     dependencies:
       '@posthog/types': 1.391.1
+
+  '@posthog/core@1.40.2':
+    dependencies:
+      '@posthog/types': 1.393.0
 
   '@posthog/react@1.10.3(@types/react@19.2.17)(posthog-js@1.393.5)(react@19.2.7)':
     dependencies:
@@ -8153,6 +8179,8 @@ snapshots:
       '@types/react': 19.2.17
 
   '@posthog/types@1.391.1': {}
+
+  '@posthog/types@1.393.0': {}
 
   '@preact/signals-core@1.14.3': {}
 
@@ -11708,9 +11736,9 @@ snapshots:
       query-selector-shadow-dom: 1.0.1
       web-vitals: 5.3.0
 
-  posthog-node@5.38.5(rxjs@7.8.2):
+  posthog-node@5.41.0(rxjs@7.8.2):
     dependencies:
-      '@posthog/core': 1.37.3
+      '@posthog/core': 1.40.2
     optionalDependencies:
       rxjs: 7.8.2
 
