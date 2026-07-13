@@ -2,7 +2,7 @@ import { v } from "convex/values";
 import type { Doc } from "@/convex/betterAuth/_generated/dataModel";
 import { convertToCSSVar, themeSchema } from "@/lib/theme";
 import { components } from "./_generated/api";
-import { mutation, query } from "./_generated/server";
+import { env, mutation, query } from "./_generated/server";
 import { authComponent, createAuth } from "./auth";
 import { r2 } from "./r2";
 
@@ -56,14 +56,14 @@ export const generateLogoUploadUrl = mutation({
   },
   handler: async (ctx, { organizationId, oldUrl }) => {
     // Remove old logo if exists
-    if (oldUrl?.startsWith(process.env.R2_PUBLIC_URL!)) {
-      const oldKey = oldUrl.replace(`${process.env.R2_PUBLIC_URL}/`, "");
+    if (oldUrl?.startsWith(env.R2_PUBLIC_URL)) {
+      const oldKey = oldUrl.replace(`${env.R2_PUBLIC_URL}/`, "");
       await r2.deleteObject(ctx, oldKey);
     }
 
     const key = `assets/${organizationId}/logo-${Date.now()}`;
     const { url } = await r2.generateUploadUrl(key);
-    const storageUrl = `${process.env.R2_PUBLIC_URL}/${key}`;
+    const storageUrl = `${env.R2_PUBLIC_URL}/${key}`;
     return {
       url,
       key,
@@ -78,13 +78,13 @@ export const generateIconUploadUrl = mutation({
     oldUrl: v.optional(v.string()),
   },
   handler: async (ctx, { organizationId, oldUrl }) => {
-    if (oldUrl?.startsWith(process.env.R2_PUBLIC_URL!)) {
-      const oldKey = oldUrl.replace(`${process.env.R2_PUBLIC_URL}/`, "");
+    if (oldUrl?.startsWith(env.R2_PUBLIC_URL)) {
+      const oldKey = oldUrl.replace(`${env.R2_PUBLIC_URL}/`, "");
       await r2.deleteObject(ctx, oldKey);
     }
     const key = `assets/${organizationId}/icon-${Date.now()}`;
     const { url } = await r2.generateUploadUrl(key);
-    const storageUrl = `${process.env.R2_PUBLIC_URL}/${key}`;
+    const storageUrl = `${env.R2_PUBLIC_URL}/${key}`;
     return {
       url,
       key,

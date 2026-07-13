@@ -2,7 +2,12 @@ import { v } from "convex/values";
 import { render } from "react-email";
 import NotificationEmail from "@/emails/notification";
 import { internal } from "./_generated/api";
-import { internalAction, internalMutation, query } from "./_generated/server";
+import {
+  env,
+  internalAction,
+  internalMutation,
+  query,
+} from "./_generated/server";
 import { authComponent } from "./auth";
 import { api as authApi } from "./betterAuth/_generated/api";
 import type { Id } from "./betterAuth/_generated/dataModel";
@@ -88,9 +93,16 @@ export const sendScheduledNotification = internalMutation({
       },
     );
 
+    const user = await ctx.runQuery(authApi.auth.getUser, {
+      userId: preference.userId,
+    });
+
+    if (!user) return;
+
     const nextRun = getNextScheduleTime(
       preference.daysOfTheWeek,
       preference.hour,
+      user.timezone || undefined,
     );
 
     const nextScheduledId = await ctx.scheduler.runAt(
@@ -140,7 +152,7 @@ export const sendNotificationEmail = internalAction({
     }
 
     await resend.sendEmail(ctx, {
-      from: `Sypur <${process.env.AUTH_EMAIL}>`,
+      from: `Sypur <${env.AUTH_EMAIL}>`,
       to: user.email,
       subject: `[${organization.name} on Sypur] You have ${count} testimonial${count !== 1 ? "s" : ""} pending for review`,
       html: await render(
@@ -148,7 +160,7 @@ export const sendNotificationEmail = internalAction({
           user,
           organization,
           testimonialsCount: count,
-          siteUrl: `${process.env.SITE_URL}`,
+          siteUrl: `${env.SITE_URL}`,
         }),
       ),
     });
