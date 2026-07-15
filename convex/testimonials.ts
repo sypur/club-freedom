@@ -5,7 +5,7 @@ import { api } from "./_generated/api";
 import { env, internalQuery, query } from "./_generated/server";
 import { mutation } from "./functions";
 import { mediaTypeSchema, processingStatusSchema } from "./schema";
-import removeUndefinedFromRecord from "./utils";
+import { removeUndefinedFromRecord } from "./utils";
 import { parseArgs } from "node:util";
 
 export const getTestimonials = query({
@@ -279,14 +279,24 @@ export const pinTestimonial = mutation({
   },
   handler: async (ctx, args) => {
     const testimonial = await ctx.db.get("testimonials", args.id);
+    if (!testimonial?.organizationId) return;
 
-    if (testimonial?.organizationId) {
-      const orgId = testimonial.organizationId;
-      const testId = args.id.toString();
-      await ctx.db.insert("pinnedTestimonials", { organizationId: orgId, testimonialId: testId });
-    }
+    const testimonialId = args.id.toString();
+
+    const existing = await ctx.db
+      .query("pinnedTestimonials")
+      .withIndex("byTestimonialId", (q) => q.eq("testimonialId", testimonialId))
+      .unique();
+
+    if (existing) return;
+
+    await ctx.db.insert("pinnedTestimonials", {
+      organizationId: testimonial.organizationId,
+      testimonialId: testimonialId,
+    });
   },
 });
+
 export const unpinTestimonial = mutation({
   args: {
     id: v.id("testimonials"),
@@ -305,6 +315,19 @@ export const unpinTestimonial = mutation({
     }
   },
 });
+export const getPinStatus = query({
+  args: {
+    id: v.id("testimonials"),
+  },
+  handler: async (ctx, { id }) => {
+    const item = await ctx.db
+      .query("pinnedTestimonials")
+      .withIndex("byTestimonialId", (q) => q.eq("testimonialId", id))
+      .unique();
+    return !!item;
+  },
+});
+
 
 
 export const updateSummaryAndTitle = mutation({

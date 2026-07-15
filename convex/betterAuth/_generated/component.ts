@@ -1673,6 +1673,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
           logo?: null | string;
           metadata?: null | string;
           name: string;
+          pinnedSub?: null | number;
           slug: string;
         },
         Name

@@ -79,12 +79,8 @@ export default function TestimonialDetail({ testimonialId }: Props) {
         <TestimonialTitle />
         {testimonial.media_type !== "text" && <TestimonialMedia />}
         <div className="flex flex-wrap gap-2">
-          {canApprove && testimonial.processingStatus === "completed" && (
-            <div>
-              <TestimonialApproval />
-              <TestimonialPin />
-            </div>
-          )}
+          {canApprove && testimonial.processingStatus === "completed" && <TestimonialApproval />}
+          {canApprove && <TestimonialPin />}
           {canDownload && <TestimonialDownload />}
           {canDelete && <TestimonialDelete />}
         </div>
