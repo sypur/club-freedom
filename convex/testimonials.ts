@@ -111,7 +111,50 @@ export const getTestimonials = query({
           )
         : withAuthorTestimonialQuery;
 
-    return await withNonIndexSearchTestimonialQuery.paginate(paginationOpts);
+
+
+        const pinnedIds = await ctx.db
+          .query("pinnedTestimonials")
+          .withIndex("byOrganizationId", (q) => q.eq("organizationId", orgId))
+          .order("asc") // earliest-pinned first among the pinned set
+          .collect();
+
+        const pinnedTestimonialIds = new Set(pinnedIds.map((p) => p.testimonialId));
+
+        // Exclude pinned items from the main scan so .paginate() stays correct
+        // and they don't show up twice across pages.
+        const withoutPinnedQuery =
+          pinnedTestimonialIds.size > 0
+            ? filter(
+                withNonIndexSearchTestimonialQuery,
+                (t) => !pinnedTestimonialIds.has(t._id),
+              )
+            : withNonIndexSearchTestimonialQuery;
+
+        const paginated = await withoutPinnedQuery.paginate(paginationOpts);
+
+        // Only prepend pinned docs on the very first page of the very first fetch
+        const isFirstPage = paginationOpts.cursor === null;
+
+        if (!isFirstPage || pinnedIds.length === 0) {
+          return paginated;
+        }
+
+        const pinnedDocs = (
+          await Promise.all(
+            pinnedIds.map((p) =>
+              ctx.db.get(p.testimonialId as Id<"testimonials">),
+            ),
+          )
+        ).filter((t): t is Doc<"testimonials"> => {
+          if (!t) return false;
+          return canView ? true : t.approved === true;
+        });
+
+        return {
+          ...paginated,
+          page: [...pinnedDocs, ...paginated.page],
+        };
   },
 });
 
@@ -270,8 +313,8 @@ export const pinTestimonial = mutation({
     id: v.id("testimonials"),
   },
   returns: v.object({
-      success: v.boolean(),
-      message: v.string(),
+    success: v.boolean(),
+    message: v.string(),
   }),
   handler: async (ctx, args) => {
     const testimonial = await ctx.db.get("testimonials", args.id);
