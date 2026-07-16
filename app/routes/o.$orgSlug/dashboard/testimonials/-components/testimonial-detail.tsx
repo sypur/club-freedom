@@ -2,11 +2,11 @@ import { convexQuery } from "@convex-dev/react-query";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useRouteContext } from "@tanstack/react-router";
 import TestimonialApproval from "@/components/testimonial-detail/testimonial-approval";
-import TestimonialPin from "@/components/testimonial-detail/testimonial-pin";
 import TestimonialDelete from "@/components/testimonial-detail/testimonial-delete";
 import TestimonialDownload from "@/components/testimonial-detail/testimonial-download";
 import TestimonialInfo from "@/components/testimonial-detail/testimonial-info";
 import TestimonialMedia from "@/components/testimonial-detail/testimonial-media";
+import TestimonialPin from "@/components/testimonial-detail/testimonial-pin";
 import TestimonialProcessingError from "@/components/testimonial-detail/testimonial-processing-error";
 import TestimonialSummary from "@/components/testimonial-detail/testimonial-summary";
 import TestimonialText from "@/components/testimonial-detail/testimonial-text";
@@ -79,7 +79,9 @@ export default function TestimonialDetail({ testimonialId }: Props) {
         <TestimonialTitle />
         {testimonial.media_type !== "text" && <TestimonialMedia />}
         <div className="flex flex-wrap gap-2">
-          {canApprove && testimonial.processingStatus === "completed" && <TestimonialApproval />}
+          {canApprove && testimonial.processingStatus === "completed" && (
+            <TestimonialApproval />
+          )}
           {canApprove && <TestimonialPin />}
           {canDownload && <TestimonialDownload />}
           {canDelete && <TestimonialDelete />}
