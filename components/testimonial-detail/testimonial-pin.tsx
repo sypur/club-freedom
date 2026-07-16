@@ -46,10 +46,11 @@ export function useTestimonialPin(
   } else {
     return async () => {
       try {
-        await pinTestimonial({
+        const pinTest = await pinTestimonial({
           id: testimonialId,
         });
-        toast.success("This testimonial has been pinned!");
+        if(pinTest.success) toast.success(pinTest.message);
+        else toast.error(pinTest.message);
       } catch (_error) {
         toast.error("Failed to pin testimonial.");
       }

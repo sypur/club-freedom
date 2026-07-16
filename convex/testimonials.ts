@@ -4,11 +4,10 @@ import { v } from "convex/values";
 import { filter } from "convex-helpers/server/filter";
 import { api } from "./_generated/api";
 import { env, internalQuery, query } from "./_generated/server";
+import { authComponent, createAuth } from "./auth";
 import { mutation } from "./functions";
 import { mediaTypeSchema, processingStatusSchema } from "./schema";
 import { removeUndefinedFromRecord } from "./utils";
-
-import { authComponent, createAuth } from "./auth";
 
 export const getTestimonials = query({
   args: {
@@ -271,20 +270,27 @@ export const pinTestimonial = mutation({
   args: {
     id: v.id("testimonials"),
   },
+  returns: v.object({
+      success: v.boolean(),
+      message: v.string(),
+  }),
   handler: async (ctx, args) => {
     const testimonial = await ctx.db.get("testimonials", args.id);
-    if (!testimonial?.organizationId) return;
+    if (!testimonial?.organizationId) return { success: false, message: "Testimonial not found" };
     const orgId = testimonial?.organizationId.toString();
 
-    const n_pinned =(await ctx.db
-      .query("pinnedTestimonials")
-      .withIndex("byOrganizationId", (q) =>
-        q.eq("organizationId", orgId)
-      )
-      .collect()).length;
+    const n_pinned = (
+      await ctx.db
+        .query("pinnedTestimonials")
+        .withIndex("byOrganizationId", (q) => q.eq("organizationId", orgId))
+        .collect()
+    ).length;
 
     if (n_pinned >= 3) {
-      return;
+      return {
+        success: false,
+        message: "You can only pin up to 3 testimonials",
+      };
     }
 
     const testimonialId = args.id.toString();
@@ -294,12 +300,13 @@ export const pinTestimonial = mutation({
       .withIndex("byTestimonialId", (q) => q.eq("testimonialId", testimonialId))
       .unique();
 
-    if (existing) return;
+    if (existing) return { success: false, message: "Testimonial is already pinned" };
 
     await ctx.db.insert("pinnedTestimonials", {
       organizationId: testimonial.organizationId,
       testimonialId: testimonialId,
     });
+    return { success: true, message: "Testimonial pinned" };
   },
 });
 
