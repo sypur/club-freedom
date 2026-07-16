@@ -4,7 +4,7 @@ import z from "zod";
 import { env } from "@/env/server";
 
 export const validateTurnstileTokenServerFn = createServerFn()
-  .validator(
+  .inputValidator(
     z.object({
       turnstileToken: z.string().min(1),
     }),

@@ -1,7 +1,6 @@
 import OpenAI from "openai";
 import { zodResponseFormat } from "openai/helpers/zod";
 import z from "zod";
-import { env } from "@/convex/_generated/server";
 
 const SummaryResponseSchema = z.object({
   title: z.string(),
@@ -12,10 +11,10 @@ type SummaryResponse = z.infer<typeof SummaryResponseSchema>;
 
 export async function summarize(input: string, name: string) {
   const aiClient = new OpenAI({
-    apiKey: env.GROQ_API_KEY,
-    baseURL: `${env.AI_GATEWAY_ENDPOINT}/groq`,
+    apiKey: process.env.GROQ_API_KEY,
+    baseURL: `${process.env.AI_GATEWAY_ENDPOINT}/groq`,
     defaultHeaders: {
-      "cf-aig-authorization": `Bearer ${env.AI_GATEWAY_API_TOKEN}`,
+      "cf-aig-authorization": `Bearer ${process.env.AI_GATEWAY_API_TOKEN}`,
     },
   });
 

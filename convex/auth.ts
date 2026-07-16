@@ -11,7 +11,7 @@ import {
 } from "@/lib/auth/permissions/organization";
 import { components } from "./_generated/api";
 import type { DataModel } from "./_generated/dataModel";
-import { env, query } from "./_generated/server";
+import { query } from "./_generated/server";
 import authConfig from "./auth.config";
 import authSchema from "./betterAuth/schema";
 import { sendInvite, sendResetPassword } from "./email";
@@ -31,8 +31,10 @@ export const authComponent = createClient<DataModel, typeof authSchema>(
 export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
   // For static schema generation (when ctx is empty {}), use placeholder values
   // For runtime execution, use actual environment variables
-  const siteUrl = env.SITE_URL;
-  const secret = env.BETTER_AUTH_SECRET;
+  const siteUrl = process.env.SITE_URL || "http://localhost:3000";
+  const secret =
+    process.env.BETTER_AUTH_SECRET ||
+    "placeholder-secret-for-schema-generation";
 
   return {
     baseURL: siteUrl,

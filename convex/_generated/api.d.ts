@@ -16,8 +16,6 @@ import type * as functions from "../functions.js";
 import type * as http from "../http.js";
 import type * as internal_createUser from "../internal/createUser.js";
 import type * as internal_organizations from "../internal/organizations.js";
-import type * as libs_ai_summarize from "../libs/ai/summarize.js";
-import type * as libs_posthog from "../libs/posthog.js";
 import type * as media from "../media.js";
 import type * as mediaProcessing from "../mediaProcessing.js";
 import type * as migrations from "../migrations.js";
@@ -43,8 +41,6 @@ declare const fullApi: ApiFromModules<{
   http: typeof http;
   "internal/createUser": typeof internal_createUser;
   "internal/organizations": typeof internal_organizations;
-  "libs/ai/summarize": typeof libs_ai_summarize;
-  "libs/posthog": typeof libs_posthog;
   media: typeof media;
   mediaProcessing: typeof mediaProcessing;
   migrations: typeof migrations;
@@ -87,5 +83,4 @@ export declare const components: {
   migrations: import("@convex-dev/migrations/_generated/component.js").ComponentApi<"migrations">;
   betterAuth: import("@/convex/betterAuth/_generated/component.js").ComponentApi<"betterAuth">;
   resend: import("@convex-dev/resend/_generated/component.js").ComponentApi<"resend">;
-  posthog: import("@posthog/convex/_generated/component.js").ComponentApi<"posthog">;
 };
