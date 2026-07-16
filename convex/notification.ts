@@ -93,7 +93,7 @@ export const sendScheduledNotification = internalMutation({
       },
     );
 
-    const user = await ctx.runQuery(authApi.auth.getUser, {
+    const user = await ctx.runQuery(authApi.user.getUser, {
       userId: preference.userId,
     });
 
@@ -126,7 +126,7 @@ export const sendNotificationEmail = internalAction({
     const date = new Date();
     console.log("Sending at", date.toISOString());
 
-    const user = await ctx.runQuery(authApi.auth.getUser, {
+    const user = await ctx.runQuery(authApi.user.getUser, {
       userId: userId as Id<"user">,
     });
 
