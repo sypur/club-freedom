@@ -16,7 +16,9 @@ import {
   SelectValue,
 } from "../ui/select";
 
-export function usePinStatus(testimonialId: Id<"testimonials">): boolean | undefined {
+export function usePinStatus(
+  testimonialId: Id<"testimonials">,
+): boolean | undefined {
   const pinStatus = useQuery(api.testimonials.getPinStatus, {
     id: testimonialId,
   });
