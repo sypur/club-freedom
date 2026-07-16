@@ -115,7 +115,7 @@ export const getTestimonials = query({
     const pinnedIds = await ctx.db
       .query("pinnedTestimonials")
       .withIndex("byOrganizationId", (q) => q.eq("organizationId", orgId))
-      .order("asc")
+      .order("desc")
       .collect();
 
     const pinnedTestimonialIds = new Set(pinnedIds.map((p) => p.testimonialId));
@@ -317,6 +317,8 @@ export const pinTestimonial = mutation({
         .withIndex("byOrganizationId", (q) => q.eq("organizationId", orgId))
         .collect()
     ).length;
+
+    // const pinSubsOrg = await api.organization.(orgId);
 
     if (n_pinned >= 3) {
       return {
