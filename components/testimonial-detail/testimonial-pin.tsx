@@ -16,11 +16,10 @@ import {
   SelectValue,
 } from "../ui/select";
 
-export function usePinStatus(testimonialId: Id<"testimonials">): boolean {
+export function usePinStatus(testimonialId: Id<"testimonials">): boolean | undefined {
   const pinStatus = useQuery(api.testimonials.getPinStatus, {
     id: testimonialId,
   });
-  if (!pinStatus) return false;
   return pinStatus;
 }
 
@@ -49,7 +48,7 @@ export function useTestimonialPin(
         const pinTest = await pinTestimonial({
           id: testimonialId,
         });
-        if(pinTest.success) toast.success(pinTest.message);
+        if (pinTest.success) toast.success(pinTest.message);
         else toast.error(pinTest.message);
       } catch (_error) {
         toast.error("Failed to pin testimonial.");
@@ -62,7 +61,7 @@ export default function TestimonialPin() {
   const { testimonial } = useTestimonialContext();
   const [isPending, startTransition] = useTransition();
 
-  const pinStatus = usePinStatus(testimonial._id);
+  const pinStatus = usePinStatus(testimonial._id) || false;
 
   const togglePin = useTestimonialPin(testimonial._id, pinStatus);
 

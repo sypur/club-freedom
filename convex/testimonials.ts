@@ -44,7 +44,6 @@ export const getTestimonials = query({
       trimmedQuery !== "" && !order
         ? testimonialQuery.withSearchIndex("search_posts", (q) =>
             q
-
               .search("searchText", trimmedQuery)
               .eq("processingStatus", "completed")
               .eq("organizationId", orgId),
@@ -276,7 +275,8 @@ export const pinTestimonial = mutation({
   }),
   handler: async (ctx, args) => {
     const testimonial = await ctx.db.get("testimonials", args.id);
-    if (!testimonial?.organizationId) return { success: false, message: "Testimonial not found" };
+    if (!testimonial?.organizationId)
+      return { success: false, message: "Testimonial not found" };
     const orgId = testimonial?.organizationId.toString();
 
     const n_pinned = (
@@ -300,7 +300,8 @@ export const pinTestimonial = mutation({
       .withIndex("byTestimonialId", (q) => q.eq("testimonialId", testimonialId))
       .unique();
 
-    if (existing) return { success: false, message: "Testimonial is already pinned" };
+    if (existing)
+      return { success: false, message: "Testimonial is already pinned" };
 
     await ctx.db.insert("pinnedTestimonials", {
       organizationId: testimonial.organizationId,
