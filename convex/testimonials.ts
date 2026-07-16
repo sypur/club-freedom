@@ -2,6 +2,7 @@ import { parseArgs } from "node:util";
 import { paginationOptsValidator } from "convex/server";
 import { v } from "convex/values";
 import { filter } from "convex-helpers/server/filter";
+import type { Doc, Id } from "@/convex/_generated/dataModel";
 import { api } from "./_generated/api";
 import { env, internalQuery, query } from "./_generated/server";
 import { authComponent, createAuth } from "./auth";
@@ -114,13 +115,11 @@ export const getTestimonials = query({
     const pinnedIds = await ctx.db
       .query("pinnedTestimonials")
       .withIndex("byOrganizationId", (q) => q.eq("organizationId", orgId))
-      .order("asc") // earliest-pinned first among the pinned set
+      .order("asc")
       .collect();
 
     const pinnedTestimonialIds = new Set(pinnedIds.map((p) => p.testimonialId));
 
-    // Exclude pinned items from the main scan so .paginate() stays correct
-    // and they don't show up twice across pages.
     const withoutPinnedQuery =
       pinnedTestimonialIds.size > 0
         ? filter(
@@ -131,7 +130,6 @@ export const getTestimonials = query({
 
     const paginated = await withoutPinnedQuery.paginate(paginationOpts);
 
-    // Only prepend pinned docs on the very first page of the very first fetch
     const isFirstPage = paginationOpts.cursor === null;
 
     if (!isFirstPage || pinnedIds.length === 0) {
@@ -298,11 +296,6 @@ export const updateTranscription = mutation({
     await ctx.db.patch(id, { testimonialText: text });
   },
 });
-
-//Convex cannot order by stack but you can order by indexing
-//No potential impact if you don't use a pinnedTestimonials table but just add two more columns in schema testimonials table
-//if done in one table index("by_pinned_pinnedCreation").filter("orgId")
-//needs to add counting up to 3 and subtracting Organization pinned testimonies variable
 
 export const pinTestimonial = mutation({
   args: {
