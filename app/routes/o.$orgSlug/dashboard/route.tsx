@@ -36,6 +36,16 @@ export const Route = createFileRoute("/o/$orgSlug/dashboard")({
         params: { orgSlug: organization.slug },
       });
     }
+
+    const { data } = await authClient.getSession();
+
+    // Timezone synchronization
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if (timezone !== data?.user.timezone) {
+      await authClient.updateUser({
+        timezone: timezone,
+      });
+    }
   },
 });
 

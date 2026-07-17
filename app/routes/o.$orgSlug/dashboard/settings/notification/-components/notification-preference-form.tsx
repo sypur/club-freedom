@@ -2,6 +2,7 @@ import { convexQuery } from "@convex-dev/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useMutation } from "convex/react";
+import { Activity } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
@@ -30,13 +31,13 @@ import { api } from "@/convex/_generated/api";
 import { Route } from "..";
 
 const daysOfTheWeek = [
-  { label: "Monday", value: 0 },
-  { label: "Tuesday", value: 1 },
-  { label: "Wednesday", value: 2 },
-  { label: "Thursday", value: 3 },
-  { label: "Friday", value: 4 },
-  { label: "Saturday", value: 5 },
-  { label: "Sunday", value: 6 },
+  { label: "Sunday", value: 0 },
+  { label: "Monday", value: 1 },
+  { label: "Tuesday", value: 2 },
+  { label: "Wednesday", value: 3 },
+  { label: "Thursday", value: 4 },
+  { label: "Friday", value: 5 },
+  { label: "Saturday", value: 6 },
 ] as const;
 
 const availableTimes = Array.from({ length: 15 }, (_, i) => 7 + i);
@@ -133,11 +134,12 @@ export default function NotificationPreferenceForm() {
               name={field.name}
               checked={field.value}
               onCheckedChange={field.onChange}
+              disabled={form.formState.isSubmitting}
             />
           </Field>
         )}
       />
-      {isEnabled && (
+      <Activity mode={isEnabled ? "visible" : "hidden"}>
         <Controller
           control={form.control}
           name="daysOfTheWeek"
@@ -154,6 +156,7 @@ export default function NotificationPreferenceForm() {
                     <Checkbox
                       name={field.name}
                       id={`${field.name}-${day.value}`}
+                      disabled={form.formState.isSubmitting}
                       checked={field.value.includes(day.value)}
                       onCheckedChange={(checked) => {
                         const newValue = checked
@@ -172,8 +175,8 @@ export default function NotificationPreferenceForm() {
             </FieldSet>
           )}
         />
-      )}
-      {isEnabled && (
+      </Activity>
+      <Activity mode={isEnabled ? "visible" : "hidden"}>
         <Controller
           control={form.control}
           name="hour"
@@ -191,6 +194,7 @@ export default function NotificationPreferenceForm() {
                 name={field.name}
                 value={field.value.toString()}
                 onValueChange={(value) => field.onChange(Number(value))}
+                disabled={form.formState.isSubmitting}
               >
                 <SelectTrigger className="min-w-30">
                   <SelectValue />
@@ -206,7 +210,7 @@ export default function NotificationPreferenceForm() {
             </Field>
           )}
         />
-      )}
+      </Activity>
       <Button
         className="place-self-start"
         type="submit"

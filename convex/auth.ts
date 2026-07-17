@@ -11,7 +11,7 @@ import {
 } from "@/lib/auth/permissions/organization";
 import { components } from "./_generated/api";
 import type { DataModel } from "./_generated/dataModel";
-import { query } from "./_generated/server";
+import { env, query } from "./_generated/server";
 import authConfig from "./auth.config";
 import authSchema from "./betterAuth/schema";
 import { sendInvite, sendResetPassword } from "./email";
@@ -31,10 +31,8 @@ export const authComponent = createClient<DataModel, typeof authSchema>(
 export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
   // For static schema generation (when ctx is empty {}), use placeholder values
   // For runtime execution, use actual environment variables
-  const siteUrl = process.env.SITE_URL || "http://localhost:3000";
-  const secret =
-    process.env.BETTER_AUTH_SECRET ||
-    "placeholder-secret-for-schema-generation";
+  const siteUrl = env.SITE_URL;
+  const secret = env.BETTER_AUTH_SECRET;
 
   return {
     baseURL: siteUrl,
@@ -51,6 +49,15 @@ export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
         });
       },
     },
+    user: {
+      additionalFields: {
+        timezone: {
+          type: "string",
+          required: false,
+          input: true,
+        },
+      },
+    },
     plugins: [
       // The Convex plugin is required for Convex compatibility
       convex({
@@ -60,6 +67,8 @@ export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
       admin(adminRBAC),
       organization({
         ...organizationRBAC,
+        // HACK: Required when disable ID generation by Better Auth
+        requireEmailVerificationOnInvitation: false,
         schema: {
           organization: {
             additionalFields: {
@@ -83,7 +92,7 @@ export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
             try {
               const actionCtx = requireActionCtx(ctx);
               await actionCtx.runMutation(
-                components.betterAuth.auth.deleteInvitation,
+                components.betterAuth.organization.deleteInvitation,
                 {
                   invitationId: data.invitation.id,
                 },
@@ -96,7 +105,7 @@ export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
             try {
               const actionCtx = requireActionCtx(ctx);
               await actionCtx.runMutation(
-                components.betterAuth.auth.deleteInvitation,
+                components.betterAuth.organization.deleteInvitation,
                 {
                   invitationId: data.invitation.id,
                 },
@@ -109,6 +118,14 @@ export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
       }),
     ],
     trustedOrigins: [siteUrl],
+
+    /**
+     * HACK: Let Convex handle ID generation instead of Better Auth
+     * This fix comes from this issue: https://github.com/get-convex/better-auth/issues/407
+     */
+    advanced: {
+      database: { generateId: false },
+    },
   } satisfies BetterAuthOptions;
 };
 
@@ -142,7 +159,7 @@ export const getCurrentUser = query({
 export const getUserById = query({
   args: { userId: v.string() },
   handler: async (ctx, args) => {
-    return ctx.runQuery(components.betterAuth.auth.getUser, {
+    return ctx.runQuery(components.betterAuth.user.getUser, {
       userId: args.userId,
     });
   },
@@ -198,7 +215,7 @@ export const getMemeberRole = query({
 export const checkEmailExists = query({
   args: { email: v.string() },
   handler: async (ctx, args) => {
-    return ctx.runQuery(components.betterAuth.auth.checkEmailExists, {
+    return ctx.runQuery(components.betterAuth.user.checkEmailExists, {
       email: args.email,
     });
   },
