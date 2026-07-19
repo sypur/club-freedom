@@ -99,7 +99,7 @@ export const findInvitationById = query({
   },
   handler: async (ctx, args) => {
     const invitation = await ctx.runQuery(
-      components.betterAuth.auth.findInvitationById,
+      components.betterAuth.organization.findInvitationById,
       {
         invitationId: args.id,
       },

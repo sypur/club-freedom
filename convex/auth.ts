@@ -96,7 +96,7 @@ export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
             try {
               const actionCtx = requireActionCtx(ctx);
               await actionCtx.runMutation(
-                components.betterAuth.auth.deleteInvitation,
+                components.betterAuth.organization.deleteInvitation,
                 {
                   invitationId: data.invitation.id,
                 },
@@ -109,7 +109,7 @@ export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
             try {
               const actionCtx = requireActionCtx(ctx);
               await actionCtx.runMutation(
-                components.betterAuth.auth.deleteInvitation,
+                components.betterAuth.organization.deleteInvitation,
                 {
                   invitationId: data.invitation.id,
                 },
@@ -163,7 +163,7 @@ export const getCurrentUser = query({
 export const getUserById = query({
   args: { userId: v.string() },
   handler: async (ctx, args) => {
-    return ctx.runQuery(components.betterAuth.auth.getUser, {
+    return ctx.runQuery(components.betterAuth.user.getUser, {
       userId: args.userId,
     });
   },
@@ -219,7 +219,7 @@ export const getMemeberRole = query({
 export const checkEmailExists = query({
   args: { email: v.string() },
   handler: async (ctx, args) => {
-    return ctx.runQuery(components.betterAuth.auth.checkEmailExists, {
+    return ctx.runQuery(components.betterAuth.user.checkEmailExists, {
       email: args.email,
     });
   },
