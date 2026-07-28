@@ -1647,6 +1647,13 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
         },
         Name
       >;
+      populateOrganizatioInfo: FunctionReference<
+        "query",
+        "internal",
+        {},
+        any,
+        Name
+      >;
     };
     user: {
       checkEmailExists: FunctionReference<

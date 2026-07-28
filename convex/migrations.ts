@@ -3,6 +3,8 @@ import { v } from "convex/values";
 import { components, internal } from "./_generated/api";
 import type { DataModel } from "./_generated/dataModel";
 import { internalMutation } from "./_generated/server";
+import { components } from "./_generated/api";
+
 
 export const migrations = new Migrations<DataModel>(components.migrations);
 

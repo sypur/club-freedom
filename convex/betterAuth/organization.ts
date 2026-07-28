@@ -15,6 +15,17 @@ export const getOrganization = query({
   },
 });
 
+//use this to populate the organization Info table
+export const populateOrganizatioInfo = query({
+  args: {},
+  handler: async (ctx) => {
+    const organizations = await ctx.db
+      .query("organization")
+      .collect();
+    console.log(organizations);
+  },
+});
+
 export const getOrganizationById = query({
   args: { organizationId: v.string() },
   returns: v.union(v.null(), doc(schema, "organization")),

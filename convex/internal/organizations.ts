@@ -10,7 +10,7 @@ export const createOrganization = mutation({
     logo: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    const { auth } = await authComponent.getAuth(createAuth, ctx);
+    const { auth,headers } = await authComponent.getAuth(createAuth, ctx);
     await auth.api.createOrganization({
       body: {
         name: args.name,
