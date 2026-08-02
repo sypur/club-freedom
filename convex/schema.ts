@@ -54,6 +54,13 @@ export default defineSchema({
     .index("byOrganizationId", {
       fields: ["organizationId"],
     }),
+  organizationInfo: defineTable({
+    organizationId: v.string(),
+    pinnedSubmissions: v.number()
+  })
+  .index("byOrganizationId", {
+    fields: ["organizationId"],
+  }),
   formPreferences: defineTable({
     organizationId: v.string(),
     name: v.string(),

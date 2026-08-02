@@ -1648,7 +1648,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
         Name
       >;
       populateOrganizatioInfo: FunctionReference<
-        "query",
+        "mutation",
         "internal",
         {},
         any,

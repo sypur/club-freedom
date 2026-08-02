@@ -4,8 +4,7 @@ import { v } from "convex/values";
 import { filter } from "convex-helpers/server/filter";
 import type { Doc, Id } from "@/convex/_generated/dataModel";
 import { api } from "./_generated/api";
-import { env, internalQuery, query } from "./_generated/server";
-import { authComponent, createAuth } from "./auth";
+import { env, internalQuery, query, MutationCtx } from "./_generated/server";
 import { mutation } from "./functions";
 import { mediaTypeSchema, processingStatusSchema } from "./schema";
 import { removeUndefinedFromRecord } from "./utils";
@@ -444,3 +443,15 @@ export const countPendingTestimonials = internalQuery({
     return testimonials.length;
   },
 });
+
+export async function populateOrganizationInfo(ctx: any, organizationId: string) {
+
+  const orgInfo = await ctx.db.query("organizationInfo").withIndex("byOrganizationId", organizationId);
+  console.log("org", orgInfo);
+  if (!orgInfo) {
+    await ctx.db.insert("organizationInfo", {
+      organizationId: organizationId,
+      pinnedSubmissions: 0
+    });
+  }
+}
