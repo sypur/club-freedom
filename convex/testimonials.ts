@@ -8,6 +8,7 @@ import { env, internalQuery, query, MutationCtx } from "./_generated/server";
 import { mutation } from "./functions";
 import { mediaTypeSchema, processingStatusSchema } from "./schema";
 import { removeUndefinedFromRecord } from "./utils";
+import { components } from "./_generated/api";
 
 export const getTestimonials = query({
   args: {
@@ -444,14 +445,19 @@ export const countPendingTestimonials = internalQuery({
   },
 });
 
-export async function populateOrganizationInfo(ctx: any, organizationId: string) {
+export const ensureOrganizationInfo = mutation({
+  handler: async (ctx) => {
+    const organizations = await ctx.runQuery(
+      components.betterAuth.organization.getAllOrganizations
+    );
+    console.log(organizations);
+    const orgInfo = await ctx.db.query("organizationInfo").collect();
 
-  const orgInfo = await ctx.db.query("organizationInfo").withIndex("byOrganizationId", organizationId);
-  console.log("org", orgInfo);
-  if (!orgInfo) {
-    await ctx.db.insert("organizationInfo", {
-      organizationId: organizationId,
-      pinnedSubmissions: 0
-    });
-  }
-}
+    // if (!orgInfo) {
+    //   await ctx.db.insert("organizationInfo", {
+    //     organizationId,
+    //     pinnedSubmissions: 0,
+    //   });
+    // }
+  },
+});

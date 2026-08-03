@@ -1,8 +1,8 @@
 import { v } from "convex/values";
 import { doc } from "convex-helpers/validators";
-import { mutation, query } from "./_generated/server";
+import { mutation, query,MutationCtx } from "./_generated/server";
 import schema from "./schema";
-import { populateOrganizationInfo } from "../testimonials";
+import { api } from "./_generated/api";
 
 export const getOrganization = query({
   args: { slug: v.string() },
@@ -16,19 +16,13 @@ export const getOrganization = query({
   },
 });
 
-//use this to populate the organization Info table
-export const populateOrganizatioInfo = mutation({
-  args: {},
+export const getAllOrganizations = query({
   handler: async (ctx) => {
     const organizations = await ctx.db
       .query("organization")
       .collect();
 
-    for (const org of organizations) {
-      await populateOrganizationInfo(ctx, org._id);
-    }
-
-    console.log(organizations);
+    return organizations;
   },
 });
 

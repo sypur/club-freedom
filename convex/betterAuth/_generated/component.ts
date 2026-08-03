@@ -1613,6 +1613,13 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
         },
         Name
       >;
+      getAllOrganizations: FunctionReference<
+        "query",
+        "internal",
+        any,
+        any,
+        Name
+      >;
       getOrganization: FunctionReference<
         "query",
         "internal",
@@ -1645,13 +1652,6 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
           pinnedSub?: null | number;
           slug: string;
         },
-        Name
-      >;
-      populateOrganizatioInfo: FunctionReference<
-        "mutation",
-        "internal",
-        {},
-        any,
         Name
       >;
     };
