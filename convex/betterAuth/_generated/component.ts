@@ -103,7 +103,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                   logo?: null | string;
                   metadata?: null | string;
                   name: string;
-                  pinnedSub?: null | number;
+                  pinnedSubmissions?: null | number;
                   slug: string;
                 };
                 model: "organization";
@@ -333,7 +333,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "createdAt"
                     | "metadata"
                     | "icon"
-                    | "pinnedSub"
+                    | "pinnedSubmissions"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
                   operator?:
@@ -635,7 +635,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "createdAt"
                     | "metadata"
                     | "icon"
-                    | "pinnedSub"
+                    | "pinnedSubmissions"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
                   operator?:
@@ -1075,7 +1075,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                   logo?: null | string;
                   metadata?: null | string;
                   name?: string;
-                  pinnedSub?: null | number;
+                  pinnedSubmissions?: null | number;
                   slug?: string;
                 };
                 where?: Array<{
@@ -1087,7 +1087,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "createdAt"
                     | "metadata"
                     | "icon"
-                    | "pinnedSub"
+                    | "pinnedSubmissions"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
                   operator?:
@@ -1453,7 +1453,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                   logo?: null | string;
                   metadata?: null | string;
                   name?: string;
-                  pinnedSub?: null | number;
+                  pinnedSubmissions?: null | number;
                   slug?: string;
                 };
                 where?: Array<{
@@ -1465,7 +1465,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
                     | "createdAt"
                     | "metadata"
                     | "icon"
-                    | "pinnedSub"
+                    | "pinnedSubmissions"
                     | "_id";
                   mode?: "sensitive" | "insensitive";
                   operator?:
@@ -1604,7 +1604,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
             logo?: null | string;
             metadata?: null | string;
             name: string;
-            pinnedSub?: null | number;
+            pinnedSubmissions?: null | number;
             slug: string;
           };
           organizationId: string;
@@ -1632,7 +1632,7 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
           logo?: null | string;
           metadata?: null | string;
           name: string;
-          pinnedSub?: null | number;
+          pinnedSubmissions?: null | number;
           slug: string;
         },
         Name
@@ -1649,9 +1649,23 @@ export type ComponentApi<Name extends string | undefined = string | undefined> =
           logo?: null | string;
           metadata?: null | string;
           name: string;
-          pinnedSub?: null | number;
+          pinnedSubmissions?: null | number;
           slug: string;
         },
+        Name
+      >;
+      getOrganizationPinnedSubmissions: FunctionReference<
+        "query",
+        "internal",
+        { organizationId: string },
+        number,
+        Name
+      >;
+      populatePinnedSubmissions: FunctionReference<
+        "mutation",
+        "internal",
+        any,
+        any,
         Name
       >;
     };

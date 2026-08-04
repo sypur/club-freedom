@@ -85,7 +85,7 @@ export const tables = {
     createdAt: v.number(),
     metadata: v.optional(v.union(v.null(), v.string())),
     icon: v.optional(v.union(v.null(), v.string())),
-    pinnedSub: v.optional(v.union(v.null(), v.number())),
+    pinnedSubmissions: v.optional(v.union(v.null(), v.number())),
   })
     .index("name", ["name"])
     .index("slug", ["slug"]),

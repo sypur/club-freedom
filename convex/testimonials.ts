@@ -450,14 +450,19 @@ export const ensureOrganizationInfo = mutation({
     const organizations = await ctx.runQuery(
       components.betterAuth.organization.getAllOrganizations
     );
-    console.log(organizations);
-    const orgInfo = await ctx.db.query("organizationInfo").collect();
 
-    // if (!orgInfo) {
-    //   await ctx.db.insert("organizationInfo", {
-    //     organizationId,
-    //     pinnedSubmissions: 0,
-    //   });
-    // }
+    for (const org of organizations) {
+      const orgInfo = await ctx.db
+        .query("organizationInfo")
+        .withIndex("byOrganizationIds", (q) => q.eq("organizationId", org._id))
+        .unique();
+
+      if (!orgInfo) {
+        await ctx.db.insert("organizationInfo", {
+          organizationId: org._id,
+          pinnedSubmissions: 0
+        })
+      }
+    }
   },
 });
