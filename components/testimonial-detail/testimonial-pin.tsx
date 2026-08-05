@@ -68,11 +68,7 @@ export default function TestimonialPin() {
       onClick={() => handlePinChange()}
       className="h-9 rounded-md border border-input bg-transparent text-accent-foreground hover:bg-transparent"
     >
-        {pinStatus ? (
-          <PinOff className="h-4 w-4" />
-        ) : (
-          <Pin className="h-4 w-4" />
-        )}
+      {pinStatus ? <PinOff className="h-4 w-4" /> : <Pin className="h-4 w-4" />}
     </Button>
   );
 }

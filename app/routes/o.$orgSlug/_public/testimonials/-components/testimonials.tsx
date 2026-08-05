@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import TestimonialCardInfo from "@/components/testimonial-card/testimonial-card-info";
 import TestimonialCardMedia from "@/components/testimonial-card/testimonial-card-media";
+import TestimonialCardPin from "@/components/testimonial-card/testimonial-card-pin";
 import TestimonialCardSummary from "@/components/testimonial-card/testimonial-card-summary";
 import TestimonialCardText from "@/components/testimonial-card/testimonial-card-text";
 import TestimonialCardTitle from "@/components/testimonial-card/testimonial-card-title";
@@ -11,7 +12,6 @@ import { Spinner } from "@/components/ui/spinner";
 import { TestimonialContext } from "@/contexts/testimonial-context";
 import { useInfiniteTestimonialQuery } from "@/lib/query";
 import TestimonialCardShell from "./testimonial-card-shell";
-import TestimonialCardPin from "@/components/testimonial-card/testimonial-card-pin";
 
 export default function Testimonials() {
   const { organization } = useRouteContext({

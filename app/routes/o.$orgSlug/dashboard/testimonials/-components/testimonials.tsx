@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import TestimonialCardApproval from "@/components/testimonial-card/testimonial-card-approval";
 import TestimonialCardInfo from "@/components/testimonial-card/testimonial-card-info";
+import TestimonialCardPin from "@/components/testimonial-card/testimonial-card-pin";
 import TestimonialCardText from "@/components/testimonial-card/testimonial-card-text";
 import TestimonialCardTitle from "@/components/testimonial-card/testimonial-card-title";
 import { CardContent, CardHeader } from "@/components/ui/card";
@@ -12,7 +13,6 @@ import { useInfiniteTestimonialQuery } from "@/lib/query";
 import { Route as TestimonialsRoute } from "../index";
 import TestimonialCardFormat from "./testimonial-card-format";
 import TestimonialCardShell from "./testimonial-card-shell";
-import TestimonialCardPin from "@/components/testimonial-card/testimonial-card-pin";
 
 export default function Testimonials() {
   const { organization } = useRouteContext({

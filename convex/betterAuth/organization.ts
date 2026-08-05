@@ -1,9 +1,8 @@
 import { v } from "convex/values";
 import { doc } from "convex-helpers/validators";
-import { mutation, query, MutationCtx } from "./_generated/server";
+import type { Id } from "./_generated/dataModel";
+import { mutation, query } from "./_generated/server";
 import schema from "./schema";
-import { api } from "./_generated/api";
-import { Id } from "./_generated/dataModel";
 
 export const getOrganization = query({
   args: { slug: v.string() },
@@ -19,33 +18,29 @@ export const getOrganization = query({
 
 export const populatePinnedSubmissions = mutation({
   handler: async (ctx) => {
-    const organizations = await ctx.db
-      .query("organization")
-      .collect();
+    const organizations = await ctx.db.query("organization").collect();
 
     for (const org of organizations) {
-      if (!org["pinnedSubmissions"]) {
-        await ctx.db.patch("organization", org._id, {pinnedSubmissions: 0})
+      if (!org.pinnedSubmissions) {
+        await ctx.db.patch("organization", org._id, { pinnedSubmissions: 0 });
       }
     }
-  }
+  },
 });
 
 export const getOrganizationPinnedSubmissions = query({
   args: { organizationId: v.string() },
-  returns:  v.number(),
+  returns: v.number(),
   handler: async (ctx, { organizationId }) => {
     const org = await ctx.db.get(organizationId as Id<"organization">);
     if (org) return org.pinnedSubmissions || -1;
     else return -1;
-  }
+  },
 });
 
 export const getAllOrganizations = query({
   handler: async (ctx) => {
-    const organizations = await ctx.db
-      .query("organization")
-      .collect();
+    const organizations = await ctx.db.query("organization").collect();
 
     return organizations;
   },
