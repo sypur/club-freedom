@@ -12,6 +12,7 @@ import { useInfiniteTestimonialQuery } from "@/lib/query";
 import { Route as TestimonialsRoute } from "../index";
 import TestimonialCardFormat from "./testimonial-card-format";
 import TestimonialCardShell from "./testimonial-card-shell";
+import TestimonialCardPin from "@/components/testimonial-card/testimonial-card-pin";
 
 export default function Testimonials() {
   const { organization } = useRouteContext({
@@ -45,7 +46,10 @@ export default function Testimonials() {
         >
           <TestimonialCardShell>
             <CardHeader>
-              <TestimonialCardTitle />
+              <div className="flex flex-none justify-between items-center">
+                <TestimonialCardTitle />
+                <TestimonialCardPin />
+              </div>
               <TestimonialCardInfo />
               <div className="flex gap-2 pt-1">
                 <TestimonialCardApproval />

@@ -6,15 +6,6 @@ import { useTestimonialContext } from "@/contexts/testimonial-context";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 import { Button } from "../ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
 
 export function usePinStatus(
   testimonialId: Id<"testimonials">,
@@ -67,25 +58,21 @@ export default function TestimonialPin() {
 
   const togglePin = useTestimonialPin(testimonial._id, pinStatus);
 
-  const handlePinChange = async (pin: boolean) => {
+  const handlePinChange = async () => {
     startTransition(async () => await togglePin());
   };
 
   return (
     <Button
-      size="sm"
       disabled={isPending}
-      onClick={() => handlePinChange(pinStatus)}
+      onClick={() => handlePinChange()}
+      className="h-9 rounded-md border border-input bg-transparent text-accent-foreground hover:bg-transparent"
     >
-      {pinStatus ? (
-        <div>
-          <PinOff className="mr-2 h-4 w-4" />
-        </div>
-      ) : (
-        <div>
-          <Pin className="mr-2 h-4 w-4" />
-        </div>
-      )}
+        {pinStatus ? (
+          <PinOff className="h-4 w-4" />
+        ) : (
+          <Pin className="h-4 w-4" />
+        )}
     </Button>
   );
 }

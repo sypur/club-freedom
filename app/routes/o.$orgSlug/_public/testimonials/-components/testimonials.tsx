@@ -11,6 +11,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { TestimonialContext } from "@/contexts/testimonial-context";
 import { useInfiniteTestimonialQuery } from "@/lib/query";
 import TestimonialCardShell from "./testimonial-card-shell";
+import TestimonialCardPin from "@/components/testimonial-card/testimonial-card-pin";
 
 export default function Testimonials() {
   const { organization } = useRouteContext({
@@ -49,7 +50,10 @@ export default function Testimonials() {
         >
           <TestimonialCardShell>
             <CardHeader>
-              <TestimonialCardTitle />
+              <div className="flex flex-none justify-between items-center">
+                <TestimonialCardTitle />
+                <TestimonialCardPin />
+              </div>
               <TestimonialCardInfo />
             </CardHeader>
             <CardContent>

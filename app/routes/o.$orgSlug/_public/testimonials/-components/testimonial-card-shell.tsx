@@ -38,7 +38,7 @@ export default function TestimonialCardShell({
       tabIndex={0}
       onClick={handleNavigation}
       onKeyDown={handleKeyDown}
-      className={cn(className, "hover:bg-muted/25 cursor-pointer")}
+      className={cn(className, `hover:bg-muted/25 cursor-pointer ${testimonial.pinned ? 'noisy-gradient' : ''}`)}
       {...props}
     />
   );

@@ -186,6 +186,7 @@ export const postTestimonial = mutation({
       processingStatus: "ongoing",
       eventName,
       eventDate,
+      pinned: false
     });
     return id;
   },
@@ -305,43 +306,44 @@ export const pinTestimonial = mutation({
     success: v.boolean(),
     message: v.string(),
   }),
-  handler: async (ctx, args) => {
-    const testimonial = await ctx.db.get("testimonials", args.id);
+  handler: async (ctx, { id }) => {
+    const testimonial = await ctx.db.get("testimonials", id);
     if (!testimonial?.organizationId)
-      return { success: false, message: "Testimonial not found" };
+      return { success: false, message: "Testimonial not found." };
     const orgId = testimonial?.organizationId.toString();
 
-    const n_pinned = (
-      await ctx.db
-        .query("pinnedTestimonials")
-        .withIndex("byOrganizationId", (q) => q.eq("organizationId", orgId))
-        .collect()
-    ).length;
+    let orgInfo = await ctx.db
+        .query("organizationInfo")
+        .withIndex("byOrganizationIds", (q) => q.eq("organizationId", orgId))
+        .unique();
 
-    // const pinSubsOrg = await api.organization.(orgId);
-
-    if (n_pinned >= 3) {
-      return {
-        success: false,
-        message: "You can only pin up to 3 testimonials",
-      };
+    let orgInfoId = orgInfo?._id;
+    if (!orgInfoId) {
+      orgInfoId = await ctx.db.insert("organizationInfo", { organizationId: orgId, pinnedSubmissions: 0 });
     }
 
-    const testimonialId = args.id.toString();
+    const nPinned = orgInfo ? orgInfo?.pinnedSubmissions || 0 : 0;
+
+    if (nPinned >= 3) {
+      return { success: false, message: "Maximum pinned testimonials exceeded." };
+    }
+
+    const testimonialId = id.toString();
 
     const existing = await ctx.db
       .query("pinnedTestimonials")
       .withIndex("byTestimonialId", (q) => q.eq("testimonialId", testimonialId))
       .unique();
 
-    if (existing)
-      return { success: false, message: "Testimonial is already pinned" };
+    if (existing) {
+      return { success: false, message: "Testimonial is already pinned." };
+    } else {
+      await ctx.db.insert("pinnedTestimonials", { organizationId: orgId, testimonialId: testimonialId });
+      await ctx.db.patch("organizationInfo", orgInfoId, { pinnedSubmissions: nPinned + 1 });
+      await ctx.db.patch("testimonials", id, { pinned: true });
 
-    await ctx.db.insert("pinnedTestimonials", {
-      organizationId: testimonial.organizationId,
-      testimonialId: testimonialId,
-    });
-    return { success: true, message: "Testimonial pinned" };
+      return { success: true, message: "Testimonial pinned." };
+    }
   },
 });
 
@@ -351,28 +353,46 @@ export const unpinTestimonial = mutation({
   },
   handler: async (ctx, { id }) => {
     const testimonial = await ctx.db.get("testimonials", id);
-    const organizationId = testimonial?.organizationId;
+    if (!testimonial) {
+      return { success: false, message: "Testimonial not found." };
+    }
+
+    const organizationId = testimonial?.organizationId || "";
 
     const item = await ctx.db
       .query("pinnedTestimonials")
       .withIndex("byTestimonialId", (q) => q.eq("testimonialId", id))
       .unique();
 
-    if (item?._id) {
+    if (item && item?._id) {
       await ctx.db.delete(item._id);
     }
-  },
+
+    const orgInfo = await ctx.db
+      .query("organizationInfo")
+      .withIndex("byOrganizationIds", (q) => q.eq("organizationId", organizationId))
+      .unique();
+    if (orgInfo && orgInfo?._id && orgInfo?.pinnedSubmissions) {
+      await ctx.db.patch("organizationInfo", orgInfo._id, { pinnedSubmissions: orgInfo.pinnedSubmissions - 1 });
+      await ctx.db.patch("testimonials", id, { pinned: false });
+    }
+
+    return { success: true, message: "Testimonial unpinned." };
+  }
 });
+
 export const getPinStatus = query({
   args: {
     id: v.id("testimonials"),
   },
+  returns: v.boolean(),
   handler: async (ctx, { id }) => {
-    const item = await ctx.db
-      .query("pinnedTestimonials")
-      .withIndex("byTestimonialId", (q) => q.eq("testimonialId", id))
-      .unique();
-    return !!item;
+    const item = await ctx.db.get("testimonials", id);
+    if (item && item.pinned) {
+      return true;
+    } else {
+      return false;
+    }
   },
 });
 
@@ -445,7 +465,8 @@ export const countPendingTestimonials = internalQuery({
   },
 });
 
-export const ensureOrganizationInfo = mutation({
+
+export const ensurePinnedStatus = mutation({
   handler: async (ctx) => {
     const organizations = await ctx.runQuery(
       components.betterAuth.organization.getAllOrganizations
@@ -463,6 +484,12 @@ export const ensureOrganizationInfo = mutation({
           pinnedSubmissions: 0
         })
       }
+    }
+
+    const testimonials = await ctx.db.query("testimonials").collect();
+    for (const test of testimonials) {
+      if(!test?.pinned)
+        await ctx.db.patch("testimonials", test._id, { pinned: false });
     }
   },
 });

@@ -9,6 +9,7 @@ import { TestimonialTitle } from "@/components/testimonial-detail/testimonial-ti
 import { TestimonialContext } from "@/contexts/testimonial-context";
 import { api } from "@/convex/_generated/api";
 import { Route } from "../$id";
+import TestimonialPin from "@/components/testimonial-detail/testimonial-pin";
 
 export default function TestimonialDetail() {
   const { id } = Route.useParams();
