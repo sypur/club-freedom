@@ -27,10 +27,11 @@ export function useTestimonialPin(
   if (pinStatus) {
     return async () => {
       try {
-        await unpinTestimonial({
+        const unpinTest = await unpinTestimonial({
           id: testimonialId,
         });
-        toast.success("This testimonial has been unpinned!");
+        if (unpinTest.success) toast.success(unpinTest.message);
+        else toast.error(unpinTest.message);
       } catch (_error) {
         toast.error("Failed to unpin testimonial.");
       }

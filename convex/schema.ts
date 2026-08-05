@@ -45,7 +45,7 @@ export default defineSchema({
       filterFields: ["processingStatus", "organizationId"],
     }),
   pinnedTestimonials: defineTable({
-    testimonialId: v.string(),
+    testimonialId: v.id("testimonials"),
     organizationId: v.string(),
   })
     .index("byTestimonialId", {
