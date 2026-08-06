@@ -15,6 +15,8 @@ import { TestimonialContext } from "@/contexts/testimonial-context";
 import { api } from "@/convex/_generated/api";
 import { hasPermissionQuery } from "@/lib/query";
 import TestimonialPin from "@/components/testimonial-detail/testimonial-pin";
+import { Pin } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 type Props = {
   testimonialId: string;
@@ -76,7 +78,10 @@ export default function TestimonialDetail({ testimonialId }: Props) {
         {testimonial.processingStatus === "error" && (
           <TestimonialProcessingError />
         )}
-        <TestimonialTitle />
+        <div className="space-y-2">
+          <TestimonialTitle />
+          {testimonial.pinnedAt && <Badge><Pin data-icon="inline-start" />Pinned</Badge>}
+        </div>
         {testimonial.media_type !== "text" && <TestimonialMedia />}
         <div className="flex flex-wrap gap-2">
           {canApprove && testimonial.processingStatus === "completed" && (
