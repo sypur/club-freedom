@@ -14,6 +14,7 @@ import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
 import { TestimonialContext } from "@/contexts/testimonial-context";
 import { api } from "@/convex/_generated/api";
 import { hasPermissionQuery } from "@/lib/query";
+import TestimonialPin from "@/components/testimonial-detail/testimonial-pin";
 
 type Props = {
   testimonialId: string;
@@ -83,6 +84,7 @@ export default function TestimonialDetail({ testimonialId }: Props) {
           )}
           {canDownload && <TestimonialDownload />}
           {canDelete && <TestimonialDelete />}
+          {canApprove && <TestimonialPin />}
         </div>
         <TestimonialInfo />
         <TestimonialSummary />
