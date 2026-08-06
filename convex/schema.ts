@@ -36,6 +36,7 @@ export default defineSchema({
     organizationId: v.optional(v.string()),
     approved: v.optional(v.boolean()),
     processingStatus: v.optional(processingStatusSchema),
+    pinnedAt: v.optional(v.number())
   })
     .index("by_processingStatus_and_organizationId", {
       fields: ["processingStatus", "organizationId"],

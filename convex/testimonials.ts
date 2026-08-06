@@ -259,6 +259,16 @@ export const updateTranscription = mutation({
   },
 });
 
+export const pinTestimonial = mutation({
+  args: {
+    id: v.id("testimonials"),
+    pinned: v.boolean(),
+  },
+  handler: async (ctx, { id, pinned }) => {
+    await ctx.db.patch(id, { pinnedAt: pinned ? Date.now() : undefined })
+  }
+})
+
 export const updateSummaryAndTitle = mutation({
   args: {
     id: v.id("testimonials"),
