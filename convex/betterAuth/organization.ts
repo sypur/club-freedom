@@ -4,6 +4,7 @@ import type { Id } from "./_generated/dataModel";
 import { mutation, query } from "./_generated/server";
 import schema from "./schema";
 
+
 export const getOrganization = query({
   args: { slug: v.string() },
   returns: v.union(v.null(), doc(schema, "organization")),
@@ -36,6 +37,20 @@ export const getOrganizationPinnedSubmissions = query({
     if (org) return org.pinnedSubmissions || -1;
     else return -1;
   },
+});
+
+export const incrementOrganizationPinnedSubmissions = mutation({
+  args: { increment: v.number(), organizationId: v.string() },
+  returns: v.boolean(),
+  handler: async (ctx, { increment, organizationId }) => {
+    const organization = await ctx.db.get("organization", organizationId as Id<"organization">);
+    if (organization?.pinnedSubmissions) {
+      await ctx.db.patch("organization", organizationId as Id<"organization">, { pinnedSubmissions: organization?.pinnedSubmissions + increment })
+      return true;
+    } else {
+      return false
+    }
+  }
 });
 
 export const getAllOrganizations = query({
