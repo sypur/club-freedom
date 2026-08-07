@@ -275,10 +275,10 @@ export const pinTestimonial = mutation({
     if (!testimonial?.organizationId) {
       return;
     }
-    const canPinTestimonials = await ctx.runQuery(api.testimonials.canPinTestimonials, {
+    const remaining = await ctx.runQuery(api.testimonials.remainingPinTestimonials, {
       organizationId: testimonial.organizationId
     });
-    if (canPinTestimonials || !pinned) {
+    if (remaining > 0 || !pinned) {
       await ctx.db.patch(id, { pinnedAt: pinned ? Date.now() : undefined })
     }
   }
@@ -297,7 +297,7 @@ export const updateSummaryAndTitle = mutation({
 
 const TESTIMONIAL_PIN_LIMIT = 3;
 
-export const canPinTestimonials = query({
+export const remainingPinTestimonials = query({
   args: {
     organizationId: v.string(),
   },
@@ -305,7 +305,7 @@ export const canPinTestimonials = query({
     const pinnedTestimonials = await ctx.db.query("testimonials").withIndex("by_organizationId_and_pinnedAt", (q) =>
       q.eq("organizationId", organizationId).gt("pinnedAt", 0)
     ).collect();
-    return pinnedTestimonials.length < TESTIMONIAL_PIN_LIMIT;
+    return TESTIMONIAL_PIN_LIMIT - pinnedTestimonials.length;
   }
 })
 
