@@ -265,6 +265,12 @@ export const pinTestimonial = mutation({
     pinned: v.boolean(),
   },
   handler: async (ctx, { id, pinned }) => {
+    const canApprove = await ctx.runQuery(api.auth.checkUserPermissions, {
+      permissions: { testimonial: ["approve"] },
+    });
+    if (!canApprove) {
+      throw new Error("Pin testimonial forbidden");
+    }
     await ctx.db.patch(id, { pinnedAt: pinned ? Date.now() : undefined })
   }
 })
