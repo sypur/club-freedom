@@ -318,37 +318,33 @@ export const pinTestimonial = mutation({
 
     const orgId = testimonial?.organizationId.toString();
 
-    const orgInfo = await ctx.db
-      .query("organizationInfo")
-      .withIndex("byOrganizationIds", (q) => q.eq("organizationId", orgId))
-      .unique();
+    const nPinned = await ctx.runQuery(
+      api.organization.getOrganizationPinnedSubmissions,
+      { organizationId: orgId },
+    );
 
-    let orgInfoId = orgInfo?._id;
-    let nPinned = 0;
+    if (nPinned === -1) {
+      return {
+        success: false,
+        message: "Organization Error. Testimonial cannot be pinned.",
+      };
+    }
 
-    if (!orgInfoId) {
-      orgInfoId = await ctx.db.insert("organizationInfo", {
-        organizationId: orgId,
-        pinnedSubmissions: 0,
-      });
-    } else {
-      nPinned = orgInfo?.pinnedSubmissions ?? 0;
-
-      if (nPinned >= 3) {
-        return {
-          success: false,
-          message: "Maximum pinned testimonials exceeded.",
-        };
-      }
+    if (nPinned >= 3) {
+      return {
+        success: false,
+        message: "Maximum pinned testimonials exceeded.",
+      };
     }
 
     await ctx.db.insert("pinnedTestimonials", {
       organizationId: orgId,
       testimonialId: id,
     });
-    await ctx.db.patch("organizationInfo", orgInfoId, {
-      pinnedSubmissions: nPinned + 1,
-    });
+    await ctx.runMutation(
+      api.organization.incrementOrganizationPinnedSubmissions,
+      { increment: 1, organizationId: orgId },
+    );
     await ctx.db.patch("testimonials", id, { pinned: true });
 
     return { success: true, message: "Testimonial pinned." };
@@ -376,20 +372,20 @@ export const unpinTestimonial = mutation({
       await ctx.db.delete(item._id);
     }
 
-    const orgInfo = await ctx.db
-      .query("organizationInfo")
-      .withIndex("byOrganizationIds", (q) =>
-        q.eq("organizationId", organizationId),
-      )
-      .unique();
-    if (orgInfo && orgInfo?._id && orgInfo?.pinnedSubmissions) {
-      await ctx.db.patch("organizationInfo", orgInfo._id, {
-        pinnedSubmissions: Math.max(orgInfo.pinnedSubmissions - 1, 0),
-      });
-      await ctx.db.patch("testimonials", id, { pinned: false });
-    }
+    const incrementPinnedSuccess = await ctx.runMutation(
+      api.organization.incrementOrganizationPinnedSubmissions,
+      { increment: -1, organizationId: organizationId },
+    );
 
-    return { success: true, message: "Testimonial unpinned." };
+    if (incrementPinnedSuccess) {
+      await ctx.db.patch("testimonials", id, { pinned: false });
+      return { success: true, message: "Testimonial unpinned." };
+    } else {
+      return {
+        success: true,
+        message: "Organization Error. Testimonial not unpinned.",
+      };
+    }
   },
 });
 
@@ -479,23 +475,9 @@ export const countPendingTestimonials = internalQuery({
 
 export const ensurePinnedStatus = mutation({
   handler: async (ctx) => {
-    const organizations = await ctx.runQuery(
-      components.betterAuth.organization.getAllOrganizations,
+    await ctx.runMutation(
+      components.betterAuth.organization.populatePinnedSubmissions,
     );
-
-    for (const org of organizations) {
-      const orgInfo = await ctx.db
-        .query("organizationInfo")
-        .withIndex("byOrganizationIds", (q) => q.eq("organizationId", org._id))
-        .unique();
-
-      if (!orgInfo) {
-        await ctx.db.insert("organizationInfo", {
-          organizationId: org._id,
-          pinnedSubmissions: 0,
-        });
-      }
-    }
 
     const testimonials = await ctx.db.query("testimonials").collect();
     for (const test of testimonials) {

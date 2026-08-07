@@ -38,6 +38,25 @@ export const getOrganizationPinnedSubmissions = query({
   },
 });
 
+export const incrementOrganizationPinnedSubmissions = mutation({
+  args: { increment: v.number(), organizationId: v.string() },
+  returns: v.boolean(),
+  handler: async (ctx, { increment, organizationId }) => {
+    const organization = await ctx.db.get(
+      "organization",
+      organizationId as Id<"organization">,
+    );
+    if (organization?.pinnedSubmissions) {
+      await ctx.db.patch("organization", organizationId as Id<"organization">, {
+        pinnedSubmissions: organization?.pinnedSubmissions + increment,
+      });
+      return true;
+    } else {
+      return false;
+    }
+  },
+});
+
 export const getAllOrganizations = query({
   handler: async (ctx) => {
     const organizations = await ctx.db.query("organization").collect();

@@ -157,3 +157,25 @@ export const updateOrganizationStylings = mutation({
     }
   },
 });
+
+export const getOrganizationPinnedSubmissions = query({
+  args: { organizationId: v.string() },
+  returns: v.number(),
+  handler: async (ctx, { organizationId }) => {
+    return await ctx.runQuery(
+      components.betterAuth.organization.getOrganizationPinnedSubmissions,
+      { organizationId },
+    );
+  },
+});
+
+export const incrementOrganizationPinnedSubmissions = mutation({
+  args: { increment: v.number(), organizationId: v.string() },
+  returns: v.boolean(),
+  handler: async (ctx, { increment, organizationId }) => {
+    return await ctx.runMutation(
+      components.betterAuth.organization.incrementOrganizationPinnedSubmissions,
+      { increment, organizationId },
+    );
+  },
+});
