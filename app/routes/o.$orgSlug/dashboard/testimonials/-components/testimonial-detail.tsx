@@ -1,22 +1,22 @@
 import { convexQuery } from "@convex-dev/react-query";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useRouteContext } from "@tanstack/react-router";
+import { Pin } from "lucide-react";
 import TestimonialApproval from "@/components/testimonial-detail/testimonial-approval";
 import TestimonialDelete from "@/components/testimonial-detail/testimonial-delete";
 import TestimonialDownload from "@/components/testimonial-detail/testimonial-download";
 import TestimonialInfo from "@/components/testimonial-detail/testimonial-info";
 import TestimonialMedia from "@/components/testimonial-detail/testimonial-media";
+import TestimonialPin from "@/components/testimonial-detail/testimonial-pin";
 import TestimonialProcessingError from "@/components/testimonial-detail/testimonial-processing-error";
 import TestimonialSummary from "@/components/testimonial-detail/testimonial-summary";
 import TestimonialText from "@/components/testimonial-detail/testimonial-text";
 import { TestimonialTitle } from "@/components/testimonial-detail/testimonial-title";
+import { Badge } from "@/components/ui/badge";
 import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
 import { TestimonialContext } from "@/contexts/testimonial-context";
 import { api } from "@/convex/_generated/api";
 import { hasPermissionQuery } from "@/lib/query";
-import TestimonialPin from "@/components/testimonial-detail/testimonial-pin";
-import { Pin } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 
 type Props = {
   testimonialId: string;
@@ -80,7 +80,12 @@ export default function TestimonialDetail({ testimonialId }: Props) {
         )}
         <div className="space-y-2">
           <TestimonialTitle />
-          {testimonial.pinnedAt && <Badge><Pin data-icon="inline-start" />Pinned</Badge>}
+          {testimonial.pinnedAt && (
+            <Badge>
+              <Pin data-icon="inline-start" />
+              Pinned
+            </Badge>
+          )}
         </div>
         {testimonial.media_type !== "text" && <TestimonialMedia />}
         <div className="flex flex-wrap gap-2">

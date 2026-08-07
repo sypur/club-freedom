@@ -36,13 +36,13 @@ export default defineSchema({
     organizationId: v.string(),
     approved: v.optional(v.boolean()),
     processingStatus: v.optional(processingStatusSchema),
-    pinnedAt: v.optional(v.number())
+    pinnedAt: v.optional(v.number()),
   })
     .index("by_processingStatus_and_organizationId", {
       fields: ["processingStatus", "organizationId", "pinnedAt"],
     })
     .index("by_organizationId_and_pinnedAt", {
-      fields: ["organizationId", "pinnedAt"]
+      fields: ["organizationId", "pinnedAt"],
     })
     .searchIndex("search_posts", {
       searchField: "searchText",

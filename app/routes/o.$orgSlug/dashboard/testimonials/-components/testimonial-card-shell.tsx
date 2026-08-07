@@ -1,9 +1,9 @@
+import { Pin } from "lucide-react";
 import type { ComponentProps, KeyboardEvent } from "react";
 import { Card } from "@/components/ui/card";
 import { useTestimonialContext } from "@/contexts/testimonial-context";
 import { cn } from "@/lib/utils";
 import { useTestimonialIdParam } from "./hook";
-import { Pin } from "lucide-react";
 
 type TestimonialCardShellProps = ComponentProps<typeof Card> & {
   isPublic?: boolean;
@@ -43,7 +43,9 @@ export default function TestimonialCardShell({
       })}
       {...props}
     >
-      {testimonial.pinnedAt && <Pin className="absolute size-4 top-2 right-2 pointer-events-none" />}
+      {testimonial.pinnedAt && (
+        <Pin className="absolute size-4 top-2 right-2 pointer-events-none" />
+      )}
       {children}
     </Card>
   );
