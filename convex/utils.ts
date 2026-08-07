@@ -15,7 +15,7 @@ export function getNextScheduleTime(
   timezone?: string | null,
 ): Date {
   const targetTz = timezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
-
+  const now = Date.now();
   const nowInTz = new TZDate(new Date(), targetTz);
 
   const target = new TZDate(
@@ -32,10 +32,7 @@ export function getNextScheduleTime(
   for (let i = 0; i < 8; i++) {
     const targetDay = target.getDay();
 
-    if (
-      allowedDaysOfTheWeek.includes(targetDay) &&
-      target.getTime() > nowInTz.getTime()
-    ) {
+    if (allowedDaysOfTheWeek.includes(targetDay) && target.getTime() > now) {
       return target;
     }
 
