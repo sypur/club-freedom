@@ -1,12 +1,15 @@
 import { useTestimonialContext } from "@/contexts/testimonial-context";
 import { Button } from "../ui/button";
 import { Pin, PinOff } from "lucide-react";
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { toast } from "sonner";
 
 export default function TestimonialPin() {
   const { testimonial } = useTestimonialContext();
+  const canPinTestimonials = useQuery(api.testimonials.canPinTestimonials, {
+    organizationId: testimonial.organizationId
+  });
   const isPinned = !!testimonial.pinnedAt;
   const pinTestimonial = useMutation(api.testimonials.pinTestimonial);
 
@@ -22,7 +25,7 @@ export default function TestimonialPin() {
     }
   }
 
-  return <Button variant="outline" onClick={handlePin}>
+  return <Button variant="outline" onClick={handlePin} disabled={!isPinned && !canPinTestimonials}>
     {isPinned ? <PinOff /> : <Pin />}
     <span className="sr-only sm:not-sr-only">{isPinned ? "Unpin" : "Pin"}</span>
   </Button>
