@@ -39,7 +39,7 @@ export default defineSchema({
     pinnedAt: v.optional(v.number())
   })
     .index("by_processingStatus_and_organizationId", {
-      fields: ["processingStatus", "organizationId"],
+      fields: ["processingStatus", "organizationId", "pinnedAt"],
     })
     .searchIndex("search_posts", {
       searchField: "searchText",
