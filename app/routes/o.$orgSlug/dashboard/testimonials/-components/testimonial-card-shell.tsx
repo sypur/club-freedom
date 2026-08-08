@@ -1,3 +1,4 @@
+import { Pin } from "lucide-react";
 import type { ComponentProps, KeyboardEvent } from "react";
 import { Card } from "@/components/ui/card";
 import { useTestimonialContext } from "@/contexts/testimonial-context";
@@ -10,6 +11,7 @@ type TestimonialCardShellProps = ComponentProps<typeof Card> & {
 
 export default function TestimonialCardShell({
   className,
+  children,
   ...props
 }: TestimonialCardShellProps) {
   const { testimonial } = useTestimonialContext();
@@ -36,10 +38,15 @@ export default function TestimonialCardShell({
       tabIndex={0}
       onClick={handleNavigation}
       onKeyDown={handleKeyDown}
-      className={cn(className, "hover:bg-muted/25 cursor-pointer", {
+      className={cn(className, "hover:bg-muted/25 cursor-pointer relative", {
         "bg-muted/25": testimonial._id === testimonialId,
       })}
       {...props}
-    />
+    >
+      {testimonial.pinnedAt && (
+        <Pin className="absolute size-4 top-2 right-2 pointer-events-none" />
+      )}
+      {children}
+    </Card>
   );
 }
