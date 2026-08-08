@@ -33,7 +33,8 @@ export const getOrganizationPinnedSubmissions = query({
   returns: v.number(),
   handler: async (ctx, { organizationId }) => {
     const org = await ctx.db.get(organizationId as Id<"organization">);
-    if (org?.pinnedSubmissions === null || org?.pinnedSubmissions === undefined) return -1;
+    if (org?.pinnedSubmissions === null || org?.pinnedSubmissions === undefined)
+      return -1;
     else return org?.pinnedSubmissions;
   },
 });

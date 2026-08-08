@@ -337,15 +337,17 @@ export const pinTestimonial = mutation({
       };
     }
 
-      await ctx.db.insert("pinnedTestimonials", {
+    Promise.all([
+      ctx.db.insert("pinnedTestimonials", {
         organizationId: orgId,
         testimonialId: id,
       }),
-      await ctx.runMutation(
-        api.organization.incrementOrganizationPinnedSubmissions,
-        { increment: 1, organizationId: orgId },
-      ),
-      await ctx.db.patch("testimonials", id, { pinned: true })
+      ctx.runMutation(api.organization.incrementOrganizationPinnedSubmissions, {
+        increment: 1,
+        organizationId: orgId,
+      }),
+      ctx.db.patch("testimonials", id, { pinned: true }),
+    ]);
 
     return { success: true, message: "Testimonial pinned." };
   },
@@ -478,7 +480,6 @@ export const ensurePinnedStatus = mutation({
     await ctx.runMutation(
       components.betterAuth.organization.populatePinnedSubmissions,
     );
-
     const testimonials = await ctx.db.query("testimonials").collect();
     for (const test of testimonials) {
       if (!test?.pinned)
