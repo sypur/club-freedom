@@ -337,15 +337,15 @@ export const pinTestimonial = mutation({
       };
     }
 
-    await ctx.db.insert("pinnedTestimonials", {
-      organizationId: orgId,
-      testimonialId: id,
-    });
-    await ctx.runMutation(
-      api.organization.incrementOrganizationPinnedSubmissions,
-      { increment: 1, organizationId: orgId },
-    );
-    await ctx.db.patch("testimonials", id, { pinned: true });
+      await ctx.db.insert("pinnedTestimonials", {
+        organizationId: orgId,
+        testimonialId: id,
+      }),
+      await ctx.runMutation(
+        api.organization.incrementOrganizationPinnedSubmissions,
+        { increment: 1, organizationId: orgId },
+      ),
+      await ctx.db.patch("testimonials", id, { pinned: true })
 
     return { success: true, message: "Testimonial pinned." };
   },
@@ -382,7 +382,7 @@ export const unpinTestimonial = mutation({
       return { success: true, message: "Testimonial unpinned." };
     } else {
       return {
-        success: true,
+        success: false,
         message: "Organization Error. Testimonial not unpinned.",
       };
     }

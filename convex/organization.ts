@@ -162,10 +162,11 @@ export const getOrganizationPinnedSubmissions = query({
   args: { organizationId: v.string() },
   returns: v.number(),
   handler: async (ctx, { organizationId }) => {
-    return await ctx.runQuery(
+    const nPinned = await ctx.runQuery(
       components.betterAuth.organization.getOrganizationPinnedSubmissions,
       { organizationId },
     );
+    return nPinned;
   },
 });
 
