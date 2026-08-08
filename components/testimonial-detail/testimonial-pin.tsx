@@ -27,7 +27,6 @@ export default function TestimonialPin() {
       organizationId: testimonial.organizationId,
     },
   );
-  console.log(remainingPinnedTestimonials);
   const isPinned = !!testimonial.pinnedAt;
   const pinTestimonial = useMutation(api.testimonials.pinTestimonial);
 
