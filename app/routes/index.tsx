@@ -8,16 +8,16 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   return (
-    <>
+    <div className="flex flex-col min-h-screen ">
       <Navbar />
-      <main className="flex min-h-screen flex-col items-center py-24 px-8 gap-y-12 max-w-3xl mx-auto">
-        <div className="flex flex-col items-center justify-center text-center">
+      <main className="flex-1 py-24 px-8 max-w-3xl mx-auto">
+        <div className="text-center">
           <h1 className="text-4xl font-bold">
             Welcome to Testimonials Submission Product!
           </h1>
         </div>
       </main>
       <Footnote />
-    </>
+    </div>
   );
 }

@@ -259,6 +259,34 @@ export const updateTranscription = mutation({
   },
 });
 
+export const pinTestimonial = mutation({
+  args: {
+    id: v.id("testimonials"),
+    pinned: v.boolean(),
+  },
+  handler: async (ctx, { id, pinned }) => {
+    const canApprove = await ctx.runQuery(api.auth.checkUserPermissions, {
+      permissions: { testimonial: ["approve"] },
+    });
+    if (!canApprove) {
+      throw new Error("Pin testimonial forbidden");
+    }
+    const testimonial = await ctx.db.get("testimonials", id);
+    if (!testimonial?.organizationId) {
+      return;
+    }
+    const remaining = await ctx.runQuery(
+      api.testimonials.remainingPinTestimonials,
+      {
+        organizationId: testimonial.organizationId,
+      },
+    );
+    if (remaining > 0 || !pinned) {
+      await ctx.db.patch(id, { pinnedAt: pinned ? Date.now() : undefined });
+    }
+  },
+});
+
 export const updateSummaryAndTitle = mutation({
   args: {
     id: v.id("testimonials"),
@@ -267,6 +295,23 @@ export const updateSummaryAndTitle = mutation({
   },
   handler: async (ctx, { id, summary, title }) => {
     await ctx.db.patch(id, { summary, title });
+  },
+});
+
+const TESTIMONIAL_PIN_LIMIT = 3;
+
+export const remainingPinTestimonials = query({
+  args: {
+    organizationId: v.string(),
+  },
+  handler: async (ctx, { organizationId }) => {
+    const pinnedTestimonials = await ctx.db
+      .query("testimonials")
+      .withIndex("by_organizationId_and_pinnedAt", (q) =>
+        q.eq("organizationId", organizationId).gt("pinnedAt", 0),
+      )
+      .collect();
+    return TESTIMONIAL_PIN_LIMIT - pinnedTestimonials.length;
   },
 });
 
