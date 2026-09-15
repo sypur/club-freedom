@@ -34,7 +34,7 @@ export default defineConfig({
   },
 
   machine: "medium-2x", //remove this while testing locally
-
+  runtime: "node-22",
   // Max duration of a task in seconds
   maxDuration: 3600,
 });
