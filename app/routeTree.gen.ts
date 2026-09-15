@@ -9,43 +9,47 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SignOutRouteImport } from './routes/sign-out'
-import { Route as AdminRouteRouteImport } from './routes/admin/route'
-import { Route as AuthRouteRouteImport } from './routes/_auth/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthRouteRouteImport } from './routes/_auth/route'
+import { Route as AdminRouteRouteImport } from './routes/admin/route'
+import { Route as SignOutRouteImport } from './routes/sign-out'
+import { Route as AuthPublicRouteRouteImport } from './routes/_auth/_public/route'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminOrganizationsRouteImport } from './routes/admin/organizations'
 import { Route as OOrgSlugRouteRouteImport } from './routes/o.$orgSlug/route'
-import { Route as AuthPublicRouteRouteImport } from './routes/_auth/_public/route'
-import { Route as ApiAuthSplatRouteImport } from './routes/api/auth.$'
-import { Route as AuthAcceptInviteInviteIdRouteImport } from './routes/_auth/accept-invite.$inviteId'
-import { Route as AuthPublicSignInRouteImport } from './routes/_auth/_public/sign-in'
-import { Route as AuthPublicResetPasswordRouteImport } from './routes/_auth/_public/reset-password'
 import { Route as AuthPublicForgotPasswordRouteImport } from './routes/_auth/_public/forgot-password'
-import { Route as OOrgSlugDashboardRouteRouteImport } from './routes/o.$orgSlug/dashboard/route'
+import { Route as AuthPublicResetPasswordRouteImport } from './routes/_auth/_public/reset-password'
+import { Route as AuthPublicSignInRouteImport } from './routes/_auth/_public/sign-in'
+import { Route as AuthAcceptInviteInviteIdRouteImport } from './routes/_auth/accept-invite.$inviteId'
+import { Route as ApiAuthSplatRouteImport } from './routes/api/auth.$'
 import { Route as OOrgSlugPublicRouteRouteImport } from './routes/o.$orgSlug/_public/route'
-import { Route as OOrgSlugDashboardIndexRouteImport } from './routes/o.$orgSlug/dashboard/index'
+import { Route as OOrgSlugDashboardRouteRouteImport } from './routes/o.$orgSlug/dashboard/route'
 import { Route as OOrgSlugPublicIndexRouteImport } from './routes/o.$orgSlug/_public/index'
+import { Route as OOrgSlugPublicTestimonialsRouteRouteImport } from './routes/o.$orgSlug/_public/testimonials/route'
+import { Route as OOrgSlugDashboardIndexRouteImport } from './routes/o.$orgSlug/dashboard/index'
+import { Route as OOrgSlugDashboardFormPreferencesRouteRouteImport } from './routes/o.$orgSlug/dashboard/form-preferences/route'
 import { Route as OOrgSlugDashboardMembersRouteImport } from './routes/o.$orgSlug/dashboard/members'
 import { Route as OOrgSlugDashboardTestimonialsRouteRouteImport } from './routes/o.$orgSlug/dashboard/testimonials/route'
-import { Route as OOrgSlugDashboardFormPreferencesRouteRouteImport } from './routes/o.$orgSlug/dashboard/form-preferences/route'
-import { Route as OOrgSlugPublicTestimonialsRouteRouteImport } from './routes/o.$orgSlug/_public/testimonials/route'
-import { Route as OOrgSlugDashboardThemeIndexRouteImport } from './routes/o.$orgSlug/dashboard/theme/index'
-import { Route as OOrgSlugDashboardTestimonialsIndexRouteImport } from './routes/o.$orgSlug/dashboard/testimonials/index'
-import { Route as OOrgSlugDashboardSettingsIndexRouteImport } from './routes/o.$orgSlug/dashboard/settings/index'
-import { Route as OOrgSlugDashboardFormPreferencesIndexRouteImport } from './routes/o.$orgSlug/dashboard/form-preferences/index'
 import { Route as OOrgSlugPublicTestimonialsIndexRouteImport } from './routes/o.$orgSlug/_public/testimonials/index'
-import { Route as OOrgSlugDashboardTestimonialsIdRouteImport } from './routes/o.$orgSlug/dashboard/testimonials/$id'
-import { Route as OOrgSlugDashboardFormPreferencesNewRouteImport } from './routes/o.$orgSlug/dashboard/form-preferences/new'
-import { Route as OOrgSlugDashboardFormPreferencesIdRouteImport } from './routes/o.$orgSlug/dashboard/form-preferences/$id'
 import { Route as OOrgSlugPublicTestimonialsIdRouteImport } from './routes/o.$orgSlug/_public/testimonials/$id'
-import { Route as OOrgSlugDashboardSettingsOrganizationIndexRouteImport } from './routes/o.$orgSlug/dashboard/settings/organization/index'
-import { Route as OOrgSlugDashboardSettingsNotificationIndexRouteImport } from './routes/o.$orgSlug/dashboard/settings/notification/index'
+import { Route as OOrgSlugDashboardFormPreferencesIndexRouteImport } from './routes/o.$orgSlug/dashboard/form-preferences/index'
+import { Route as OOrgSlugDashboardFormPreferencesIdRouteImport } from './routes/o.$orgSlug/dashboard/form-preferences/$id'
+import { Route as OOrgSlugDashboardFormPreferencesNewRouteImport } from './routes/o.$orgSlug/dashboard/form-preferences/new'
+import { Route as OOrgSlugDashboardSettingsIndexRouteImport } from './routes/o.$orgSlug/dashboard/settings/index'
+import { Route as OOrgSlugDashboardTestimonialsIndexRouteImport } from './routes/o.$orgSlug/dashboard/testimonials/index'
+import { Route as OOrgSlugDashboardTestimonialsIdRouteImport } from './routes/o.$orgSlug/dashboard/testimonials/$id'
+import { Route as OOrgSlugDashboardThemeIndexRouteImport } from './routes/o.$orgSlug/dashboard/theme/index'
 import { Route as OOrgSlugPublicTestimonialsTmpIdRouteImport } from './routes/o.$orgSlug/_public/testimonials/tmp.$id'
+import { Route as OOrgSlugDashboardSettingsNotificationIndexRouteImport } from './routes/o.$orgSlug/dashboard/settings/notification/index'
+import { Route as OOrgSlugDashboardSettingsOrganizationIndexRouteImport } from './routes/o.$orgSlug/dashboard/settings/organization/index'
 
-const SignOutRoute = SignOutRouteImport.update({
-  id: '/sign-out',
-  path: '/sign-out',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRouteRoute = AuthRouteRouteImport.update({
+  id: '/_auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRouteRoute = AdminRouteRouteImport.update({
@@ -53,14 +57,14 @@ const AdminRouteRoute = AdminRouteRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthRouteRoute = AuthRouteRouteImport.update({
-  id: '/_auth',
+const SignOutRoute = SignOutRouteImport.update({
+  id: '/sign-out',
+  path: '/sign-out',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
+const AuthPublicRouteRoute = AuthPublicRouteRouteImport.update({
+  id: '/_public',
+  getParentRoute: () => AuthRouteRoute,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
@@ -77,14 +81,21 @@ const OOrgSlugRouteRoute = OOrgSlugRouteRouteImport.update({
   path: '/o/$orgSlug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthPublicRouteRoute = AuthPublicRouteRouteImport.update({
-  id: '/_public',
-  getParentRoute: () => AuthRouteRoute,
+const AuthPublicForgotPasswordRoute =
+  AuthPublicForgotPasswordRouteImport.update({
+    id: '/forgot-password',
+    path: '/forgot-password',
+    getParentRoute: () => AuthPublicRouteRoute,
+  } as any)
+const AuthPublicResetPasswordRoute = AuthPublicResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => AuthPublicRouteRoute,
 } as any)
-const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
-  id: '/api/auth/$',
-  path: '/api/auth/$',
-  getParentRoute: () => rootRouteImport,
+const AuthPublicSignInRoute = AuthPublicSignInRouteImport.update({
+  id: '/sign-in',
+  path: '/sign-in',
+  getParentRoute: () => AuthPublicRouteRoute,
 } as any)
 const AuthAcceptInviteInviteIdRoute =
   AuthAcceptInviteInviteIdRouteImport.update({
@@ -92,41 +103,42 @@ const AuthAcceptInviteInviteIdRoute =
     path: '/accept-invite/$inviteId',
     getParentRoute: () => AuthRouteRoute,
   } as any)
-const AuthPublicSignInRoute = AuthPublicSignInRouteImport.update({
-  id: '/sign-in',
-  path: '/sign-in',
-  getParentRoute: () => AuthPublicRouteRoute,
-} as any)
-const AuthPublicResetPasswordRoute = AuthPublicResetPasswordRouteImport.update({
-  id: '/reset-password',
-  path: '/reset-password',
-  getParentRoute: () => AuthPublicRouteRoute,
-} as any)
-const AuthPublicForgotPasswordRoute =
-  AuthPublicForgotPasswordRouteImport.update({
-    id: '/forgot-password',
-    path: '/forgot-password',
-    getParentRoute: () => AuthPublicRouteRoute,
-  } as any)
-const OOrgSlugDashboardRouteRoute = OOrgSlugDashboardRouteRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => OOrgSlugRouteRoute,
+const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const OOrgSlugPublicRouteRoute = OOrgSlugPublicRouteRouteImport.update({
   id: '/_public',
   getParentRoute: () => OOrgSlugRouteRoute,
 } as any)
-const OOrgSlugDashboardIndexRoute = OOrgSlugDashboardIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => OOrgSlugDashboardRouteRoute,
+const OOrgSlugDashboardRouteRoute = OOrgSlugDashboardRouteRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => OOrgSlugRouteRoute,
 } as any)
 const OOrgSlugPublicIndexRoute = OOrgSlugPublicIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => OOrgSlugPublicRouteRoute,
 } as any)
+const OOrgSlugPublicTestimonialsRouteRoute =
+  OOrgSlugPublicTestimonialsRouteRouteImport.update({
+    id: '/testimonials',
+    path: '/testimonials',
+    getParentRoute: () => OOrgSlugPublicRouteRoute,
+  } as any)
+const OOrgSlugDashboardIndexRoute = OOrgSlugDashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => OOrgSlugDashboardRouteRoute,
+} as any)
+const OOrgSlugDashboardFormPreferencesRouteRoute =
+  OOrgSlugDashboardFormPreferencesRouteRouteImport.update({
+    id: '/form-preferences',
+    path: '/form-preferences',
+    getParentRoute: () => OOrgSlugDashboardRouteRoute,
+  } as any)
 const OOrgSlugDashboardMembersRoute =
   OOrgSlugDashboardMembersRouteImport.update({
     id: '/members',
@@ -139,58 +151,22 @@ const OOrgSlugDashboardTestimonialsRouteRoute =
     path: '/testimonials',
     getParentRoute: () => OOrgSlugDashboardRouteRoute,
   } as any)
-const OOrgSlugDashboardFormPreferencesRouteRoute =
-  OOrgSlugDashboardFormPreferencesRouteRouteImport.update({
-    id: '/form-preferences',
-    path: '/form-preferences',
-    getParentRoute: () => OOrgSlugDashboardRouteRoute,
-  } as any)
-const OOrgSlugPublicTestimonialsRouteRoute =
-  OOrgSlugPublicTestimonialsRouteRouteImport.update({
-    id: '/testimonials',
-    path: '/testimonials',
-    getParentRoute: () => OOrgSlugPublicRouteRoute,
-  } as any)
-const OOrgSlugDashboardThemeIndexRoute =
-  OOrgSlugDashboardThemeIndexRouteImport.update({
-    id: '/theme/',
-    path: '/theme/',
-    getParentRoute: () => OOrgSlugDashboardRouteRoute,
-  } as any)
-const OOrgSlugDashboardTestimonialsIndexRoute =
-  OOrgSlugDashboardTestimonialsIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => OOrgSlugDashboardTestimonialsRouteRoute,
-  } as any)
-const OOrgSlugDashboardSettingsIndexRoute =
-  OOrgSlugDashboardSettingsIndexRouteImport.update({
-    id: '/settings/',
-    path: '/settings/',
-    getParentRoute: () => OOrgSlugDashboardRouteRoute,
-  } as any)
-const OOrgSlugDashboardFormPreferencesIndexRoute =
-  OOrgSlugDashboardFormPreferencesIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => OOrgSlugDashboardFormPreferencesRouteRoute,
-  } as any)
 const OOrgSlugPublicTestimonialsIndexRoute =
   OOrgSlugPublicTestimonialsIndexRouteImport.update({
     id: '/',
     path: '/',
     getParentRoute: () => OOrgSlugPublicTestimonialsRouteRoute,
   } as any)
-const OOrgSlugDashboardTestimonialsIdRoute =
-  OOrgSlugDashboardTestimonialsIdRouteImport.update({
+const OOrgSlugPublicTestimonialsIdRoute =
+  OOrgSlugPublicTestimonialsIdRouteImport.update({
     id: '/$id',
     path: '/$id',
-    getParentRoute: () => OOrgSlugDashboardTestimonialsRouteRoute,
+    getParentRoute: () => OOrgSlugPublicTestimonialsRouteRoute,
   } as any)
-const OOrgSlugDashboardFormPreferencesNewRoute =
-  OOrgSlugDashboardFormPreferencesNewRouteImport.update({
-    id: '/new',
-    path: '/new',
+const OOrgSlugDashboardFormPreferencesIndexRoute =
+  OOrgSlugDashboardFormPreferencesIndexRouteImport.update({
+    id: '/',
+    path: '/',
     getParentRoute: () => OOrgSlugDashboardFormPreferencesRouteRoute,
   } as any)
 const OOrgSlugDashboardFormPreferencesIdRoute =
@@ -199,22 +175,34 @@ const OOrgSlugDashboardFormPreferencesIdRoute =
     path: '/$id',
     getParentRoute: () => OOrgSlugDashboardFormPreferencesRouteRoute,
   } as any)
-const OOrgSlugPublicTestimonialsIdRoute =
-  OOrgSlugPublicTestimonialsIdRouteImport.update({
-    id: '/$id',
-    path: '/$id',
-    getParentRoute: () => OOrgSlugPublicTestimonialsRouteRoute,
+const OOrgSlugDashboardFormPreferencesNewRoute =
+  OOrgSlugDashboardFormPreferencesNewRouteImport.update({
+    id: '/new',
+    path: '/new',
+    getParentRoute: () => OOrgSlugDashboardFormPreferencesRouteRoute,
   } as any)
-const OOrgSlugDashboardSettingsOrganizationIndexRoute =
-  OOrgSlugDashboardSettingsOrganizationIndexRouteImport.update({
-    id: '/settings/organization/',
-    path: '/settings/organization/',
+const OOrgSlugDashboardSettingsIndexRoute =
+  OOrgSlugDashboardSettingsIndexRouteImport.update({
+    id: '/settings/',
+    path: '/settings/',
     getParentRoute: () => OOrgSlugDashboardRouteRoute,
   } as any)
-const OOrgSlugDashboardSettingsNotificationIndexRoute =
-  OOrgSlugDashboardSettingsNotificationIndexRouteImport.update({
-    id: '/settings/notification/',
-    path: '/settings/notification/',
+const OOrgSlugDashboardTestimonialsIndexRoute =
+  OOrgSlugDashboardTestimonialsIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => OOrgSlugDashboardTestimonialsRouteRoute,
+  } as any)
+const OOrgSlugDashboardTestimonialsIdRoute =
+  OOrgSlugDashboardTestimonialsIdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => OOrgSlugDashboardTestimonialsRouteRoute,
+  } as any)
+const OOrgSlugDashboardThemeIndexRoute =
+  OOrgSlugDashboardThemeIndexRouteImport.update({
+    id: '/theme/',
+    path: '/theme/',
     getParentRoute: () => OOrgSlugDashboardRouteRoute,
   } as any)
 const OOrgSlugPublicTestimonialsTmpIdRoute =
@@ -222,6 +210,18 @@ const OOrgSlugPublicTestimonialsTmpIdRoute =
     id: '/tmp/$id',
     path: '/tmp/$id',
     getParentRoute: () => OOrgSlugPublicTestimonialsRouteRoute,
+  } as any)
+const OOrgSlugDashboardSettingsNotificationIndexRoute =
+  OOrgSlugDashboardSettingsNotificationIndexRouteImport.update({
+    id: '/settings/notification/',
+    path: '/settings/notification/',
+    getParentRoute: () => OOrgSlugDashboardRouteRoute,
+  } as any)
+const OOrgSlugDashboardSettingsOrganizationIndexRoute =
+  OOrgSlugDashboardSettingsOrganizationIndexRouteImport.update({
+    id: '/settings/organization/',
+    path: '/settings/organization/',
+    getParentRoute: () => OOrgSlugDashboardRouteRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -425,18 +425,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/sign-out': {
-      id: '/sign-out'
-      path: '/sign-out'
-      fullPath: '/sign-out'
-      preLoaderRoute: typeof SignOutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminRouteRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_auth': {
@@ -446,12 +439,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/sign-out': {
+      id: '/sign-out'
+      path: '/sign-out'
+      fullPath: '/sign-out'
+      preLoaderRoute: typeof SignOutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_auth/_public': {
+      id: '/_auth/_public'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthPublicRouteRouteImport
+      parentRoute: typeof AuthRouteRoute
     }
     '/admin/': {
       id: '/admin/'
@@ -474,32 +481,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OOrgSlugRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_auth/_public': {
-      id: '/_auth/_public'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof AuthPublicRouteRouteImport
-      parentRoute: typeof AuthRouteRoute
-    }
-    '/api/auth/$': {
-      id: '/api/auth/$'
-      path: '/api/auth/$'
-      fullPath: '/api/auth/$'
-      preLoaderRoute: typeof ApiAuthSplatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_auth/accept-invite/$inviteId': {
-      id: '/_auth/accept-invite/$inviteId'
-      path: '/accept-invite/$inviteId'
-      fullPath: '/accept-invite/$inviteId'
-      preLoaderRoute: typeof AuthAcceptInviteInviteIdRouteImport
-      parentRoute: typeof AuthRouteRoute
-    }
-    '/_auth/_public/sign-in': {
-      id: '/_auth/_public/sign-in'
-      path: '/sign-in'
-      fullPath: '/sign-in'
-      preLoaderRoute: typeof AuthPublicSignInRouteImport
+    '/_auth/_public/forgot-password': {
+      id: '/_auth/_public/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof AuthPublicForgotPasswordRouteImport
       parentRoute: typeof AuthPublicRouteRoute
     }
     '/_auth/_public/reset-password': {
@@ -509,19 +495,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthPublicResetPasswordRouteImport
       parentRoute: typeof AuthPublicRouteRoute
     }
-    '/_auth/_public/forgot-password': {
-      id: '/_auth/_public/forgot-password'
-      path: '/forgot-password'
-      fullPath: '/forgot-password'
-      preLoaderRoute: typeof AuthPublicForgotPasswordRouteImport
+    '/_auth/_public/sign-in': {
+      id: '/_auth/_public/sign-in'
+      path: '/sign-in'
+      fullPath: '/sign-in'
+      preLoaderRoute: typeof AuthPublicSignInRouteImport
       parentRoute: typeof AuthPublicRouteRoute
     }
-    '/o/$orgSlug/dashboard': {
-      id: '/o/$orgSlug/dashboard'
-      path: '/dashboard'
-      fullPath: '/o/$orgSlug/dashboard'
-      preLoaderRoute: typeof OOrgSlugDashboardRouteRouteImport
-      parentRoute: typeof OOrgSlugRouteRoute
+    '/_auth/accept-invite/$inviteId': {
+      id: '/_auth/accept-invite/$inviteId'
+      path: '/accept-invite/$inviteId'
+      fullPath: '/accept-invite/$inviteId'
+      preLoaderRoute: typeof AuthAcceptInviteInviteIdRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/o/$orgSlug/_public': {
       id: '/o/$orgSlug/_public'
@@ -530,12 +523,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OOrgSlugPublicRouteRouteImport
       parentRoute: typeof OOrgSlugRouteRoute
     }
-    '/o/$orgSlug/dashboard/': {
-      id: '/o/$orgSlug/dashboard/'
-      path: '/'
-      fullPath: '/o/$orgSlug/dashboard/'
-      preLoaderRoute: typeof OOrgSlugDashboardIndexRouteImport
-      parentRoute: typeof OOrgSlugDashboardRouteRoute
+    '/o/$orgSlug/dashboard': {
+      id: '/o/$orgSlug/dashboard'
+      path: '/dashboard'
+      fullPath: '/o/$orgSlug/dashboard'
+      preLoaderRoute: typeof OOrgSlugDashboardRouteRouteImport
+      parentRoute: typeof OOrgSlugRouteRoute
     }
     '/o/$orgSlug/_public/': {
       id: '/o/$orgSlug/_public/'
@@ -543,6 +536,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/o/$orgSlug/'
       preLoaderRoute: typeof OOrgSlugPublicIndexRouteImport
       parentRoute: typeof OOrgSlugPublicRouteRoute
+    }
+    '/o/$orgSlug/_public/testimonials': {
+      id: '/o/$orgSlug/_public/testimonials'
+      path: '/testimonials'
+      fullPath: '/o/$orgSlug/testimonials'
+      preLoaderRoute: typeof OOrgSlugPublicTestimonialsRouteRouteImport
+      parentRoute: typeof OOrgSlugPublicRouteRoute
+    }
+    '/o/$orgSlug/dashboard/': {
+      id: '/o/$orgSlug/dashboard/'
+      path: '/'
+      fullPath: '/o/$orgSlug/dashboard/'
+      preLoaderRoute: typeof OOrgSlugDashboardIndexRouteImport
+      parentRoute: typeof OOrgSlugDashboardRouteRoute
+    }
+    '/o/$orgSlug/dashboard/form-preferences': {
+      id: '/o/$orgSlug/dashboard/form-preferences'
+      path: '/form-preferences'
+      fullPath: '/o/$orgSlug/dashboard/form-preferences'
+      preLoaderRoute: typeof OOrgSlugDashboardFormPreferencesRouteRouteImport
+      parentRoute: typeof OOrgSlugDashboardRouteRoute
     }
     '/o/$orgSlug/dashboard/members': {
       id: '/o/$orgSlug/dashboard/members'
@@ -558,48 +572,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OOrgSlugDashboardTestimonialsRouteRouteImport
       parentRoute: typeof OOrgSlugDashboardRouteRoute
     }
-    '/o/$orgSlug/dashboard/form-preferences': {
-      id: '/o/$orgSlug/dashboard/form-preferences'
-      path: '/form-preferences'
-      fullPath: '/o/$orgSlug/dashboard/form-preferences'
-      preLoaderRoute: typeof OOrgSlugDashboardFormPreferencesRouteRouteImport
-      parentRoute: typeof OOrgSlugDashboardRouteRoute
-    }
-    '/o/$orgSlug/_public/testimonials': {
-      id: '/o/$orgSlug/_public/testimonials'
-      path: '/testimonials'
-      fullPath: '/o/$orgSlug/testimonials'
-      preLoaderRoute: typeof OOrgSlugPublicTestimonialsRouteRouteImport
-      parentRoute: typeof OOrgSlugPublicRouteRoute
-    }
-    '/o/$orgSlug/dashboard/theme/': {
-      id: '/o/$orgSlug/dashboard/theme/'
-      path: '/theme'
-      fullPath: '/o/$orgSlug/dashboard/theme/'
-      preLoaderRoute: typeof OOrgSlugDashboardThemeIndexRouteImport
-      parentRoute: typeof OOrgSlugDashboardRouteRoute
-    }
-    '/o/$orgSlug/dashboard/testimonials/': {
-      id: '/o/$orgSlug/dashboard/testimonials/'
-      path: '/'
-      fullPath: '/o/$orgSlug/dashboard/testimonials/'
-      preLoaderRoute: typeof OOrgSlugDashboardTestimonialsIndexRouteImport
-      parentRoute: typeof OOrgSlugDashboardTestimonialsRouteRoute
-    }
-    '/o/$orgSlug/dashboard/settings/': {
-      id: '/o/$orgSlug/dashboard/settings/'
-      path: '/settings'
-      fullPath: '/o/$orgSlug/dashboard/settings/'
-      preLoaderRoute: typeof OOrgSlugDashboardSettingsIndexRouteImport
-      parentRoute: typeof OOrgSlugDashboardRouteRoute
-    }
-    '/o/$orgSlug/dashboard/form-preferences/': {
-      id: '/o/$orgSlug/dashboard/form-preferences/'
-      path: '/'
-      fullPath: '/o/$orgSlug/dashboard/form-preferences/'
-      preLoaderRoute: typeof OOrgSlugDashboardFormPreferencesIndexRouteImport
-      parentRoute: typeof OOrgSlugDashboardFormPreferencesRouteRoute
-    }
     '/o/$orgSlug/_public/testimonials/': {
       id: '/o/$orgSlug/_public/testimonials/'
       path: '/'
@@ -607,18 +579,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OOrgSlugPublicTestimonialsIndexRouteImport
       parentRoute: typeof OOrgSlugPublicTestimonialsRouteRoute
     }
-    '/o/$orgSlug/dashboard/testimonials/$id': {
-      id: '/o/$orgSlug/dashboard/testimonials/$id'
+    '/o/$orgSlug/_public/testimonials/$id': {
+      id: '/o/$orgSlug/_public/testimonials/$id'
       path: '/$id'
-      fullPath: '/o/$orgSlug/dashboard/testimonials/$id'
-      preLoaderRoute: typeof OOrgSlugDashboardTestimonialsIdRouteImport
-      parentRoute: typeof OOrgSlugDashboardTestimonialsRouteRoute
+      fullPath: '/o/$orgSlug/testimonials/$id'
+      preLoaderRoute: typeof OOrgSlugPublicTestimonialsIdRouteImport
+      parentRoute: typeof OOrgSlugPublicTestimonialsRouteRoute
     }
-    '/o/$orgSlug/dashboard/form-preferences/new': {
-      id: '/o/$orgSlug/dashboard/form-preferences/new'
-      path: '/new'
-      fullPath: '/o/$orgSlug/dashboard/form-preferences/new'
-      preLoaderRoute: typeof OOrgSlugDashboardFormPreferencesNewRouteImport
+    '/o/$orgSlug/dashboard/form-preferences/': {
+      id: '/o/$orgSlug/dashboard/form-preferences/'
+      path: '/'
+      fullPath: '/o/$orgSlug/dashboard/form-preferences/'
+      preLoaderRoute: typeof OOrgSlugDashboardFormPreferencesIndexRouteImport
       parentRoute: typeof OOrgSlugDashboardFormPreferencesRouteRoute
     }
     '/o/$orgSlug/dashboard/form-preferences/$id': {
@@ -628,25 +600,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OOrgSlugDashboardFormPreferencesIdRouteImport
       parentRoute: typeof OOrgSlugDashboardFormPreferencesRouteRoute
     }
-    '/o/$orgSlug/_public/testimonials/$id': {
-      id: '/o/$orgSlug/_public/testimonials/$id'
-      path: '/$id'
-      fullPath: '/o/$orgSlug/testimonials/$id'
-      preLoaderRoute: typeof OOrgSlugPublicTestimonialsIdRouteImport
-      parentRoute: typeof OOrgSlugPublicTestimonialsRouteRoute
+    '/o/$orgSlug/dashboard/form-preferences/new': {
+      id: '/o/$orgSlug/dashboard/form-preferences/new'
+      path: '/new'
+      fullPath: '/o/$orgSlug/dashboard/form-preferences/new'
+      preLoaderRoute: typeof OOrgSlugDashboardFormPreferencesNewRouteImport
+      parentRoute: typeof OOrgSlugDashboardFormPreferencesRouteRoute
     }
-    '/o/$orgSlug/dashboard/settings/organization/': {
-      id: '/o/$orgSlug/dashboard/settings/organization/'
-      path: '/settings/organization'
-      fullPath: '/o/$orgSlug/dashboard/settings/organization/'
-      preLoaderRoute: typeof OOrgSlugDashboardSettingsOrganizationIndexRouteImport
+    '/o/$orgSlug/dashboard/settings/': {
+      id: '/o/$orgSlug/dashboard/settings/'
+      path: '/settings'
+      fullPath: '/o/$orgSlug/dashboard/settings/'
+      preLoaderRoute: typeof OOrgSlugDashboardSettingsIndexRouteImport
       parentRoute: typeof OOrgSlugDashboardRouteRoute
     }
-    '/o/$orgSlug/dashboard/settings/notification/': {
-      id: '/o/$orgSlug/dashboard/settings/notification/'
-      path: '/settings/notification'
-      fullPath: '/o/$orgSlug/dashboard/settings/notification/'
-      preLoaderRoute: typeof OOrgSlugDashboardSettingsNotificationIndexRouteImport
+    '/o/$orgSlug/dashboard/testimonials/': {
+      id: '/o/$orgSlug/dashboard/testimonials/'
+      path: '/'
+      fullPath: '/o/$orgSlug/dashboard/testimonials/'
+      preLoaderRoute: typeof OOrgSlugDashboardTestimonialsIndexRouteImport
+      parentRoute: typeof OOrgSlugDashboardTestimonialsRouteRoute
+    }
+    '/o/$orgSlug/dashboard/testimonials/$id': {
+      id: '/o/$orgSlug/dashboard/testimonials/$id'
+      path: '/$id'
+      fullPath: '/o/$orgSlug/dashboard/testimonials/$id'
+      preLoaderRoute: typeof OOrgSlugDashboardTestimonialsIdRouteImport
+      parentRoute: typeof OOrgSlugDashboardTestimonialsRouteRoute
+    }
+    '/o/$orgSlug/dashboard/theme/': {
+      id: '/o/$orgSlug/dashboard/theme/'
+      path: '/theme'
+      fullPath: '/o/$orgSlug/dashboard/theme/'
+      preLoaderRoute: typeof OOrgSlugDashboardThemeIndexRouteImport
       parentRoute: typeof OOrgSlugDashboardRouteRoute
     }
     '/o/$orgSlug/_public/testimonials/tmp/$id': {
@@ -655,6 +641,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/o/$orgSlug/testimonials/tmp/$id'
       preLoaderRoute: typeof OOrgSlugPublicTestimonialsTmpIdRouteImport
       parentRoute: typeof OOrgSlugPublicTestimonialsRouteRoute
+    }
+    '/o/$orgSlug/dashboard/settings/notification/': {
+      id: '/o/$orgSlug/dashboard/settings/notification/'
+      path: '/settings/notification'
+      fullPath: '/o/$orgSlug/dashboard/settings/notification/'
+      preLoaderRoute: typeof OOrgSlugDashboardSettingsNotificationIndexRouteImport
+      parentRoute: typeof OOrgSlugDashboardRouteRoute
+    }
+    '/o/$orgSlug/dashboard/settings/organization/': {
+      id: '/o/$orgSlug/dashboard/settings/organization/'
+      path: '/settings/organization'
+      fullPath: '/o/$orgSlug/dashboard/settings/organization/'
+      preLoaderRoute: typeof OOrgSlugDashboardSettingsOrganizationIndexRouteImport
+      parentRoute: typeof OOrgSlugDashboardRouteRoute
     }
   }
 }
