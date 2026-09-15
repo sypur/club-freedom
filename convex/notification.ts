@@ -13,7 +13,7 @@ import { api as authApi } from "./betterAuth/_generated/api";
 import type { Id } from "./betterAuth/_generated/dataModel";
 import { resend } from "./email";
 import { mutation } from "./functions";
-import { getNextScheduleTime } from "./utils";
+import { getNextScheduleTime } from "./libs/time";
 
 export const getNotificationPreference = query({
   args: {

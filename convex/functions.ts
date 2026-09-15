@@ -13,8 +13,8 @@ import {
   internalMutation as rawInternalMutation,
   mutation as rawMutation,
 } from "./_generated/server";
+import { getNextScheduleTime } from "./libs/time";
 import { r2 } from "./r2";
-import { getNextScheduleTime } from "./utils";
 
 // start using Triggers, with table types from schema.ts
 const triggers = new Triggers<DataModel>();
