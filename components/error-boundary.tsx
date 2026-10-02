@@ -38,11 +38,12 @@ export default function ErrorBoundary({ error }: ErrorComponentProps) {
   const [showDetails, setShowDetails] = useState(false);
 
   const isDev = import.meta.env.DEV;
+  const isError = error instanceof Error;
 
   const errorMessage =
-    (isDev && error?.message) || "An unexpected error occurred";
+    (isDev && isError && error.message) || "An unexpected error occurred";
 
-  const errorStack = error?.stack || "";
+  const errorStack = isError ? (error.stack ?? "") : "";
   const hasStack = errorStack.length > 0;
 
   return (
