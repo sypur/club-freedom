@@ -211,6 +211,12 @@ export const updateFormPreference = mutation({
     agreements: v.optional(v.array(v.string())),
   },
   handler: async (ctx, args) => {
+    const canEditForms = await ctx.runQuery(api.auth.checkUserPermissions, {
+      permissions: { forms: ["edit"] },
+    });
+    if (!canEditForms) {
+      throw new Error("Forbidden");
+    }
     const cleaned = removeUndefinedFromRecord(args);
     await ctx.db.patch(args._id, cleaned);
   },
