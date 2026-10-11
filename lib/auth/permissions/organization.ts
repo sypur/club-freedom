@@ -11,7 +11,7 @@ import {
 
 const statement = {
   testimonial: ["view", "approve", "download", "delete"] as const,
-  forms: ["edit"] as const,
+  forms: ["view", "create", "edit", "delete"] as const,
   ...defaultStatements,
 };
 
@@ -24,19 +24,18 @@ export const viewer = ac.newRole({
 
 export const editor = ac.newRole({
   testimonial: ["view", "approve", "download", "delete"],
-  forms: ["edit"],
   ...memberAc.statements,
 });
 
 export const admin = ac.newRole({
   testimonial: ["view", "approve", "download", "delete"],
-  forms: ["edit"],
+  forms: ["view", "create", "edit", "delete"],
   ...adminAc.statements,
 });
 
 export const owner = ac.newRole({
   testimonial: ["view", "approve", "download", "delete"],
-  forms: ["edit"],
+  forms: ["view", "create", "edit", "delete"],
   ...ownerAc.statements,
 });
 
