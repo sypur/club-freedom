@@ -54,9 +54,11 @@ export const Route = createFileRoute("/_auth/accept-invite/$inviteId")({
     }
 
     await authClient.signOut();
-    const userExists = await context.queryClient.ensureQueryData(
-      convexQuery(api.auth.checkEmailExists, { email: invitation.email }),
-    );
+    context.queryClient.removeQueries({ queryKey: ["organizations"] });
+    const userExists = await context.queryClient.query({
+      ...convexQuery(api.auth.checkEmailExists, { email: invitation.email }),
+      staleTime: "static",
+    });
 
     return {
       invitation,
