@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { Home, LayoutDashboard, TriangleAlert } from "lucide-react";
+import { Building, Home, LayoutDashboard, TriangleAlert } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
@@ -61,6 +61,23 @@ export default function OrganizationList() {
         <EmptyContent>
           <Button onClick={() => refetch()}>Retry</Button>
         </EmptyContent>
+      </Empty>
+    );
+  }
+
+  if (organizations.length === 0) {
+    return (
+      <Empty className="bg-muted/30">
+        <EmptyHeader>
+          <EmptyMedia variant="icon">
+            <Building />
+          </EmptyMedia>
+          <EmptyTitle>You are not in any organizations</EmptyTitle>
+          <EmptyDescription className="max-w-xs text-pretty">
+            You need invitations in order to join any organizations in Sypur.
+            Check your emails for more details.
+          </EmptyDescription>
+        </EmptyHeader>
       </Empty>
     );
   }
