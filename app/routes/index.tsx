@@ -8,10 +8,10 @@ export const Route = createFileRoute("/")({
   loader: ({ context }) => {
     if (!context.isAuthenticated) {
       throw redirect({
-        to: "/sign-in"
-      })
+        to: "/sign-in",
+      });
     }
-  }
+  },
 });
 
 function Home() {
