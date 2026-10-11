@@ -222,7 +222,7 @@ export const updateFormPreference = mutation({
     }
     const canEditForms = await ctx.runQuery(api.auth.checkUserPermissions, {
       permissions: { forms: ["edit"] },
-      organizationId: testimonial._id,
+      organizationId: testimonial.organizationId,
     });
     if (!canEditForms) {
       throw new Error("Forbidden");
