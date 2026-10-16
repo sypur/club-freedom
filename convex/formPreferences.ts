@@ -117,12 +117,13 @@ export const postFormPreference = mutation({
       formEvents,
     },
   ) => {
-    const canUpdateOrg = await ctx.runQuery(api.auth.checkUserPermissions, {
+    const canCreate = await ctx.runQuery(api.auth.checkUserPermissions, {
       permissions: {
-        organization: ["update"],
+        forms: ["create"],
       },
+      organizationId,
     });
-    if (!canUpdateOrg) {
+    if (!canCreate) {
       throw new Error("Forbidden");
     }
     const existingPreference = await getFormPreferenceByOrgIdAndName(
@@ -156,8 +157,11 @@ export const postFormPreference = mutation({
 export const deleteFormPreference = mutation({
   args: { id: v.id("formPreferences") },
   handler: async (ctx, { id }) => {
+    const testimonial = await ctx.db.get("formPreferences", id);
+    if (!testimonial) return;
     const canDelete = await ctx.runQuery(api.auth.checkUserPermissions, {
-      permissions: { organization: ["delete"] },
+      permissions: { forms: ["delete"] },
+      organizationId: testimonial.organizationId,
     });
     if (!canDelete) {
       throw new Error("Form Preference Delete Forbidden");
@@ -179,7 +183,8 @@ export const activateFormPreference = mutation({
   args: { id: v.id("formPreferences"), organizationId: v.string() },
   handler: async (ctx, { id, organizationId }) => {
     const canUpdate = await ctx.runQuery(api.auth.checkUserPermissions, {
-      permissions: { organization: ["update"] },
+      permissions: { forms: ["edit"] },
+      organizationId,
     });
     if (!canUpdate) {
       throw new Error("Form Preference Update Forbidden");
@@ -210,8 +215,19 @@ export const updateFormPreference = mutation({
     formEvents: v.optional(v.array(formEventSchema)),
     agreements: v.optional(v.array(v.string())),
   },
-  handler: async (ctx, args) => {
+  handler: async (ctx, { _id, ...args }) => {
+    const testimonial = await ctx.db.get("formPreferences", _id);
+    if (!testimonial) {
+      throw new Error("Not found");
+    }
+    const canEditForms = await ctx.runQuery(api.auth.checkUserPermissions, {
+      permissions: { forms: ["edit"] },
+      organizationId: testimonial.organizationId,
+    });
+    if (!canEditForms) {
+      throw new Error("Forbidden");
+    }
     const cleaned = removeUndefinedFromRecord(args);
-    await ctx.db.patch(args._id, cleaned);
+    await ctx.db.patch(_id, cleaned);
   },
 });
