@@ -3,6 +3,29 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "scripts": {
+    "auth:generate": "pnpx @better-auth/cli generate --config convex/betterAuth/auth.ts --output convex/betterAuth/generatedSchema.ts",
+    "build:preview": "vp build --mode preview && tsc --noEmit",
+    "build": "vp build && tsc --noEmit",
+    "cf-typegen": "wrangler types",
+    "check": "vp check",
+    "deploy": "pnpm run build && wrangler deploy",
+    "deploy:preview": "pnpm run build && wrangler deploy --env preview",
+    "deploy:production": "pnpm run build && wrangler deploy",
+    "deploy:trigger": "trigger deploy",
+    "dev": "concurrently --kill-others --names vite,convex,trigger,email pnpm:dev:vite pnpm:dev:convex pnpm:dev:trigger pnpm:dev:email",
+    "dev:convex": "convex dev",
+    "dev:trigger": "trigger dev",
+    "dev:vite": "vp dev",
+    "dev:email": "email dev --port 5555",
+    "format": "vp format",
+    "lint": "vp lint",
+    "preview": "vp preview",
+    "script:run": "tsx",
+    "secret:bulk": "wrangler secret bulk",
+    "tsr:generate": "tsr generate",
+    "upload-sourcemaps": "posthog-cli sourcemap inject --directory ./dist/server/assets --project club-freedom --version 1.0.0 && posthog-cli sourcemap upload --directory ./dist/server/assets --delete-after && find ./dist/server/assets -type f -name '*.map' -delete"
+  },
   "dependencies": {
     "@auth/core": "0.37.0",
     "@aws-sdk/client-s3": "^3.1149.0",
@@ -75,7 +98,6 @@
     "zustand": "^5.0.15"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.5.15",
     "@fontsource-variable/open-sans": "^5.3.0",
     "@fontsource-variable/roboto-mono": "^5.3.0",
     "@fontsource/open-sans": "^5.3.0",
@@ -103,28 +125,5 @@
     "vite-plus": "catalog:",
     "wrangler": "^4.149.0"
   },
-  "packageManager": "pnpm@10.22.0",
-  "scripts": {
-    "auth:generate": "pnpx @better-auth/cli generate --config convex/betterAuth/auth.ts --output convex/betterAuth/generatedSchema.ts",
-    "build:preview": "vp build --mode preview && tsc --noEmit",
-    "build": "vp build && tsc --noEmit",
-    "cf-typegen": "wrangler types",
-    "check": "biome check",
-    "deploy": "pnpm run build && wrangler deploy",
-    "deploy:preview": "pnpm run build && wrangler deploy --env preview",
-    "deploy:production": "pnpm run build && wrangler deploy",
-    "deploy:trigger": "trigger deploy",
-    "dev": "concurrently --kill-others --names vite,convex,trigger,email pnpm:dev:vite pnpm:dev:convex pnpm:dev:trigger pnpm:dev:email",
-    "dev:convex": "convex dev",
-    "dev:trigger": "trigger dev",
-    "dev:vite": "vp dev",
-    "dev:email": "email dev --port 5555",
-    "format": "biome format",
-    "lint": "biome lint",
-    "preview": "vp preview",
-    "script:run": "tsx",
-    "secret:bulk": "wrangler secret bulk",
-    "tsr:generate": "tsr generate",
-    "upload-sourcemaps": "posthog-cli sourcemap inject --directory ./dist/server/assets --project club-freedom --version 1.0.0 && posthog-cli sourcemap upload --directory ./dist/server/assets --delete-after && find ./dist/server/assets -type f -name '*.map' -delete"
-  }
+  "packageManager": "pnpm@10.22.0"
 }

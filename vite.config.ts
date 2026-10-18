@@ -5,6 +5,14 @@ import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import { defineConfig, loadEnv } from "vite-plus";
 
+const ignorePatterns = [
+  "**/dist",
+  "**/_generated",
+  "**/components/ui",
+  "**/components/editor",
+  "app/routeTree.gen.ts",
+];
+
 export default defineConfig(({ mode, command }) => {
   const loadedEnv = loadEnv(mode, process.cwd(), "");
   Object.assign(process.env, loadedEnv);
@@ -59,6 +67,31 @@ export default defineConfig(({ mode, command }) => {
     },
     ssr: {
       noExternal: ["@convex-dev/better-auth"],
+    },
+    fmt: {
+      ignorePatterns,
+      useTabs: false,
+      tabWidth: 2,
+      printWidth: 80,
+      singleQuote: false,
+    },
+    lint: {
+      ignorePatterns,
+      plugins: ["typescript", "unicorn", "oxc", "react", "jsx-a11y"],
+      categories: {
+        correctness: "error",
+        suspicious: "warn",
+      },
+      rules: {
+        "jsx-a11y/media-has-caption": "off",
+      },
+      options: {
+        typeAware: true,
+        typeCheck: true,
+      },
+    },
+    staged: {
+      "*.{js,jsx,ts,tsx,css,json}": "vp check --fix",
     },
   };
 });
