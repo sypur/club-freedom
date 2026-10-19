@@ -1,8 +1,10 @@
 import {
   createContext,
   type ReactNode,
+  useCallback,
   useContext,
   useEffect,
+  useMemo,
   useRef,
 } from "react";
 import { useUploadProgressStore } from "@/lib/offline/upload-progress-store";
@@ -12,7 +14,6 @@ import type {
 } from "@/utils/upload-worker-types";
 
 interface MediaWorkerContextType {
-  worker: Worker | null;
   postMessage: (message: MediaWorkerIncomingMessage) => void;
 }
 
@@ -22,17 +23,13 @@ export function MediaWorkerProvider({ children }: { children: ReactNode }) {
   const workerRef = useRef<Worker | null>(null);
 
   useEffect(() => {
-    workerRef.current = new Worker(
+    const worker = new Worker(
       new URL("../workers/upload.worker.ts", import.meta.url),
       { type: "module" },
     );
+    workerRef.current = worker;
 
-    // Retry any pending uploads on app mount
-    workerRef.current?.postMessage({
-      action: "retry",
-    } satisfies MediaWorkerIncomingMessage);
-
-    workerRef.current?.addEventListener(
+    worker.addEventListener(
       "message",
       (e: MessageEvent<MediaWorkerOutgoingMessage>) => {
         const message = e.data;
@@ -49,19 +46,25 @@ export function MediaWorkerProvider({ children }: { children: ReactNode }) {
       },
     );
 
+    // Retry any pending uploads on app mount
+    worker.postMessage({
+      action: "retry",
+    } satisfies MediaWorkerIncomingMessage);
+
     return () => {
-      workerRef.current?.terminate();
+      worker.terminate();
+      workerRef.current = null;
     };
   }, []);
 
-  const postMessage = (message: MediaWorkerIncomingMessage) => {
+  const postMessage = useCallback((message: MediaWorkerIncomingMessage) => {
     workerRef.current?.postMessage(message);
-  };
+  }, []);
+
+  const value = useMemo(() => ({ postMessage }), [postMessage]);
 
   return (
-    <MediaWorkerContext.Provider
-      value={{ worker: workerRef.current, postMessage }}
-    >
+    <MediaWorkerContext.Provider value={value}>
       {children}
     </MediaWorkerContext.Provider>
   );

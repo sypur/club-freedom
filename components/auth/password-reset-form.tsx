@@ -42,8 +42,8 @@ export default function ResetPasswordForm({ token }: Props) {
         newPassword: data.password,
       },
       {
-        onSuccess() {
-          navigate({
+        async onSuccess() {
+          await navigate({
             to: "/sign-in",
           });
         },

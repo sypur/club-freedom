@@ -44,10 +44,10 @@ export default function EventDateEditor({
             onSelect={(selectedDate) =>
               handleChange({
                 ...event,
-                date: selectedDate ?? date ?? new Date(),
+                date: selectedDate ?? date,
               })
             }
-            defaultMonth={date ?? new Date()}
+            defaultMonth={date}
           />
         </PopoverContent>
       </Popover>

@@ -23,7 +23,7 @@ export function useUploadFile() {
           throw new Error(`Failed to upload image: ${result.statusText}`);
         }
       } catch (error) {
-        throw new Error(`Failed to upload image: ${error}`);
+        throw new Error("Failed to upload image", { cause: error });
       }
       await syncMetadata({ key });
     },

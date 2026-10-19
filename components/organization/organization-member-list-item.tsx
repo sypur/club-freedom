@@ -89,8 +89,8 @@ function MemberRoleDropdown({ member }: Props) {
         description: error.message,
       });
     },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey });
+    onSettled: async () => {
+      await queryClient.invalidateQueries({ queryKey });
     },
   });
 
@@ -123,15 +123,15 @@ function RemoveMember({ member }: Props) {
   const { mutate: removeMember } = useMutation({
     mutationFn: async () => {
       const { error } = await authClient.organization.removeMember({
-        organizationId: organization._id as string,
+        organizationId: organization._id,
         memberIdOrEmail: member.id,
       });
       if (error) {
         throw error;
       }
     },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey });
+    onSettled: async () => {
+      await queryClient.invalidateQueries({ queryKey });
     },
     onSuccess: () => {
       toast.success("Member removed successfully");

@@ -32,7 +32,6 @@ export default function TestimonialCardText() {
           size="sm"
           className="px-0 cursor-pointer"
           variant="link"
-          role="button"
           onClick={(e) => {
             e.stopPropagation();
             if (expanded) {

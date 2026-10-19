@@ -70,7 +70,7 @@ function RootComponent() {
       <NuqsAdapter>
         <ConvexBetterAuthProvider
           client={context.convexClient}
-          authClient={authClient as any}
+          authClient={authClient}
           initialToken={context.token}
         >
           <MediaWorkerProvider>

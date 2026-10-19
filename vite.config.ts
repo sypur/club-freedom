@@ -17,14 +17,14 @@ export default defineConfig(({ mode, command }) => {
   const loadedEnv = loadEnv(mode, process.cwd(), "");
   Object.assign(process.env, loadedEnv);
 
-  import("./env/client");
+  void import("./env/client");
 
   if (command === "build" && mode === "production") {
-    import("./env/build");
+    void import("./env/build");
   }
 
   if (command === "serve") {
-    import("./env/server");
+    void import("./env/server");
   }
 
   return {

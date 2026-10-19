@@ -23,16 +23,23 @@ export function getMemberRoleQuery(organizationId: string) {
 
 export const TESTIMONIAL_PER_PAGE = 10;
 
+function toLocalMidnight(date: Date, dayOffset = 0) {
+  return new Date(
+    date.getUTCFullYear(),
+    date.getUTCMonth(),
+    date.getUTCDate() + dayOffset,
+  ).getTime();
+}
+
 export function useInfiniteTestimonialQuery(
   orgId: Id<"organization">,
   searchQuery: TestimonialSearchQuery,
 ) {
-  const timezoneOffset = new Date().getTimezoneOffset() * 60 * 1000;
   const before = searchQuery.to
-    ? searchQuery.to.getTime() + timezoneOffset + 24 * 60 * 60 * 1000 - 1
+    ? toLocalMidnight(searchQuery.to, 1) - 1
     : undefined;
   const after = searchQuery.from
-    ? searchQuery.from.getTime() + timezoneOffset
+    ? toLocalMidnight(searchQuery.from)
     : undefined;
 
   return usePaginatedQuery(

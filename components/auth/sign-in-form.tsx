@@ -34,7 +34,7 @@ export function SignInForm() {
       {
         async onSuccess() {
           await queryClient.invalidateQueries();
-          navigate({ to: "/" });
+          await navigate({ to: "/" });
         },
         onError(ctx) {
           toast.error("Failed to sign in", {

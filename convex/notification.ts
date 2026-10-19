@@ -10,7 +10,6 @@ import {
 } from "./_generated/server";
 import { authComponent } from "./auth";
 import { api as authApi } from "./betterAuth/_generated/api";
-import type { Id } from "./betterAuth/_generated/dataModel";
 import { resend } from "./email";
 import { mutation } from "./functions";
 import { getNextScheduleTime } from "./libs/time";
@@ -127,7 +126,7 @@ export const sendNotificationEmail = internalAction({
     console.log("Sending at", date.toISOString());
 
     const user = await ctx.runQuery(authApi.user.getUser, {
-      userId: userId as Id<"user">,
+      userId: userId,
     });
 
     if (!user) return;
@@ -160,7 +159,7 @@ export const sendNotificationEmail = internalAction({
           user,
           organization,
           testimonialsCount: count,
-          siteUrl: `${env.SITE_URL}`,
+          siteUrl: env.SITE_URL,
         }),
       ),
     });

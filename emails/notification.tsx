@@ -71,4 +71,4 @@ NotificationEmail.PreviewProps = {
   },
   testimonialsCount: 2,
   siteUrl: "https://localhost:3000",
-} as NotificationEmailProps;
+};
