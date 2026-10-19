@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from "react";
 
-const mobileRegex = /iphone|ipad|ipod|android|windows phone/g;
+const mobileRegex = /iphone|ipad|ipod|android|windows phone/i;
 const subscribe = () => () => {};
 const getSnapshot = () => mobileRegex.test(navigator.userAgent);
 const getServerSnapshot = () => false;

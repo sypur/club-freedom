@@ -25,15 +25,16 @@ export default function TestimonialCardShell({
     await setTestimonialId(testimonial._id);
   };
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+  const handleKeyDown = async (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
-      void handleNavigation();
+      await handleNavigation();
     }
   };
 
   return (
     <Card
+      role="button"
       tabIndex={0}
       onClick={handleNavigation}
       onKeyDown={handleKeyDown}

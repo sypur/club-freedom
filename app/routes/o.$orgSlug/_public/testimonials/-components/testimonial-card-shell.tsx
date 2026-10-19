@@ -36,6 +36,7 @@ export default function TestimonialCardShell({
 
   return (
     <Card
+      role="link"
       tabIndex={0}
       onClick={handleNavigation}
       onKeyDown={handleKeyDown}

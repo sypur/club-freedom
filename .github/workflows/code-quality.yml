@@ -23,7 +23,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Run lint and formatter
-        run: pnpm check
+        run: pnpm check --quiet
         env:
           VITE_CONVEX_URL: ${{ vars.CONVEX_URL }}
           VITE_CONVEX_SITE_URL: ${{ vars.CONVEX_SITE_URL }}

@@ -84,6 +84,7 @@ export default defineConfig(({ mode, command }) => {
       },
       rules: {
         "jsx-a11y/media-has-caption": "off",
+        "jsx-a11y/prefer-tag-over-role": "off",
       },
       options: {
         typeAware: true,

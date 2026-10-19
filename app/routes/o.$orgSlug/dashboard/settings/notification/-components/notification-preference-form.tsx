@@ -167,7 +167,7 @@ export default function NotificationPreferenceForm() {
                         field.onChange(newValue);
                       }}
                     />
-                    <FieldLabel htmlFor={`${field.name}-${day.label}`}>
+                    <FieldLabel htmlFor={`${field.name}-${day.value}`}>
                       {day.label}
                     </FieldLabel>
                   </Field>
