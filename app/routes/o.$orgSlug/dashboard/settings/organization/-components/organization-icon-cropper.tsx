@@ -256,7 +256,6 @@ export default function OrganizationIconCropper() {
                 <span>Crop image</span>
               </div>
               <Button
-                autoFocus
                 className="-my-1"
                 disabled={!previewUrl}
                 onClick={handleApply}

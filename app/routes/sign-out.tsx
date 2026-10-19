@@ -13,7 +13,7 @@ function RouteComponent() {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    authClient.signOut().then(async () => {
+    void authClient.signOut().then(async () => {
       queryClient.removeQueries();
       await router.invalidate();
       await router.navigate({

@@ -63,14 +63,15 @@ export const Route = createFileRoute("/_auth/accept-invite/$inviteId")({
     return {
       invitation,
       userExists,
+      expired: invitation.expiresAt < Date.now(),
     };
   },
 });
 
 function RouteComponent() {
-  const { invitation, userExists } = Route.useLoaderData();
+  const { invitation, userExists, expired } = Route.useLoaderData();
 
-  if (invitation.expiresAt < Date.now()) {
+  if (expired) {
     return <ExpiredInvitation />;
   }
 

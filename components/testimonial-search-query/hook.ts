@@ -6,8 +6,8 @@ export const useTestimonialSearchQuery = () => {
     testimonialSearchQueryParams,
   );
 
-  const resetSortAndFilters = () => {
-    setSearchQuery({
+  const resetSortAndFilters = async () => {
+    await setSearchQuery({
       author: "",
       formats: [],
       statuses: [],

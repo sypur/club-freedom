@@ -3,20 +3,28 @@ import tailwindcss from "@tailwindcss/vite";
 import { devtools } from "@tanstack/devtools-vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
-import { defineConfig, loadEnv } from "vite";
+import { defineConfig, loadEnv } from "vite-plus";
+
+const ignorePatterns = [
+  "**/dist",
+  "**/_generated",
+  "**/components/ui",
+  "**/components/editor",
+  "app/routeTree.gen.ts",
+];
 
 export default defineConfig(({ mode, command }) => {
   const loadedEnv = loadEnv(mode, process.cwd(), "");
   Object.assign(process.env, loadedEnv);
 
-  import("./env/client");
+  void import("./env/client");
 
   if (command === "build" && mode === "production") {
-    import("./env/build");
+    void import("./env/build");
   }
 
   if (command === "serve") {
-    import("./env/server");
+    void import("./env/server");
   }
 
   return {
@@ -59,6 +67,32 @@ export default defineConfig(({ mode, command }) => {
     },
     ssr: {
       noExternal: ["@convex-dev/better-auth"],
+    },
+    fmt: {
+      ignorePatterns,
+      useTabs: false,
+      tabWidth: 2,
+      printWidth: 80,
+      singleQuote: false,
+    },
+    lint: {
+      ignorePatterns,
+      plugins: ["typescript", "unicorn", "oxc", "react", "jsx-a11y"],
+      categories: {
+        correctness: "error",
+        suspicious: "warn",
+      },
+      rules: {
+        "jsx-a11y/media-has-caption": "off",
+        "jsx-a11y/prefer-tag-over-role": "off",
+      },
+      options: {
+        typeAware: true,
+        typeCheck: true,
+      },
+    },
+    staged: {
+      "*.{js,jsx,ts,tsx,css,json}": "vp check --fix",
     },
   };
 });

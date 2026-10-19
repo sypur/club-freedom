@@ -1,7 +1,6 @@
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 import { themeSchema } from "@/lib/theme";
-import authSchema from "./betterAuth/schema";
 
 export const processingStatusSchema = v.union(
   v.literal("ongoing"),
