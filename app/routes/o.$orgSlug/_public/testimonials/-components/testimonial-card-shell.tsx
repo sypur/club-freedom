@@ -27,10 +27,10 @@ export default function TestimonialCardShell({
     });
   };
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+  const handleKeyDown = async (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
-      handleNavigation();
+      await handleNavigation();
     }
   };
 

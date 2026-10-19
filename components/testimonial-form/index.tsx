@@ -10,8 +10,8 @@ import {
 import { useServerFn } from "@tanstack/react-start";
 import { useMutation } from "convex/react";
 import { formatDistance } from "date-fns";
-import React, { useState } from "react";
-import { Controller, FormProvider, useForm } from "react-hook-form";
+import { useState, useRef } from "react";
+import { Controller, FormProvider, useForm, useWatch } from "react-hook-form";
 import Markdown from "react-markdown";
 import { toast } from "sonner";
 import { validateTurnstileTokenServerFn } from "@/app/functions/turnstile";
@@ -44,8 +44,9 @@ import {
 import { type Testimonial, testimonialSchema } from "@/lib/schema/testimonials";
 import { cn } from "@/lib/utils";
 import { EventPicker } from "./event-picker";
+
 export default function TestimonialForm() {
-  const ref = React.useRef<TurnstileInstance | null>(null);
+  const ref = useRef<TurnstileInstance | null>(null);
   const { organization } = useRouteContext({
     from: "/o/$orgSlug",
   });
@@ -102,11 +103,17 @@ export default function TestimonialForm() {
     form.resetField("writtenText");
   };
 
-  const canSwitchTab =
-    form.watch("media") == null && form.watch("writtenText") === "";
+  const media = useWatch({ control: form.control, name: "media" });
+  const writtenText = useWatch({ control: form.control, name: "writtenText" });
+  const agreementsAccepted = useWatch({
+    control: form.control,
+    name: "agreementsAccepted",
+  });
 
+  const canSwitchTab = media == null && writtenText === "";
   const allAgreementsAccepted =
-    form.watch("agreementsAccepted")?.length === agreements.length;
+    agreementsAccepted?.length === agreements.length;
+
   async function onSubmit(values: Testimonial) {
     try {
       // Step 1: Human verification
@@ -136,7 +143,7 @@ export default function TestimonialForm() {
         email: values.email ? values.email : undefined,
         media_type,
         text: values.writtenText,
-        organizationId: organization._id as string,
+        organizationId: organization._id,
         eventName: eventName,
         eventDate: eventDate,
       });
@@ -146,7 +153,7 @@ export default function TestimonialForm() {
         await uploadMedia({
           id: testimonialId,
           blob: values.media,
-          organizationId: organization._id as string,
+          organizationId: organization._id,
           status: "pending",
         });
       }
@@ -366,7 +373,8 @@ export default function TestimonialForm() {
                             <FieldLabel htmlFor={`agreement-${index}`}>
                               <Markdown
                                 components={{
-                                  a: ({ node, ...props }) => (
+                                  a: ({ node: _node, ...props }) => (
+                                    // eslint-disable-next-line jsx-a11y/anchor-has-content
                                     <a
                                       {...props}
                                       target="_blank"

@@ -47,9 +47,12 @@ export default function TestimonialPin() {
           description: remainingPinnedTestimonialsMessage(remain),
         },
       );
-    } catch (e) {
+    } catch (error) {
       toast.error(
         isPinned ? "Failed to unpin testimonial" : "Failed to pin testimonial",
+        {
+          description: error instanceof Error ? error.message : null,
+        },
       );
     }
   }

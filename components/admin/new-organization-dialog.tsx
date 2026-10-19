@@ -61,8 +61,8 @@ export default function NewOrganizationDialog({ trigger, ...props }: Props) {
         throw Error(error.message);
       }
     },
-    onSettled: () => {
-      queryClient.invalidateQueries({
+    onSettled: async () => {
+      void queryClient.invalidateQueries({
         queryKey: ["organizations"],
       });
     },

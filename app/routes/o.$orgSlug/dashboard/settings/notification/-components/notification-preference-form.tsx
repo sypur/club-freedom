@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useMutation } from "convex/react";
 import { Activity } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 import { Button } from "@/components/ui/button";
@@ -89,7 +89,7 @@ export default function NotificationPreferenceForm() {
     api.notification.upsertNotificationPreference,
   );
 
-  const isEnabled = form.watch("enabled");
+  const isEnabled = useWatch({ control: form.control, name: "enabled" });
 
   const onSubmit = async (formData: FormSchema) => {
     const preference = formData.enabled
@@ -111,7 +111,9 @@ export default function NotificationPreferenceForm() {
         ...preference,
       });
     } catch (error) {
-      toast.error("Failed to save email preference");
+      toast.error("Failed to save email preference", {
+        description: error instanceof Error ? error.message : null,
+      });
     }
   };
 
@@ -165,7 +167,7 @@ export default function NotificationPreferenceForm() {
                         field.onChange(newValue);
                       }}
                     />
-                    <FieldLabel htmlFor={`${field.name}-${day}`}>
+                    <FieldLabel htmlFor={`${field.name}-${day.value}`}>
                       {day.label}
                     </FieldLabel>
                   </Field>

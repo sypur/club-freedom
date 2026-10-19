@@ -22,19 +22,19 @@ export default function TestimonialCardShell({
     if (selection && selection.toString().length > 0) {
       return;
     }
-    setTestimonialId(testimonial._id as string);
+    await setTestimonialId(testimonial._id);
   };
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+  const handleKeyDown = async (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
-      handleNavigation();
+      await handleNavigation();
     }
   };
 
   return (
     <Card
-      role="link"
+      role="button"
       tabIndex={0}
       onClick={handleNavigation}
       onKeyDown={handleKeyDown}

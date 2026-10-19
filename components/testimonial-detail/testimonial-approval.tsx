@@ -41,7 +41,9 @@ export function useTestimonialApproval(testimonialId: Id<"testimonials">) {
         toast.warning("This testimonial is no longer published!");
       }
     } catch (_error) {
-      toast.error("Failed to update testimonial publish status.");
+      toast.error("Failed to update testimonial publish status.", {
+        description: _error instanceof Error ? _error.message : null,
+      });
     }
   };
 }
@@ -60,8 +62,8 @@ export default function TestimonialApproval() {
     <Select
       value={getApprovalValue(testimonial.approved)}
       disabled={isPending}
-      onValueChange={(value) => {
-        handleUpdateApprovalStatus(value === "approved");
+      onValueChange={async (value) => {
+        await handleUpdateApprovalStatus(value === "approved");
       }}
     >
       <SelectTrigger>

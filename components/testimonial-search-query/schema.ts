@@ -71,10 +71,12 @@ export const testimonialSearchQuerySchema = z.object({
     .transform((val) => (val ? (Array.isArray(val) ? val : [val]) : undefined)),
   from: z
     .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/)
     .optional()
     .transform((val) => (val ? new Date(val) : undefined)),
   to: z
     .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/)
     .optional()
     .transform((val) => (val ? new Date(val) : undefined)),
   order: z.enum(sortOrders).optional(),

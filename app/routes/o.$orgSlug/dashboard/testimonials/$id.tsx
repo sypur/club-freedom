@@ -23,9 +23,9 @@ function Component() {
   });
   const router = useRouter();
 
-  const handleBack = () => {
+  const handleBack = async () => {
     if (isRoot) {
-      router.navigate({
+      await router.navigate({
         to: "/o/$orgSlug/dashboard/testimonials",
         params: {
           orgSlug,

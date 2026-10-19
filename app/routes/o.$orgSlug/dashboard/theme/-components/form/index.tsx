@@ -41,8 +41,10 @@ export default function ThemeCustomizationForm({
       });
       form.reset(theme);
       toast.success("Theme updated successfully");
-    } catch (_error) {
-      toast.error("Failed to update theme");
+    } catch (error) {
+      toast.error("Failed to update theme", {
+        description: error instanceof Error ? error.message : null,
+      });
     }
   });
 

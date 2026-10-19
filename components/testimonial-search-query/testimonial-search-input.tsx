@@ -11,8 +11,8 @@ export default function TestimonialSearchInput(
     <Input
       value={searchQuery.q}
       placeholder="Search testimonials"
-      onChange={(e) => {
-        setSearchQuery(
+      onChange={async (e) => {
+        await setSearchQuery(
           { q: e.target.value },
           {
             limitUrlUpdates: e.target.value === "" ? undefined : debounce(500),
