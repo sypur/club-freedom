@@ -7,8 +7,8 @@ import { useFormPreferenceContext } from "@/contexts/form-preference-context";
 import { api } from "@/convex/_generated/api";
 
 export default function ActivateFormPreference({
-  disabled,
-  onClick,
+  disabled: _disabled,
+  onClick: _onClick,
   ...props
 }: ComponentProps<typeof Button>) {
   const { formPreference } = useFormPreferenceContext();
@@ -27,14 +27,10 @@ export default function ActivateFormPreference({
         organizationId: organization._id,
       });
       toast.success("Form preference activated successfully");
-    } catch (_err) {
-      if (_err instanceof Error) {
-        toast.error(`Failed to activate form preference`, {
-          description: _err.message,
-        });
-      } else {
-        toast.error(`Failed to activate form preference: ${_err}`);
-      }
+    } catch (error) {
+      toast.error(`Failed to activate form preference`, {
+        description: error instanceof Error ? error.message : null,
+      });
     }
   }
 

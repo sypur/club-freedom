@@ -54,21 +54,24 @@ export const Route = createFileRoute("/_auth/accept-invite/$inviteId")({
     }
 
     await authClient.signOut();
-    const userExists = await context.queryClient.ensureQueryData(
-      convexQuery(api.auth.checkEmailExists, { email: invitation.email }),
-    );
+    context.queryClient.removeQueries({ queryKey: ["organizations"] });
+    const userExists = await context.queryClient.query({
+      ...convexQuery(api.auth.checkEmailExists, { email: invitation.email }),
+      staleTime: "static",
+    });
 
     return {
       invitation,
       userExists,
+      expired: invitation.expiresAt < Date.now(),
     };
   },
 });
 
 function RouteComponent() {
-  const { invitation, userExists } = Route.useLoaderData();
+  const { invitation, userExists, expired } = Route.useLoaderData();
 
-  if (invitation.expiresAt < Date.now()) {
+  if (expired) {
     return <ExpiredInvitation />;
   }
 

@@ -31,4 +31,4 @@ export default function ResetPasswordEmail({ url }: ResetPasswordEmailProps) {
 
 ResetPasswordEmail.PreviewProps = {
   url: "https://example.com",
-} as ResetPasswordEmailProps;
+};

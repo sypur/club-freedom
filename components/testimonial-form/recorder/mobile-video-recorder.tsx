@@ -80,7 +80,7 @@ export default function MobileVideoRecorder({ type, mimeType }: MediaConfig) {
     if (!open) {
       // Clean up preview stream when closing
       if (previewMediaStream) {
-        previewMediaStream.getTracks().forEach((track) => void track.stop());
+        previewMediaStream.getTracks().forEach((track) => track.stop());
         setPreviewMediaStream(null);
       }
     }
@@ -93,7 +93,7 @@ export default function MobileVideoRecorder({ type, mimeType }: MediaConfig) {
     // The recording stream will take over immediately
     if (previewMediaStream) {
       setTimeout(() => {
-        previewMediaStream.getTracks().forEach((track) => void track.stop());
+        previewMediaStream.getTracks().forEach((track) => track.stop());
         setPreviewMediaStream(null);
       }, 100);
     }

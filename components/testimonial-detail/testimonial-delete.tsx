@@ -37,9 +37,11 @@ export default function TestimonialDelete() {
       });
     } catch (_err) {
       if (_err instanceof Error) {
-        toast.error(`Failed to delete testimonial: ${_err.message}`);
+        toast.error("Failed to delete testimonial", {
+          description: _err.message,
+        });
       } else {
-        toast.error(`Failed to delete testimonial: ${_err}`);
+        toast.error("Failed to delete testimonial");
       }
     }
   }

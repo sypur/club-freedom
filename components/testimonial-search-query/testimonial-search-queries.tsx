@@ -129,9 +129,9 @@ export default function TestimonialFilters() {
                   date.getTime() <=
                   Math.min(Date.now(), searchQuery.to?.getTime() || Infinity)
                 }
-                onDateChange={(date) => {
-                  setSearchQuery({ from: date });
+                onDateChange={async (date) => {
                   setOpen(false);
+                  await setSearchQuery({ from: date });
                 }}
               />
             )}
@@ -149,9 +149,9 @@ export default function TestimonialFilters() {
                   date.getTime() <= Date.now() &&
                   date.getTime() >= Math.max(searchQuery.from?.getTime() || 0)
                 }
-                onDateChange={(date) => {
-                  setSearchQuery({ to: date });
+                onDateChange={async (date) => {
                   setOpen(false);
+                  await setSearchQuery({ to: date });
                 }}
               />
             )}
